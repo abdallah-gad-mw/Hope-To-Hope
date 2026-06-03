@@ -8,7 +8,7 @@ export function SiteFooter() {
       <div className="max-w-7xl mx-auto rounded-[32px] bg-ink text-white p-10 md:p-14">
         <div className="grid md:grid-cols-12 gap-10">
           <div className="md:col-span-5">
-            <div className="bg-white/95 rounded-2xl p-3 inline-block">
+            <div className="inline-block">
               <img src={logo.url} alt="Angels Care Uganda" className="h-10 w-auto" />
             </div>
             <p className="mt-5 text-white/70 max-w-sm">

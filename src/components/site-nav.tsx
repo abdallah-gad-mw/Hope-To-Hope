@@ -60,8 +60,8 @@ export function SiteNav() {
       <nav
         className={`max-w-7xl mx-auto flex items-center justify-between rounded-full transition-all duration-300 px-4 md:px-6 py-2 ${
           scrolled
-            ? "glass shadow-[0_10px_40px_-10px_rgba(0,0,0,0.12)] border border-white/60"
-            : "bg-white/60 backdrop-blur-md border border-white/40"
+            ? "glass backdrop-blur-md shadow-[0_10px_40px_-10px_rgba(0,0,0,0.12)] border border-white/20 pdi-10-20"
+            : "bg-white/20 backdrop-blur-md border border-white/20 pdi-10-20"
         }`}
       >
         <Link to="/" className="flex items-center gap-2 shrink-0">

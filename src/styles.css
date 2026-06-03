@@ -122,3 +122,15 @@
   @keyframes reveal { to { opacity: 1; transform: none; } }
   .marquee-mask { mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent); }
 }
+
+.pdi-10-20{
+  padding-inline: 20px 10px;
+}
+a[data-status="active"] {
+    color: var(--coral);
+}
+
+
+
+
+

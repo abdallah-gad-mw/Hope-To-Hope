@@ -8,7 +8,9 @@ export function BlankPage({ title, parent }: { title: string; parent?: string })
             {parent}
           </span>
         )}
-        <h1 className="mt-5 text-5xl md:text-7xl text-ink leading-[1.05] text-balance">{title}</h1>
+        <h1 className="mt-5 text-3xl sm:text-4xl md:text-5xl text-ink leading-[1.1] text-balance font-semibold">
+          {title}
+        </h1>
         <p className="mt-6 text-muted-foreground max-w-xl mx-auto">
           This page is being prepared. Beautiful content coming soon.
         </p>

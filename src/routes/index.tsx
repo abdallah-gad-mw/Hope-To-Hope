@@ -44,7 +44,7 @@ export const Route = createFileRoute("/")({
 });
 
 const HERO_IMG =
-  "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=2000&q=80";
+  "https://seashell-sparrow-179171.hostingersite.com/hopetohope/justice-rising-ECHO-AND-EARL-3.webp";
 
 function Hero() {
   return (
@@ -57,18 +57,10 @@ function Hero() {
       />
       <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/80" />
 
-      {/* Top right pill */}
-      <div className="absolute top-24 right-5 md:top-28 md:right-10 z-10">
-        <span className="inline-flex items-center gap-2 glass-dark text-white text-xs md:text-sm px-3 py-1.5 rounded-full">
-          <span className="h-2 w-2 rounded-full bg-coral" />
-          Since 2008 · Kyaka II Settlement
-        </span>
-      </div>
-
       <div className="relative z-10 h-full max-w-7xl mx-auto flex flex-col justify-end px-6 md:px-12 lg:px-16 pb-12 md:pb-20">
-        <div className="grid md:grid-cols-12 gap-6 md:gap-10 items-end">
-          <div className="md:col-span-7 text-white">
-            <h1 className="reveal text-balance text-5xl sm:text-6xl md:text-7xl lg:text-[88px] leading-[0.95] font-semibold">
+        <div className="gap-6 md:gap-10 items-end">
+          <div className="text-white">
+            <h1 className="reveal text-balance text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.02] font-semibold">
               Hope for refugee children
               <br />
               <span className="text-white/90">through education</span>
@@ -96,38 +88,6 @@ function Hero() {
               </a>
             </div>
           </div>
-
-          <div className="md:col-span-5 reveal reveal-4 hidden md:block">
-            <div className="glass rounded-3xl p-5 md:p-6 border border-white/70 shadow-2xl">
-              <div className="flex items-center justify-between text-xs">
-                <span className="inline-flex items-center gap-2 font-medium text-ink">
-                  <span className="h-6 w-6 grid place-items-center rounded-full bg-coral text-white">
-                    <Heart className="h-3 w-3 fill-current" />
-                  </span>
-                  Angels Care
-                </span>
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/80">
-                  <span className="h-1.5 w-1.5 rounded-full bg-coral" />
-                  2025
-                </span>
-              </div>
-              <h3 className="mt-4 text-2xl md:text-3xl text-ink leading-tight font-semibold">
-                Angels Care School &<br />
-                Sponsorship Program
-              </h3>
-              <p className="mt-3 text-sm text-muted-foreground">
-                Educating 900+ students and sponsoring 130 orphans across the Kyaka II settlement.
-              </p>
-              <a
-                href={DONATE_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-5 btn-coral inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold"
-              >
-                Donate <ArrowUpRight className="h-3.5 w-3.5" />
-              </a>
-            </div>
-          </div>
         </div>
       </div>
     </section>
@@ -147,7 +107,7 @@ function Vision() {
           <span className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-coral font-semibold">
             <span className="h-1.5 w-1.5 rounded-full bg-coral" /> Our Vision
           </span>
-          <h2 className="mt-5 text-4xl md:text-5xl lg:text-6xl text-ink text-balance leading-[1.05] font-semibold">
+          <h2 className="mt-5 text-3xl sm:text-4xl md:text-5xl text-ink text-balance leading-[1.1] font-semibold">
             Educate and raise the <span className="text-coral">leaders</span> of tomorrow through
             innovative and sustainable development.
           </h2>
@@ -220,7 +180,7 @@ function Pillars() {
             <span className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-coral font-semibold">
               <span className="h-1.5 w-1.5 rounded-full bg-coral" /> Core Pillars
             </span>
-            <h2 className="mt-4 text-4xl md:text-5xl lg:text-6xl text-ink text-balance max-w-3xl leading-[1.05] font-semibold">
+            <h2 className="mt-4 text-3xl sm:text-4xl md:text-5xl text-ink text-balance max-w-2xl leading-[1.1] font-semibold">
               Three programs, <span className="text-coral">one mission</span> — to raise the leaders
               of tomorrow.
             </h2>
@@ -322,7 +282,7 @@ function Projects() {
             <span className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-coral font-semibold">
               <span className="h-1.5 w-1.5 rounded-full bg-coral" /> Hope Projects
             </span>
-            <h2 className="mt-4 text-4xl md:text-5xl lg:text-6xl text-ink leading-[1.05] text-balance font-semibold">
+            <h2 className="mt-4 text-3xl sm:text-4xl md:text-5xl text-ink leading-[1.1] text-balance font-semibold">
               Sustainable projects that lift entire communities.
             </h2>
             <p className="mt-4 text-muted-foreground">
@@ -398,7 +358,7 @@ function Founder() {
             >
               “
             </span>
-            <blockquote className="relative font-display text-3xl md:text-5xl lg:text-6xl text-ink leading-[1.1] text-balance font-semibold">
+            <blockquote className="relative font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-ink leading-[1.15] text-balance font-semibold">
               The children of today will be the leaders of tomorrow.
             </blockquote>
             <footer className="mt-6 text-muted-foreground">
@@ -445,7 +405,7 @@ function CTA() {
             <span className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-white/80">
               <span className="h-1.5 w-1.5 rounded-full bg-white" /> Increase your impact
             </span>
-            <h2 className="mt-4 text-5xl md:text-6xl lg:text-7xl leading-[1.02] text-balance font-semibold">
+            <h2 className="mt-4 text-4xl sm:text-5xl md:text-6xl leading-[1.05] text-balance font-semibold">
               Join the Hope Family!
             </h2>
             <p className="mt-5 max-w-xl text-white/85 text-lg">
@@ -480,7 +440,7 @@ function Contact() {
           <span className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-coral font-semibold">
             <span className="h-1.5 w-1.5 rounded-full bg-coral" /> Contact Us
           </span>
-          <h2 className="mt-4 text-4xl md:text-5xl lg:text-6xl text-ink leading-[1.05] text-balance font-semibold">
+          <h2 className="mt-4 text-3xl sm:text-4xl md:text-5xl text-ink leading-[1.1] text-balance font-semibold">
             Let's start a conversation about hope.
           </h2>
           <p className="mt-5 text-muted-foreground max-w-md">
