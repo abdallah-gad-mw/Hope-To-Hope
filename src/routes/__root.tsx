@@ -10,8 +10,8 @@ import {
   useLocation,
   Match,
 } from "@tanstack/react-router";
-import { useEffect, useState, type ReactNode } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import React, { useEffect, useRef, type ReactNode } from "react";
+import { AnimatePresence, motion, useReducedMotion, useIsPresent } from "motion/react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -143,9 +143,56 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
-function FrozenMatch({ childMatchId }: { childMatchId: string | undefined }) {
-  const [frozenMatchId] = useState(childMatchId);
-  return frozenMatchId ? <Match matchId={frozenMatchId} /> : null;
+/**
+ * Error boundary that silently catches errors from exiting route matches.
+ * During exit animations, the <Match> component may try to access router
+ * match stores that have already been cleaned up, causing a crash. Since
+ * the element is animating out (fading/blurring away), rendering nothing
+ * on error is invisible to the user.
+ */
+class ExitErrorBoundary extends React.Component<{ children: ReactNode }, { hasError: boolean }> {
+  constructor(props: { children: ReactNode }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: Error) {
+    // Silently swallow — this only fires for exiting route content that is
+    // already animating out. Log at debug level for development visibility.
+    if (process.env.NODE_ENV === "development") {
+      console.debug("[AnimatedOutlet] Suppressed error in exiting route match:", error.message);
+    }
+  }
+
+  render() {
+    if (this.state.hasError) {
+      // Render an empty placeholder with the same layout so the exit
+      // animation (opacity/scale/blur) proceeds smoothly to completion.
+      return <div className="w-full flex-grow" />;
+    }
+    return this.props.children;
+  }
+}
+
+function FrozenMatch({ matchId }: { matchId: string | undefined }) {
+  const isPresent = useIsPresent();
+  const frozenMatchId = useRef(matchId);
+
+  // Update the ref as long as the component is present (active).
+  // Once it starts exiting (!isPresent), it stops updating and freezes the last known matchId.
+  if (isPresent && matchId) {
+    frozenMatchId.current = matchId;
+  }
+
+  return frozenMatchId.current ? (
+    <ExitErrorBoundary>
+      <Match matchId={frozenMatchId.current} />
+    </ExitErrorBoundary>
+  ) : null;
 }
 
 function AnimatedOutlet() {
@@ -169,20 +216,20 @@ function AnimatedOutlet() {
       zIndex: 10,
       transition: {
         duration: 0.6,
-        ease: [0.16, 1, 0.3, 1], // Pure Apple-inspired Cubic Bezier curve
+        ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
         opacity: { duration: 0.5 },
         scale: { duration: 0.6 },
         filter: { duration: 0.5 },
       },
     },
     exit: {
-      opacity: shouldReduceMotion ? 0 : 0.3, // Slightly fade out to 30%
-      scale: shouldReduceMotion ? 1 : 0.97, // Scale down to 97%
-      filter: shouldReduceMotion ? "none" : "blur(4px)", // Add subtle blur on exit
-      zIndex: 0, // Moves backward in depth, creating a layered depth effect
+      opacity: shouldReduceMotion ? 0 : 0.3,
+      scale: shouldReduceMotion ? 1 : 0.97,
+      filter: shouldReduceMotion ? "none" : "blur(4px)",
+      zIndex: 0,
       transition: {
         duration: 0.6,
-        ease: [0.16, 1, 0.3, 1],
+        ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
         opacity: { duration: 0.4 },
         scale: { duration: 0.6 },
       },
@@ -205,7 +252,7 @@ function AnimatedOutlet() {
           backfaceVisibility: "hidden",
         }}
       >
-        <FrozenMatch childMatchId={childMatchId} />
+        <FrozenMatch matchId={childMatchId} />
       </motion.div>
     </AnimatePresence>
   );
