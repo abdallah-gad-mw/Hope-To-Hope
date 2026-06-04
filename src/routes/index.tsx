@@ -81,7 +81,7 @@ function IndexPage() {
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto w-full px-6 md:px-12 lg:px-16 text-white py-12">
-          <div className="max-w-3xl space-y-6">
+          <div className="max-w-2xl space-y-6">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -95,7 +95,7 @@ function IndexPage() {
               initial={{ opacity: 0, y: 25 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.1 }}
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.1] text-balance font-sans"
+              className="text-5xl sm:text-5xl md:text-5xl font-extrabold tracking-tight leading-[1.1] text-balance font-sans"
             >
               Hope for refugee children through{" "}
               <span className="text-coral">education and care</span> since 2008.
