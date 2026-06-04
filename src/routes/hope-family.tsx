@@ -1,6 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { ChevronDown, ChevronUp, Heart, Sparkles, Mail, CheckCircle2 } from "lucide-react";
+import { ChevronDown, ChevronUp, Heart, Sparkles, Mail, CheckCircle2, Quote } from "lucide-react";
 
 export const Route = createFileRoute("/hope-family")({
   head: () => ({
@@ -73,7 +73,7 @@ function HopeFamilyPage() {
           <div className="flex justify-center">
             <a
               href="#donation-section"
-              className="btn-coral rounded-full px-8 py-4 text-sm font-bold tracking-wider uppercase inline-flex items-center gap-2 shadow-lg hover:shadow-xl transition-all duration-300"
+              className="btn-coral rounded-full px-8 py-4 text-sm tracking-wider capitalize font-bold inline-flex items-center gap-2 shadow-lg shadow-coral/20 hover:shadow-xl hover:shadow-coral/30 hover:scale-[1.02] transition-all"
             >
               Join the Hope Family
             </a>
@@ -81,20 +81,7 @@ function HopeFamilyPage() {
         </div>
       </section>
 
-      {/* 2. Description Section ("What is the Hope Family?") */}
-      <section className="py-20 bg-white border-y border-border">
-        <div className="max-w-3xl mx-auto px-6 md:px-12 lg:px-16 text-center reveal reveal-2">
-          <h2 className="text-3xl md:text-4xl text-ink font-extrabold tracking-tight mb-6">
-            What is the Hope Family?
-          </h2>
-          <div className="w-12 h-1 bg-coral mx-auto mb-8 rounded-full" />
-          <p className="text-base sm:text-lg text-slate-700 leading-relaxed font-normal">
-            The Hope Family is a community of dedicated hope sponsors. Our unique partnership with
-            Angels Care Uganda ensures that 100% of donations go directly to the work on the ground.
-            Our commitment is key to long-term transformation.
-          </p>
-        </div>
-      </section>
+
 
       {/* 3. Interactive Accordion Section ("Why join the Hope Family?") */}
       <section className="py-24 bg-soft">
@@ -149,7 +136,7 @@ function HopeFamilyPage() {
           <div className="text-center">
             <a
               href="#donation-section"
-              className="btn-coral rounded-full px-8 py-4 text-xs tracking-wider uppercase font-extrabold inline-flex items-center gap-2"
+              className="btn-coral rounded-full px-8 py-4 text-sm tracking-wider capitalize font-bold inline-flex items-center gap-2 shadow-lg shadow-coral/20 hover:shadow-xl hover:shadow-coral/30 hover:scale-[1.02] transition-all"
             >
               Join the Hope Family
             </a>
@@ -167,42 +154,57 @@ function HopeFamilyPage() {
             <div className="w-12 h-1 bg-coral mx-auto rounded-full" />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 mb-12">
-            {/* Block A */}
-            <div className="p-8 rounded-3xl bg-soft border border-border flex flex-col justify-between">
+
+          {/* test the new cards */}
+          {/* 3-Column Modern Interactive Card Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            {/* Needs Card 1 (The Educators) */}
+            <div className="group relative rounded-3xl bg-white border border-border/80 p-8 flex flex-col justify-between card-hover shadow-sm overflow-hidden min-h-[240px]">
+              {/* Corner soft accent background circle */}
+              <div className="absolute top-0 right-0 h-28 w-28 bg-gradient-to-bl from-indigo-50 to-transparent rounded-bl-full pointer-events-none" />
               <div>
-                <span className="text-xs uppercase font-extrabold tracking-widest text-coral bg-coral/5 border border-coral/15 px-3 py-1 rounded inline-block mb-4">
+                <span className="text-xs font-mono text-indigo-500 font-bold bg-indigo-50 px-2 py-1 rounded">
                   Sustainability
                 </span>
-                <h3 className="text-xl font-bold text-ink mb-4">Key to Long-Term Impact</h3>
-                <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
-                  Monthly giving is key to long-term impact. By knowing that we have a recurring
-                  base of donations, we can cover our monthly costs and take on long-term projects
-                  that require long-term support.
+
+                <h4 className="text-xl sm:text-2xl text-ink font-semibold tracking-tight mt-3 mb-4 group-hover:text-coral transition-colors">
+                  Key to Long-Term Impact
+                </h4>
+
+                <p className="text-xs sm:text-sm text-balance text-muted-foreground leading-relaxed">
+                  Monthly giving is key to long-term impact. By knowing that we have a recurring base of donations, we can cover our monthly costs and take on long-term projects that require support.
                 </p>
               </div>
             </div>
 
-            {/* Block B */}
-            <div className="p-8 rounded-3xl bg-soft border border-border flex flex-col justify-between">
+
+            {/* Needs Card 3 (Support & Sponsorship Pipeline) */}
+            <div className="group relative rounded-3xl bg-white border border-border/80 p-8 flex flex-col justify-between card-hover shadow-sm overflow-hidden min-h-[240px]">
+              {/* Corner soft background circle */}
+              <div className="absolute top-0 right-0 h-28 w-28 bg-gradient-to-bl from-coral/10 to-transparent rounded-bl-full pointer-events-none" />
+
               <div>
-                <span className="text-xs uppercase font-extrabold tracking-widest text-sky bg-sky/5 border border-sky/15 px-3 py-1 rounded inline-block mb-4">
+                <span className="text-xs font-mono text-coral font-bold bg-coral/5 px-2 py-1 rounded">
                   Partnership
                 </span>
-                <h3 className="text-xl font-bold text-ink mb-4">Spread Out Your Giving</h3>
-                <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
-                  Monthly giving helps you as well! You can spread your giving beyond a year-end
-                  donation, helping you to be a part of something for the long-run and staying
-                  informed as to the effects of your donation.
+
+                <h4 className="text-xl sm:text-2xl text-ink font-semibold tracking-tight mt-3 mb-4 group-hover:text-coral transition-colors">
+                  Spread Out Your Giving
+                </h4>
+
+                <p className="text-xs sm:text-sm text-balance text-muted-foreground leading-relaxed">
+                  Monthly giving helps you as well! You can spread your giving beyond a year-end donation, helping you to be a part of something for the long-run and staying informed as to the effects of your donation.
                 </p>
               </div>
             </div>
           </div>
 
+          {/* end of the test cards */}
+
           <div className="text-center">
             <a
               href="#donation-section"
-              className="btn-coral rounded-full px-8 py-4 text-xs tracking-wider uppercase font-extrabold inline-flex items-center gap-2"
+              className="btn-coral rounded-full px-8 py-4 text-sm tracking-wider capitalize font-bold inline-flex items-center gap-2 shadow-lg shadow-coral/20 hover:shadow-xl hover:shadow-coral/30 hover:scale-[1.02] transition-all"
             >
               Support Monthly Giving
             </a>
@@ -212,10 +214,10 @@ function HopeFamilyPage() {
 
       {/* 5. Split 2-Column Donation Section (The Main Layout Action) */}
       <section id="donation-section" className="py-24 bg-soft border-t border-border">
-        <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16 reveal">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16 reveal">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
             {/* Left Column (Text & Instructions) */}
-            <div className="lg:col-span-5 space-y-6">
+            <div className="lg:col-span-7 space-y-6">
               <span className="text-xs uppercase tracking-widest font-bold text-coral/80 bg-coral/5 border border-coral/15 px-4 py-1.5 rounded-full inline-block">
                 Start Today
               </span>
@@ -237,92 +239,50 @@ function HopeFamilyPage() {
                   II.
                 </p>
               </div>
+
+              {/* Premium Vision Quote Block */}
+              <div className="relative">
+                <div className="absolute -right-6 -bottom-6 h-full w-full rounded-3xl bg-soft/50 border border-border/40 pointer-events-none transform translate-x-2 translate-y-2 opacity-50" />
+                <div className="relative rounded-3xl p-8 md:p-10 border border-sky/30 bg-white shadow-soft overflow-hidden">
+                  <div className="absolute -right-12 -top-12 h-36 w-36 rounded-full opacity-5 bg-sky" />
+                  <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-sky" />
+
+                  <Quote className="h-10 w-10 text-sky/30 transform rotate-180 mb-6" />
+
+                  <blockquote className="text-ink leading-relaxed italic text-balance font-display">
+                    “I know that what I give is having a profound and direct impact on lives that truly need support. Lives have been torn apart by war, and many have nothing. By giving what I can monthly, I know I am a part of lasting change.”
+                  </blockquote>
+
+                  <hr className="my-6 border-border" />
+
+                  <div className="flex items-center gap-4">
+                    <div>
+                      <cite className="not-italic block font-semibold text-base text-coral">
+                        — A member of the Hope Family
+                      </cite>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* Right Column (The Vertical DonorBox Widget) */}
-            <div className="lg:col-span-7 bg-white rounded-3xl p-4 sm:p-6 border border-border shadow-soft">
+            <div className="lg:col-span-5 h-full bg-white rounded-3xl p-2 sm:p-2 border border-border shadow-soft">
               <iframe
                 src="https://donorbox.org/embed/the-hope-family-1?a=b"
                 name="donorbox"
                 allowpaymentrequest="allowpaymentrequest"
                 seamless={true}
                 frameBorder="0"
-                scrolling="no"
+                height="100%"
                 title="DonorBox Donation Form"
-                className="w-full min-h-[600px] rounded-xl shadow-sm"
+                className="w-full rounded-xl shadow-sm"
               />
             </div>
           </div>
         </div>
       </section>
-
-      {/* 6. Premium Testimonial Section */}
-      <section className="py-24 bg-white">
-        <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16 text-center reveal">
-          <div className="relative">
-            <span
-              aria-hidden
-              className="font-serif absolute -top-16 -left-4 text-[140px] md:text-[200px] leading-none text-coral/10 select-none font-black"
-            >
-              “
-            </span>
-            <blockquote className="relative text-xl sm:text-2xl md:text-3xl text-ink italic font-medium leading-relaxed mb-8">
-              “I know that what I give is having a profound and direct impact on lives that truly
-              need support. Lives have been torn apart by war, and many have nothing. By giving what
-              I can monthly, I know I am a part of lasting change.”
-            </blockquote>
-            <cite className="not-italic text-sm sm:text-base font-bold text-coral uppercase tracking-wider block">
-              — A member of the Hope Family
-            </cite>
-          </div>
-        </div>
-      </section>
-
-      {/* 7. Separate Newsletter Form */}
-      <section className="py-20 bg-soft border-t border-border">
-        <div className="max-w-3xl mx-auto px-6 md:px-12 lg:px-16 text-center reveal">
-          <div className="h-12 w-12 rounded-full bg-[#1cbee7]/5 border border-[#1cbee7]/15 flex items-center justify-center text-[#1cbee7] mx-auto mb-6">
-            <Mail className="h-5 w-5" />
-          </div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-ink tracking-tight mb-4">
-            Stay Connected
-          </h2>
-          <p className="text-sm sm:text-base text-muted-foreground max-w-lg mx-auto mb-8">
-            Sign up with your email address to receive monthly news, hope stories, and updates.
-          </p>
-
-          {isSubscribed ? (
-            <div className="bg-emerald-50 border border-emerald-150 rounded-2xl p-6 flex flex-col items-center max-w-md mx-auto animate-fadeIn">
-              <CheckCircle2 className="h-8 w-8 text-emerald-500 mb-2" />
-              <p className="text-sm font-bold text-emerald-800">Successfully Subscribed!</p>
-              <p className="text-xs text-emerald-600 mt-1">
-                Thank you for subscribing to our updates.
-              </p>
-            </div>
-          ) : (
-            <form
-              onSubmit={handleSubscribe}
-              className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
-            >
-              <input
-                id="hope-family-newsletter-input"
-                type="email"
-                required
-                placeholder="Enter your email address"
-                value={newsletterEmail}
-                onChange={(e) => setNewsletterEmail(e.target.value)}
-                className="flex-grow rounded-full border border-border bg-white px-5 py-3.5 text-sm text-ink placeholder:text-muted-foreground outline-none transition focus:border-coral focus:ring-4 focus:ring-coral/15"
-              />
-              <button
-                type="submit"
-                className="bg-[#1cbee7] hover:bg-[#15a2c6] text-white rounded-full px-6 py-3.5 text-xs uppercase tracking-wider font-bold transition duration-200 shadow-sm"
-              >
-                Subscribe
-              </button>
-            </form>
-          )}
-        </div>
-      </section>
+      
     </div>
   );
 }
