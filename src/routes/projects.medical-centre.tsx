@@ -337,7 +337,7 @@ function MedicalCentrePage() {
                 <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-2xl border border-border/60 bg-white p-3 group">
                   <div className="relative w-full h-full rounded-2xl overflow-hidden bg-soft">
                     <img
-                      src="https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?auto=format&fit=crop&w=800&q=80"
+                      src="/src/assets/images/107050000_579153106133552_4669114132287895332_n.webp"
                       alt="Refugee families undergoing clinical wellness exam"
                       className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 animate-fade-in"
                       referrerPolicy="no-referrer"
@@ -357,10 +357,7 @@ function MedicalCentrePage() {
       </section>
 
       {/* SECTION 2: "The Crisis vs. Our Dream" Section */}
-      <section
-        id="crisis-dashboard"
-        className="py-24 bg-white border-b border-border relative"
-      >
+      <section id="crisis-dashboard" className="py-24 bg-white border-b border-border relative">
         <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
             {/* Left Column: Narrative of the 5-Year Journey */}

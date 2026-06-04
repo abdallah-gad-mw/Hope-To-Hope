@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "motion/react";
 import {
   MapPin,
@@ -44,6 +45,22 @@ export const Route = createFileRoute("/about/kyaka-ii")({
 
 function KyakaIISettlementPage() {
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (isLightboxOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isLightboxOpen]);
 
   return (
     <div className="bg-background min-h-screen text-foreground overflow-x-hidden">
@@ -407,56 +424,60 @@ function KyakaIISettlementPage() {
       </section>
 
       {/* Custom High-Fidelity Lightbox Modal (For UNHCR Infographics) */}
-      <AnimatePresence>
-        {isLightboxOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md p-4 sm:p-8 flex flex-col items-center justify-center cursor-zoom-out"
-            onClick={() => setIsLightboxOpen(false)}
-          >
-            {/* Top Bar controls */}
-            <div className="w-full max-w-6xl flex justify-between items-center text-white mb-4">
-              <div className="flex items-center gap-2 text-xs uppercase tracking-widest text-sky font-bold">
-                <Users className="h-4 w-4" /> UNHCR January 2022 Statistics Profile
-              </div>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setIsLightboxOpen(false);
-                }}
-                className="p-2 rounded-full hover:bg-white/10 transition text-white/80 hover:text-white cursor-pointer"
+      {mounted &&
+        createPortal(
+          <AnimatePresence>
+            {isLightboxOpen && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md p-4 sm:p-8 flex flex-col items-center justify-center cursor-zoom-out"
+                onClick={() => setIsLightboxOpen(false)}
               >
-                <X className="h-6 w-6" />
-              </button>
-            </div>
+                {/* Top Bar controls */}
+                <div className="w-full max-w-6xl flex justify-between items-center text-white mb-4">
+                  <div className="flex items-center gap-2 text-xs uppercase tracking-widest text-sky font-bold">
+                    <Users className="h-4 w-4" /> UNHCR January 2022 Statistics Profile
+                  </div>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsLightboxOpen(false);
+                    }}
+                    className="p-2 rounded-full hover:bg-white/10 transition text-white/80 hover:text-white cursor-pointer"
+                  >
+                    <X className="h-6 w-6" />
+                  </button>
+                </div>
 
-            {/* Lightbox full-size image wrapper */}
-            <motion.div
-              initial={{ scale: 0.95, y: 15 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.95, y: 15 }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="relative max-w-6xl max-h-[80vh] overflow-auto rounded-xl border border-white/10 bg-black shadow-2xl"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <img
-                src="/src/assets/images/Kyaka+II+Settlement+Profile_31Jan2022+(1).webp"
-                alt="Detailed UNHCR Refugee Statistics map from OPM Progress version 4"
-                className="w-full h-auto object-contain max-h-[80vh]"
-              />
-            </motion.div>
+                {/* Lightbox full-size image wrapper */}
+                <motion.div
+                  initial={{ scale: 0.95, y: 15 }}
+                  animate={{ scale: 1, y: 0 }}
+                  exit={{ scale: 0.95, y: 15 }}
+                  transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                  className="relative max-w-6xl max-h-[80vh] overflow-auto rounded-xl border border-white/10 bg-black shadow-2xl"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <img
+                    src="/src/assets/images/Kyaka+II+Settlement+Profile_31Jan2022+(1).webp"
+                    alt="Detailed UNHCR Refugee Statistics map from OPM Progress version 4"
+                    className="w-full h-auto object-contain max-h-[80vh]"
+                  />
+                </motion.div>
 
-            {/* Bottom Credit Caption */}
-            <div className="text-center text-white/60 text-xs mt-4 italic max-w-xl leading-relaxed">
-              *Source: United Nations High Commissioner for Refugees (UNHCR) & Office of the Prime
-              Minister (OPM) ProGreq version 4.
-            </div>
-          </motion.div>
+                {/* Bottom Credit Caption */}
+                <div className="text-center text-white/60 text-xs mt-4 italic max-w-xl leading-relaxed">
+                  *Source: United Nations High Commissioner for Refugees (UNHCR) & Office of the
+                  Prime Minister (OPM) ProGreq version 4.
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>,
+          document.body,
         )}
-      </AnimatePresence>
     </div>
   );
 }

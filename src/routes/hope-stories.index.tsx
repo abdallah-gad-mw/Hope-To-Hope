@@ -40,7 +40,7 @@ function HopeStoriesArchivePage() {
             {/* Optional elegant card top banner image or color block */}
             <div className="h-48 relative overflow-hidden bg-slate-100">
               <img
-                src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=800&q=80"
+                src="/src/assets/images/Image38-2sized.webp"
                 alt="Angels Care Students smiling"
                 className="w-full h-full object-cover grayscale-[10%] hover:grayscale-0 transition-all duration-500"
                 referrerPolicy="no-referrer"

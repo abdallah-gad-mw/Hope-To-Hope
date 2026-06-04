@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "motion/react";
 import {
   GraduationCap,
@@ -66,6 +67,22 @@ interface GalleryImage {
 function SchoolProjectPage() {
   const [showBadgeTooltip, setShowBadgeTooltip] = useState(false);
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (selectedImage) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [selectedImage]);
 
   // Stats Card data
   const demographicCards: MetricCard[] = [
@@ -110,45 +127,75 @@ function SchoolProjectPage() {
   const galleryImages: GalleryImage[] = [
     {
       id: 1,
-      url: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=800&q=80",
-      caption:
-        "Recess moments: A cheerful atmosphere and strong peer connections support healing from prior trauma.",
-      category: "Extracurricular",
+      url: "/src/assets/images/school/1.webp",
+      caption: "",
+      category: "",
     },
     {
       id: 2,
-      url: "https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=800&q=80",
-      caption:
-        "Concentration in action: Developing literacy and basic numeracy leads to greater self-determination.",
-      category: "Classroom Study",
+      url: "/src/assets/images/school/2.webp",
+      caption: "",
+      category: "",
     },
     {
       id: 3,
-      url: "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=800&q=80",
-      caption:
-        "Raising hands together: Over 120 children pack our current schoolrooms, and they are eager to participate.",
-      category: "Interactive Learning",
+      url: "/src/assets/images/school/3.webp",
+      caption: "",
+      category: "",
     },
     {
       id: 4,
-      url: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=800&q=80",
-      caption:
-        "Peer to peer support: Small learning teams build self-confidence, communication, and deep care.",
-      category: "Extracurricular",
+      url: "/src/assets/images/school/4.webp",
+      caption: "",
+      category: "",
     },
     {
       id: 5,
-      url: "https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=800&q=80",
-      caption:
-        "A joyful graduate celebrating with educators after high achievement on national examinations.",
-      category: "Celebration",
+      url: "/src/assets/images/school/5.webp",
+      caption: "",
+      category: "",
     },
     {
       id: 6,
-      url: "https://images.unsplash.com/photo-1489710437720-ebb67ec84dd2?auto=format&fit=crop&w=800&q=80",
-      caption:
-        "Early development: Engaging our toddlers early ensures a stable foundation for years to come.",
-      category: "Early Years",
+      url: "/src/assets/images/school/6.webp",
+      caption: "",
+      category: "",
+    },
+    {
+      id: 7,
+      url: "/src/assets/images/school/7.webp",
+      caption: "",
+      category: "",
+    },
+    {
+      id: 8,
+      url: "/src/assets/images/school/8.webp",
+      caption: "",
+      category: "",
+    },
+    {
+      id: 9,
+      url: "/src/assets/images/school/9.webp",
+      caption: "",
+      category: "",
+    },
+    {
+      id: 10,
+      url: "/src/assets/images/school/10.webp",
+      caption: "",
+      category: "",
+    },
+    {
+      id: 11,
+      url: "/src/assets/images/school/12.webp",
+      caption: "",
+      category: "",
+    },
+    {
+      id: 12,
+      url: "/src/assets/images/school/13.webp",
+      caption: "",
+      category: "",
     },
   ];
 
@@ -243,7 +290,7 @@ function SchoolProjectPage() {
                 <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-2xl border border-border/60 bg-white p-3 group">
                   <div className="relative w-full h-full rounded-2xl overflow-hidden bg-soft">
                     <img
-                      src="https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=800&q=80"
+                      src="/src/assets/images/school/2.webp"
                       alt="Refugee child engaged in learning at school desk"
                       className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
@@ -539,7 +586,6 @@ function SchoolProjectPage() {
                 {/* Image element with smooth zoom trigger */}
                 <img
                   src={img.url}
-                  alt={img.caption}
                   className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                   loading="lazy"
                 />
@@ -551,16 +597,6 @@ function SchoolProjectPage() {
                 <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-md rounded-full p-2 border border-white/25 text-white scale-75 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300">
                   <Maximize2 className="h-4 w-4" />
                 </div>
-
-                {/* Bottom text description overlay */}
-                <div className="absolute bottom-0 inset-x-0 p-5 text-white translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
-                  <span className="text-[9px] uppercase font-bold tracking-widest text-sky bg-sky-foreground/10 border border-sky/20 px-2.5 py-0.5 rounded-full inline-block mb-2">
-                    {img.category}
-                  </span>
-                  <p className="text-xs sm:text-sm font-medium leading-relaxed font-sans line-clamp-2">
-                    {img.caption}
-                  </p>
-                </div>
               </div>
             ))}
           </div>
@@ -568,67 +604,51 @@ function SchoolProjectPage() {
       </section>
 
       {/* Dynamic Lightbox popup modal */}
-      <AnimatePresence>
-        {selectedImage && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            {/* Modal backdrop wrapper click to exit */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setSelectedImage(null)}
-              className="absolute inset-0 bg-ink/90 backdrop-blur-md cursor-pointer"
-            />
+      {mounted &&
+        createPortal(
+          <AnimatePresence>
+            {selectedImage && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+                {/* Modal backdrop wrapper click to exit */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  onClick={() => setSelectedImage(null)}
+                  className="absolute inset-0 bg-ink/90 backdrop-blur-md cursor-pointer"
+                />
 
-            {/* Main responsive lightbox chassis */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 10 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 10 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-              className="relative max-w-4xl w-full bg-white rounded-3xl overflow-hidden shadow-2xl border border-white/10 z-10 p-2"
-            >
-              <button
-                onClick={() => setSelectedImage(null)}
-                className="absolute top-4 right-4 text-white hover:text-coral bg-black/60 hover:bg-black p-2 rounded-full border border-white/10 transition z-50 cursor-pointer"
-                aria-label="Close image popup"
-              >
-                <X className="h-5 w-5" />
-              </button>
+                {/* Main responsive lightbox chassis */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
+                  className="relative max-w-4xl w-full bg-white rounded-3xl overflow-hidden shadow-2xl border border-white/10 z-10 p-2"
+                >
+                  <button
+                    onClick={() => setSelectedImage(null)}
+                    className="absolute top-4 right-4 text-white hover:text-coral bg-black/60 hover:bg-black p-2 rounded-full border border-white/10 transition z-50 cursor-pointer"
+                    aria-label="Close image popup"
+                  >
+                    <X className="h-5 w-5" />
+                  </button>
 
-              {/* Inner wrapper image & text */}
-              <div className="flex flex-col bg-slate-900 rounded-2xl overflow-hidden">
-                <div className="aspect-[16/10] sm:aspect-[16/9] w-full relative bg-slate-950 flex items-center justify-center overflow-hidden">
-                  <img
-                    src={selectedImage.url}
-                    alt={selectedImage.caption}
-                    className="max-h-[75vh] max-w-full object-contain"
-                  />
-                </div>
-
-                <div className="bg-white p-6 border-t border-border">
-                  <div className="flex flex-wrap items-center justify-between gap-4">
-                    <div>
-                      <span className="text-[10px] uppercase font-bold tracking-widest text-sky bg-sky/5 border border-sky/10 px-3 py-1 rounded-full inline-block mb-1">
-                        {selectedImage.category}
-                      </span>
-                      <p className="text-sm sm:text-base text-ink font-medium leading-relaxed max-w-2xl text-left text-balance">
-                        {selectedImage.caption}
-                      </p>
+                  {/* Inner wrapper image & text */}
+                  <div className="flex flex-col bg-slate-900 rounded-2xl overflow-hidden">
+                    <div className="aspect-[16/10] sm:aspect-[16/9] w-full relative bg-slate-950 flex items-center justify-center overflow-hidden">
+                      <img
+                        src={selectedImage.url}
+                        className="max-h-[75vh] max-w-full object-contain"
+                      />
                     </div>
-                    <button
-                      onClick={() => setSelectedImage(null)}
-                      className="px-5 py-2 hover:bg-soft text-ink text-xs font-semibold rounded-full border border-border transition select-none"
-                    >
-                      Close View
-                    </button>
                   </div>
-                </div>
+                </motion.div>
               </div>
-            </motion.div>
-          </div>
+            )}
+          </AnimatePresence>,
+          document.body,
         )}
-      </AnimatePresence>
 
       {/* SECTION 5: Call To Action Footer Banner */}
       <section className="py-24 bg-soft relative overflow-hidden">

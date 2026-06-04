@@ -169,7 +169,7 @@ function OrphanageProjectPage() {
                 <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-2xl border border-border/60 bg-white p-3 group">
                   <div className="relative w-full h-full rounded-2xl overflow-hidden bg-soft">
                     <img
-                      src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=800&q=80"
+                      src="/src/assets/images/Image38-2sized.webp"
                       alt="Happy children playing and laughing outside"
                       className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                       referrerPolicy="no-referrer"
@@ -313,10 +313,7 @@ function OrphanageProjectPage() {
       </section>
 
       {/* SECTION 3: "The Cost of a Future" Impact & Transparency Section (Bento Financial Dashboard) */}
-      <section
-        id="transparency-dashboard"
-        className="py-24 bg-slate-50 border-b border-border"
-      >
+      <section id="transparency-dashboard" className="py-24 bg-slate-50 border-b border-border">
         <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
           <div className="grid lg:grid-cols-12 gap-12 items-center">
             {/* Left Column: Context Text */}
@@ -418,106 +415,7 @@ function OrphanageProjectPage() {
         </div>
       </section>
 
-      {/* SECTION 4: "Join the Village" Call to Action Panel (Interactive Funding Workspace) */}
-      <section className="py-24 px-6 bg-white border-b border-border">
-        <div className="max-w-4xl mx-auto">
-          <div className="rounded-[2rem] border-2 border-dashed border-sky/30 bg-sky/5 p-8 sm:p-12 relative overflow-hidden text-center">
-            <div className="absolute top-0 right-0 h-40 w-40 bg-gradient-to-bl from-sky/10 to-transparent rounded-bl-full pointer-events-none" />
-
-            <span className="text-xs uppercase tracking-[0.25em] text-sky font-bold bg-sky/10 px-4 py-1.5 rounded-full border border-sky/20 mb-6 inline-block leading-none">
-              Empathetic Invitation
-            </span>
-
-            <h3 className="text-2xl sm:text-3xl md:text-4xl text-ink font-bold tracking-tight leading-tight max-w-2xl mx-auto text-balance">
-              Please consider joining us today in continuing to provide our children with their
-              immediate needs and a loving home.
-            </h3>
-
-            <p className="mt-4 text-muted-foreground text-xs sm:text-sm max-w-xl mx-auto text-balance">
-              A transparent community of dedicated global sponsors making immediate transformative
-              changes. Choose the tier where you want to make an impact.
-            </p>
-
-            {/* Interactive Select Toggles */}
-            <div className="mt-10 max-w-md mx-auto grid grid-cols-2 gap-2 bg-white/80 p-1.5 rounded-xl border border-sky/10 backdrop-blur-sm shadow-sm">
-              <button
-                onClick={() => setSupportTier("child")}
-                className={`py-3 px-4 rounded-lg text-xs uppercase tracking-wider font-bold transition-all duration-200 cursor-pointer ${
-                  supportTier === "child"
-                    ? "bg-[#1cbee7] text-white shadow-md shadow-sky/20"
-                    : "text-slate-500 hover:text-ink hover:bg-slate-50"
-                }`}
-              >
-                Sponsor 1 Child ($90/mo)
-              </button>
-
-              <button
-                onClick={() => setSupportTier("home")}
-                className={`py-3 px-4 rounded-lg text-xs uppercase tracking-wider font-bold transition-all duration-200 cursor-pointer ${
-                  supportTier === "home"
-                    ? "bg-[#f05153] text-white shadow-md shadow-coral/20"
-                    : "text-slate-500 hover:text-ink hover:bg-slate-50"
-                }`}
-              >
-                Pastor's Home ($1,200/mo)
-              </button>
-            </div>
-
-            {/* Dynamic content card displayer */}
-            <div className="mt-6 max-w-lg mx-auto min-h-[120px] flex items-center justify-center">
-              <AnimatePresence mode="wait">
-                {supportTier === "child" ? (
-                  <motion.div
-                    key="child-tier"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.2 }}
-                    className="p-5 rounded-2xl bg-white border border-border shadow-sm text-left flex gap-4 items-start w-full"
-                  >
-                    <div className="p-3 bg-sky/5 rounded-xl text-sky flex-shrink-0">
-                      <Baby className="h-6 w-6" />
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-bold text-ink mb-1">
-                        What your donation supplies
-                      </h4>
-                      <p className="text-xs text-muted-foreground leading-relaxed">
-                        Your $90/mo secures clean clothing, schooling materials, daily feeding, safe
-                        shelter, and medical cover. This acts as a complete support pipeline for 1
-                        child assigned to a loving refugee family.
-                      </p>
-                    </div>
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="home-tier"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.2 }}
-                    className="p-5 rounded-2xl bg-white border border-border shadow-sm text-left flex gap-4 items-start w-full"
-                  >
-                    <div className="p-3 bg-coral/5 rounded-xl text-coral flex-shrink-0">
-                      <Home className="h-6 w-6" />
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-bold text-ink mb-1">
-                        Pastor Godfrey's Sanctuary support
-                      </h4>
-                      <p className="text-xs text-muted-foreground leading-relaxed">
-                        Supporting the central home covering all 15 orphans. Covers essential
-                        overheads, clean water security, protective fences, kitchen staff salaries,
-                        crop storage, and utility maintenance.
-                      </p>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          </div>
-        </div>
-      </section>
+      
 
       {/* SECTION 5: Core Action Footer */}
       <section className="py-24 bg-slate-50 relative overflow-hidden">

@@ -57,7 +57,7 @@ function OnlineLaunchPage() {
         {/* Hero image for decoration */}
         <div className="mb-12 rounded-2xl overflow-hidden border border-border bg-soft shadow-sm reveal reveal-2">
           <img
-            src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1200&q=80"
+            src="/src/assets/images/Image38-2sized.webp"
             alt="Angels Care Sanctuary Children"
             className="w-full h-auto max-h-[480px] object-cover grayscale-[5%]"
             referrerPolicy="no-referrer"

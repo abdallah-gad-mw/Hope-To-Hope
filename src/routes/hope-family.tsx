@@ -81,8 +81,6 @@ function HopeFamilyPage() {
         </div>
       </section>
 
-
-
       {/* 3. Interactive Accordion Section ("Why join the Hope Family?") */}
       <section className="py-24 bg-soft">
         <div className="max-w-3xl mx-auto px-6 md:px-12 lg:px-16 reveal reveal-2">
@@ -154,7 +152,6 @@ function HopeFamilyPage() {
             <div className="w-12 h-1 bg-coral mx-auto rounded-full" />
           </div>
 
-
           {/* test the new cards */}
           {/* 3-Column Modern Interactive Card Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
@@ -172,11 +169,12 @@ function HopeFamilyPage() {
                 </h4>
 
                 <p className="text-xs sm:text-sm text-balance text-muted-foreground leading-relaxed">
-                  Monthly giving is key to long-term impact. By knowing that we have a recurring base of donations, we can cover our monthly costs and take on long-term projects that require support.
+                  Monthly giving is key to long-term impact. By knowing that we have a recurring
+                  base of donations, we can cover our monthly costs and take on long-term projects
+                  that require support.
                 </p>
               </div>
             </div>
-
 
             {/* Needs Card 3 (Support & Sponsorship Pipeline) */}
             <div className="group relative rounded-3xl bg-white border border-border/80 p-8 flex flex-col justify-between card-hover shadow-sm overflow-hidden min-h-[240px]">
@@ -193,7 +191,9 @@ function HopeFamilyPage() {
                 </h4>
 
                 <p className="text-xs sm:text-sm text-balance text-muted-foreground leading-relaxed">
-                  Monthly giving helps you as well! You can spread your giving beyond a year-end donation, helping you to be a part of something for the long-run and staying informed as to the effects of your donation.
+                  Monthly giving helps you as well! You can spread your giving beyond a year-end
+                  donation, helping you to be a part of something for the long-run and staying
+                  informed as to the effects of your donation.
                 </p>
               </div>
             </div>
@@ -250,7 +250,9 @@ function HopeFamilyPage() {
                   <Quote className="h-10 w-10 text-sky/30 transform rotate-180 mb-6" />
 
                   <blockquote className="text-ink leading-relaxed italic text-balance font-display">
-                    “I know that what I give is having a profound and direct impact on lives that truly need support. Lives have been torn apart by war, and many have nothing. By giving what I can monthly, I know I am a part of lasting change.”
+                    “I know that what I give is having a profound and direct impact on lives that
+                    truly need support. Lives have been torn apart by war, and many have nothing. By
+                    giving what I can monthly, I know I am a part of lasting change.”
                   </blockquote>
 
                   <hr className="my-6 border-border" />
@@ -282,7 +284,6 @@ function HopeFamilyPage() {
           </div>
         </div>
       </section>
-      
     </div>
   );
 }

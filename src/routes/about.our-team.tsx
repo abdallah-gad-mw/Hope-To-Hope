@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "motion/react";
 import {
   Users,
@@ -62,6 +63,22 @@ function OurTeamPage() {
   const [selectedStaff, setSelectedStaff] = useState<TeamMember | null>(null);
   const [isLiaisonContactOpen, setIsLiaisonContactOpen] = useState(false);
   const [liaisonSubject, setLiaisonSubject] = useState("");
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (selectedStaff || isLiaisonContactOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [selectedStaff, isLiaisonContactOpen]);
 
   // Primary image fallback handlers for bulletproof loading
   const [heroImageSrc, setHeroImageSrc] = useState(
@@ -912,226 +929,238 @@ function OurTeamPage() {
       </section>
 
       {/* 6. Dynamic Modal - Teacher / Admin Bio Dialog details */}
-      <AnimatePresence>
-        {selectedStaff && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            {/* Overlaid background dark translucent */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setSelectedStaff(null)}
-              className="absolute inset-0 bg-ink/75 backdrop-blur-md"
-            />
-
-            {/* Modal Body card */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="relative w-full max-w-lg bg-white rounded-[2rem] overflow-hidden border border-border shadow-2xl p-8 z-10"
-            >
-              {/* Topclose button */}
-              <button
-                onClick={() => setSelectedStaff(null)}
-                className="absolute top-6 right-6 text-muted-foreground hover:text-ink cursor-pointer p-1 rounded-full hover:bg-soft transition"
-              >
-                <X className="h-5 w-5" />
-              </button>
-
-              <div className="flex gap-4 items-start border-b border-border pb-6">
-                <div
-                  className={`h-16 w-16 rounded-2xl bg-gradient-to-tr ${selectedStaff.avatarBg} text-ink font-display text-2xl font-bold flex items-center justify-center shadow-inner border border-black/5`}
-                >
-                  {selectedStaff.initials}
-                </div>
-                <div>
-                  <span className="text-[10px] uppercase font-bold tracking-widest text-coral bg-coral/5 px-2.5 py-1 rounded-md border border-coral/10">
-                    {selectedStaff.category === "teaching"
-                      ? "Teaching Staff"
-                      : selectedStaff.category === "support"
-                        ? "Support Staff"
-                        : "Liaison Contact"}
-                  </span>
-                  <h3 className="text-2xl text-ink font-semibold mt-1.5">{selectedStaff.name}</h3>
-                  <p className="text-sm font-medium text-muted-foreground">{selectedStaff.role}</p>
-                </div>
-              </div>
-
-              <div className="mt-6 space-y-4">
-                {selectedStaff.grad && (
-                  <div>
-                    <h4 className="text-xs uppercase tracking-widest text-coral font-bold mb-1">
-                      Credentials & Specialty
-                    </h4>
-                    <p className="text-sm font-mono text-ink bg-soft border border-border/60 px-3 py-2 rounded-xl">
-                      {selectedStaff.grad}
-                    </p>
-                  </div>
-                )}
-
-                <div>
-                  <h4 className="text-xs uppercase tracking-widest text-coral font-bold mb-1">
-                    About / Bio
-                  </h4>
-                  <p className="text-sm text-muted-foreground/90 leading-relaxed text-balance">
-                    {selectedStaff.bio ||
-                      `${selectedStaff.name} works active hours supporting educational, nutritional or shelter initiatives inside Kyaka II Refuge settlement. Dedicated with a commitment to build stable opportunities for vulnerable children.`}
-                  </p>
-                </div>
-              </div>
-
-              <div className="mt-8 pt-6 border-t border-border flex justify-end gap-3">
-                <button
+      {mounted &&
+        createPortal(
+          <AnimatePresence>
+            {selectedStaff && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+                {/* Overlaid background dark translucent */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
                   onClick={() => setSelectedStaff(null)}
-                  className="px-6 py-2.5 bg-soft hover:bg-border/60 focus:outline-none text-ink text-xs font-semibold rounded-full border border-border/80 transition"
+                  className="absolute inset-0 bg-ink/75 backdrop-blur-md"
+                />
+
+                {/* Modal Body card */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                  className="relative w-full max-w-lg bg-white rounded-[2rem] overflow-hidden border border-border shadow-2xl p-8 z-10"
                 >
-                  Close Profile
-                </button>
-                {selectedStaff.category === "liaison" && (
+                  {/* Topclose button */}
                   <button
-                    onClick={() => {
-                      setLiaisonSubject(`Sponsorship Partner with ${selectedStaff.name}`);
-                      setSelectedStaff(null);
-                      setIsLiaisonContactOpen(true);
-                    }}
-                    className="btn-coral rounded-full px-6 py-2.5 text-xs font-semibold inline-flex items-center gap-1.5"
+                    onClick={() => setSelectedStaff(null)}
+                    className="absolute top-6 right-6 text-muted-foreground hover:text-ink cursor-pointer p-1 rounded-full hover:bg-soft transition"
                   >
-                    Contact Liaison <Mail className="h-3.5 w-3.5" />
+                    <X className="h-5 w-5" />
                   </button>
-                )}
+
+                  <div className="flex gap-4 items-start border-b border-border pb-6">
+                    <div
+                      className={`h-16 w-16 rounded-2xl bg-gradient-to-tr ${selectedStaff.avatarBg} text-ink font-display text-2xl font-bold flex items-center justify-center shadow-inner border border-black/5`}
+                    >
+                      {selectedStaff.initials}
+                    </div>
+                    <div>
+                      <span className="text-[10px] uppercase font-bold tracking-widest text-coral bg-coral/5 px-2.5 py-1 rounded-md border border-coral/10">
+                        {selectedStaff.category === "teaching"
+                          ? "Teaching Staff"
+                          : selectedStaff.category === "support"
+                            ? "Support Staff"
+                            : "Liaison Contact"}
+                      </span>
+                      <h3 className="text-2xl text-ink font-semibold mt-1.5">
+                        {selectedStaff.name}
+                      </h3>
+                      <p className="text-sm font-medium text-muted-foreground">
+                        {selectedStaff.role}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="mt-6 space-y-4">
+                    {selectedStaff.grad && (
+                      <div>
+                        <h4 className="text-xs uppercase tracking-widest text-coral font-bold mb-1">
+                          Credentials & Specialty
+                        </h4>
+                        <p className="text-sm font-mono text-ink bg-soft border border-border/60 px-3 py-2 rounded-xl">
+                          {selectedStaff.grad}
+                        </p>
+                      </div>
+                    )}
+
+                    <div>
+                      <h4 className="text-xs uppercase tracking-widest text-coral font-bold mb-1">
+                        About / Bio
+                      </h4>
+                      <p className="text-sm text-muted-foreground/90 leading-relaxed text-balance">
+                        {selectedStaff.bio ||
+                          `${selectedStaff.name} works active hours supporting educational, nutritional or shelter initiatives inside Kyaka II Refuge settlement. Dedicated with a commitment to build stable opportunities for vulnerable children.`}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="mt-8 pt-6 border-t border-border flex justify-end gap-3">
+                    <button
+                      onClick={() => setSelectedStaff(null)}
+                      className="px-6 py-2.5 bg-soft hover:bg-border/60 focus:outline-none text-ink text-xs font-semibold rounded-full border border-border/80 transition"
+                    >
+                      Close Profile
+                    </button>
+                    {selectedStaff.category === "liaison" && (
+                      <button
+                        onClick={() => {
+                          setLiaisonSubject(`Sponsorship Partner with ${selectedStaff.name}`);
+                          setSelectedStaff(null);
+                          setIsLiaisonContactOpen(true);
+                        }}
+                        className="btn-coral rounded-full px-6 py-2.5 text-xs font-semibold inline-flex items-center gap-1.5"
+                      >
+                        Contact Liaison <Mail className="h-3.5 w-3.5" />
+                      </button>
+                    )}
+                  </div>
+                </motion.div>
               </div>
-            </motion.div>
-          </div>
+            )}
+          </AnimatePresence>,
+          document.body,
         )}
-      </AnimatePresence>
 
       {/* 7. Dynamic Modal - Contact Liaison Popup Form Dialog */}
-      <AnimatePresence>
-        {isLiaisonContactOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setIsLiaisonContactOpen(false)}
-              className="absolute inset-0 bg-ink/75 backdrop-blur-md"
-            />
+      {mounted &&
+        createPortal(
+          <AnimatePresence>
+            {isLiaisonContactOpen && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  onClick={() => setIsLiaisonContactOpen(false)}
+                  className="absolute inset-0 bg-ink/75 backdrop-blur-md"
+                />
 
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="relative w-full max-w-lg bg-white rounded-[2rem] overflow-hidden border border-border shadow-2xl p-8 z-10"
-            >
-              <button
-                onClick={() => setIsLiaisonContactOpen(false)}
-                className="absolute top-6 right-6 text-muted-foreground hover:text-ink cursor-pointer p-1 rounded-full hover:bg-soft transition animate-pulse"
-              >
-                <X className="h-5 w-5" />
-              </button>
-
-              <div className="flex gap-3 items-center border-b border-border pb-6">
-                <div className="bg-coral/10 text-coral rounded-full p-2 border border-coral/20">
-                  <Globe className="h-5 w-5 text-coral" />
-                </div>
-                <div>
-                  <span className="text-[10px] uppercase font-bold tracking-widest text-sky">
-                    Hopetohope.org Canadian Branch
-                  </span>
-                  <h3 className="text-xl text-ink font-semibold">Hopetohope Support Partner</h3>
-                </div>
-              </div>
-
-              {/* Secure simulated contact portal form */}
-              <form
-                className="mt-6 space-y-4"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  alert(
-                    "Thank you for reaching out! In production, this form will coordinate directly with rob@hopetohope.org via secure servers. Our Canadian coordinators will contact you shortly.",
-                  );
-                  setIsLiaisonContactOpen(false);
-                }}
-              >
-                <div>
-                  <label className="block text-xs uppercase tracking-wider font-bold text-coral mb-1">
-                    Canadian Liaison Subject
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={liaisonSubject}
-                    onChange={(e) => setLiaisonSubject(e.target.value)}
-                    className="w-full bg-soft text-ink border border-border px-4 py-3 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-coral/40"
-                  />
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs uppercase tracking-wider font-bold text-coral mb-1">
-                      Your Name
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="e.g. Emily Wilson"
-                      className="w-full bg-soft text-ink border border-border px-4 py-3 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-coral/40"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs uppercase tracking-wider font-bold text-coral mb-1">
-                      Your Email
-                    </label>
-                    <input
-                      type="email"
-                      required
-                      placeholder="name@domain.ca"
-                      className="w-full bg-soft text-ink border border-border px-4 py-3 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-coral/40"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-xs uppercase tracking-wider font-bold text-coral mb-1">
-                    Message / Partnership Intention
-                  </label>
-                  <textarea
-                    required
-                    rows={4}
-                    placeholder="Tell us how you would like to support the primary school, build classrooms or sponsor meal programs."
-                    className="w-full bg-soft text-ink border border-border px-4 py-3 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-coral/40"
-                  />
-                </div>
-
-                <div className="bg-soft border border-border/80 rounded-xl px-4 py-3 flex gap-2.5 items-start text-[11px] text-muted-foreground leading-relaxed">
-                  <ShieldCheck className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
-                  <span>
-                    Your messages are encrypted and audited through Hopetohope.org partnership
-                    policies. No personal information is shared with outside vendors.
-                  </span>
-                </div>
-
-                <div className="pt-4 border-t border-border flex justify-end gap-3">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                  className="relative w-full max-w-lg bg-white rounded-[2rem] overflow-hidden border border-border shadow-2xl p-8 z-10"
+                >
                   <button
-                    type="button"
                     onClick={() => setIsLiaisonContactOpen(false)}
-                    className="px-6 py-2.5 bg-soft hover:bg-border/60 focus:outline-none text-ink text-xs font-semibold rounded-full border border-border/80 transition"
+                    className="absolute top-6 right-6 text-muted-foreground hover:text-ink cursor-pointer p-1 rounded-full hover:bg-soft transition animate-pulse"
                   >
-                    Cancel
+                    <X className="h-5 w-5" />
                   </button>
-                  <button
-                    type="submit"
-                    className="btn-coral rounded-full px-6 py-2.5 text-xs font-semibold inline-flex items-center gap-1.5 shadow"
+
+                  <div className="flex gap-3 items-center border-b border-border pb-6">
+                    <div className="bg-coral/10 text-coral rounded-full p-2 border border-coral/20">
+                      <Globe className="h-5 w-5 text-coral" />
+                    </div>
+                    <div>
+                      <span className="text-[10px] uppercase font-bold tracking-widest text-sky">
+                        Hopetohope.org Canadian Branch
+                      </span>
+                      <h3 className="text-xl text-ink font-semibold">Hopetohope Support Partner</h3>
+                    </div>
+                  </div>
+
+                  {/* Secure simulated contact portal form */}
+                  <form
+                    className="mt-6 space-y-4"
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      alert(
+                        "Thank you for reaching out! In production, this form will coordinate directly with rob@hopetohope.org via secure servers. Our Canadian coordinators will contact you shortly.",
+                      );
+                      setIsLiaisonContactOpen(false);
+                    }}
                   >
-                    Send Secure Message <Mail className="h-3.5 w-3.5" />
-                  </button>
-                </div>
-              </form>
-            </motion.div>
-          </div>
+                    <div>
+                      <label className="block text-xs uppercase tracking-wider font-bold text-coral mb-1">
+                        Canadian Liaison Subject
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={liaisonSubject}
+                        onChange={(e) => setLiaisonSubject(e.target.value)}
+                        className="w-full bg-soft text-ink border border-border px-4 py-3 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-coral/40"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-xs uppercase tracking-wider font-bold text-coral mb-1">
+                          Your Name
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          placeholder="e.g. Emily Wilson"
+                          className="w-full bg-soft text-ink border border-border px-4 py-3 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-coral/40"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs uppercase tracking-wider font-bold text-coral mb-1">
+                          Your Email
+                        </label>
+                        <input
+                          type="email"
+                          required
+                          placeholder="name@domain.ca"
+                          className="w-full bg-soft text-ink border border-border px-4 py-3 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-coral/40"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs uppercase tracking-wider font-bold text-coral mb-1">
+                        Message / Partnership Intention
+                      </label>
+                      <textarea
+                        required
+                        rows={4}
+                        placeholder="Tell us how you would like to support the primary school, build classrooms or sponsor meal programs."
+                        className="w-full bg-soft text-ink border border-border px-4 py-3 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-coral/40"
+                      />
+                    </div>
+
+                    <div className="bg-soft border border-border/80 rounded-xl px-4 py-3 flex gap-2.5 items-start text-[11px] text-muted-foreground leading-relaxed">
+                      <ShieldCheck className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
+                      <span>
+                        Your messages are encrypted and audited through Hopetohope.org partnership
+                        policies. No personal information is shared with outside vendors.
+                      </span>
+                    </div>
+
+                    <div className="pt-4 border-t border-border flex justify-end gap-3">
+                      <button
+                        type="button"
+                        onClick={() => setIsLiaisonContactOpen(false)}
+                        className="px-6 py-2.5 bg-soft hover:bg-border/60 focus:outline-none text-ink text-xs font-semibold rounded-full border border-border/80 transition"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="submit"
+                        className="btn-coral rounded-full px-6 py-2.5 text-xs font-semibold inline-flex items-center gap-1.5 shadow"
+                      >
+                        Send Secure Message <Mail className="h-3.5 w-3.5" />
+                      </button>
+                    </div>
+                  </form>
+                </motion.div>
+              </div>
+            )}
+          </AnimatePresence>,
+          document.body,
         )}
-      </AnimatePresence>
     </div>
   );
 }

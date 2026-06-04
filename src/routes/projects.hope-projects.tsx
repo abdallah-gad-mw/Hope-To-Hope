@@ -17,7 +17,6 @@ import {
   TrendingUp,
   Settings,
   Coins,
-  Globe,
   PlusCircle,
   Clock,
   ArrowLeft,
@@ -203,7 +202,7 @@ function HopeProjectsPage() {
                 <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-2xl border border-border/60 bg-white p-3 group">
                   <div className="relative w-full h-full rounded-2xl overflow-hidden bg-soft">
                     <img
-                      src="https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=800&q=80"
+                      src="/src/assets/images/kids.webp"
                       alt="Refugee youth working with agricultural products and smiles"
                       className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                       referrerPolicy="no-referrer"
@@ -368,10 +367,7 @@ function HopeProjectsPage() {
       </section>
 
       {/* SECTION 3: "The Maize Initiative" Featured Crowdfunding Campaign */}
-      <section
-        id="maize-milling-campaign"
-        className="py-24 bg-slate-50 border-b border-border"
-      >
+      <section id="maize-milling-campaign" className="py-24 bg-slate-50 border-b border-border">
         <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
             {/* Left Narrative Column */}
@@ -540,84 +536,61 @@ function HopeProjectsPage() {
         </div>
       </section>
 
-      {/* SECTION 4: Empathy Call to Action Panel */}
-      <section className="py-24 bg-white border-b border-border">
-        <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16 text-center">
-          <div className="rounded-[2.5rem] border-2 border-dashed border-sky/30 bg-sky/5 p-8 sm:p-14 relative overflow-hidden text-center backdrop-blur-sm">
-            <div className="absolute top-0 right-0 h-40 w-40 bg-gradient-to-bl from-sky/10 to-transparent rounded-bl-full pointer-events-none animate-pulse" />
 
-            <span className="text-xs uppercase tracking-[0.25em] text-coral font-bold bg-coral/5 px-4 py-1.5 rounded-full border border-coral/10 mb-6 inline-block leading-none">
-              Resonating Sustainability
-            </span>
 
-            <h3
-              className="text-2xl sm:text-3xl md:text-4xl text-ink font-bold tracking-tight leading-tight max-w-2xl mx-auto mb-8 text-balance"
-              style={{ fontFamily: "'Playfair Display', serif" }}
-            >
-              “If any of these Hope Projects resonate with you, please consider sponsoring hope
-              today!”
-            </h3>
+      {/* SECTION 5: Call To Action Footer Banner */}
+      <section className="py-24 bg-soft relative overflow-hidden">
+        {/* Soft elegant blur rings matching design guide */}
+        <div className="absolute top-1/2 left-1/3 -translate-y-1/2 h-[350px] w-[350px] rounded-full bg-coral/5 blur-[90px] pointer-events-none animate-pulse" />
+        <div className="absolute top-1/3 right-1/4 -translate-y-1/2 h-[250px] w-[250px] rounded-full bg-indigo-500/5 blur-[80px] pointer-events-none" />
 
-            {/* CTA prominent action button styled precisely according to guidelines */}
-            <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
-              <a
-                href="https://www.theforgottenintl.org/donate/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-[#f05153] hover:bg-[#d63d3f] text-white rounded-full px-8 py-4 text-xs uppercase tracking-wider font-bold transition duration-200 text-center shadow-lg hover:shadow-[#f05153]/35 flex items-center justify-center gap-2 group cursor-pointer w-full sm:w-auto"
-              >
-                <span>Give Hope Now</span>
-                <ArrowRight className="h-4 w-4 transform group-hover:translate-x-1 transition-transform" />
-              </a>
-            </div>
+        <div className="max-w-5xl mx-auto px-6 md:px-12 lg:px-16 relative z-10 text-center">
+          {/* Glassmorphic main container */}
+          <div className="relative rounded-[2.5rem] bg-white border border-border/80 p-8 md:p-14 shadow-xl overflow-hidden text-center backdrop-blur-sm">
+            <div className="absolute top-0 right-0 h-40 w-40 bg-gradient-to-bl from-coral/5 to-transparent rounded-bl-full pointer-events-none" />
 
-            <div className="mt-8 flex items-center justify-center gap-1.5 text-xs text-muted-foreground/80 font-mono">
-              <ShieldCheck className="h-3.5 w-3.5 text-slate-400" />
-              <span>
-                Certified direct-to-field pipeline through registered 501c3 & Canadian Charities
+            <div className="max-w-2xl mx-auto flex flex-col items-center">
+              <span className="text-[11px] uppercase tracking-[0.25em] font-extrabold text-coral bg-coral/5 border border-coral/15 px-4 py-1.5 rounded-full mb-6 leading-none">
+                Resonating Sustainability
               </span>
+
+              <h2 className="text-3xl sm:text-4xl text-ink font-semibold tracking-tight leading-none mb-4 text-balance">
+                “If any of these Hope Projects resonate with you, please consider sponsoring hope today!”
+              </h2>
+
+              <p className="text-muted-foreground text-sm sm:text-base leading-relaxed text-balance mb-10 max-w-xl">
+                Empowering vulnerable communities through sustainable, holistic development across four interconnected pillars of hope.
+              </p>
+
+              {/* Action Buttons styled precisely according to brand constraints */}
+              <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto items-stretch sm:items-center">
+                {/* Solid Coral Red Button 1 (#f05153) */}
+                <a
+                  href="https://www.theforgottenintl.org/donate/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-[#f05153] hover:bg-[#d63d3f] text-white rounded-full px-8 py-4 text-xs uppercase tracking-wider font-bold transition duration-200 text-center shadow-lg hover:shadow-[#f05153]/35 flex items-center justify-center gap-2 group cursor-pointer"
+                >
+                  <span>Give Hope Now</span>
+                  <ArrowRight className="h-4 w-4 transform group-hover:translate-x-1 transition-transform" />
+                </a>
+
+                
+              </div>
+
+              <div className="mt-8 flex items-center gap-1.5 text-xs text-muted-foreground/80 font-mono">
+                <ShieldCheck className="h-3.5 w-3.5 text-slate-400" />
+                <span>
+                  Certified direct-to-field pipeline through registered 501c3 & Canadian Charities
+                </span>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* SECTION 5: Navigation Secondary Loop Footer */}
-      <footer className="py-20 px-6 bg-slate-900 border-t border-white/10 text-white relative">
-        <div className="max-w-5xl mx-auto text-center flex flex-col items-center">
-          <span className="text-[10px] uppercase tracking-[0.25em] font-extrabold text-sky/80 bg-sky/10 border border-sky/20 px-4 py-1.5 rounded-full mb-8 leading-none">
-            Secondary Navigation Loop
-          </span>
 
-          <h4 className="text-xl font-bold tracking-tight mb-2">Angels Care Uganda</h4>
-          <p className="text-xs text-slate-400 max-w-md mx-auto text-balance leading-relaxed mb-10">
-            Fostering refugee self-sufficiency, medical welfare security, and state licensing
-            programs inside Kyaka II Settlement.
-          </p>
-
-          {/* Clean Redirection Pathways */}
-          <div className="flex flex-col sm:flex-row gap-6 items-center justify-center select-none">
-            <Link
-              to="/"
-              className="px-6 py-3 rounded-full bg-white/10 hover:bg-white hover:text-ink text-xs uppercase tracking-wider font-bold transition duration-200 inline-flex items-center gap-2 border border-white/10"
-            >
-              <ArrowLeft className="h-3.5 w-3.5" />
-              <span>Back to Home Page</span>
-            </Link>
-
-            <Link
-              to="/about/our-team"
-              className="px-6 py-3 rounded-full border border-white/20 hover:border-sky text-white hover:text-sky text-xs uppercase tracking-wider font-bold transition duration-200 inline-flex items-center gap-2"
-            >
-              <span>Explore Our Team</span>
-              <ChevronRight className="h-3.5 w-3.5" />
-            </Link>
-          </div>
-
-          <p className="mt-16 text-[10px] text-slate-500 font-mono uppercase tracking-widest">
-            © 2026 Angels Care Uganda. All Rights Reserved.
-          </p>
-        </div>
-      </footer>
+      
     </div>
   );
 }
