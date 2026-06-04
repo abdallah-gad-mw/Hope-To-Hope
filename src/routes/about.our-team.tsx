@@ -383,7 +383,7 @@ function OurTeamPage() {
       </section>
 
       {/* 2. Senior Leadership Section */}
-      <section id="leadership" className="py-24 bg-soft border-b border-border relative">
+      <section id="leadership" className="py-24 bg-soft border-border relative">
         <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
           <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-16">
             <span className="text-xs uppercase tracking-[0.25em] text-sky font-bold bg-sky/5 px-3 py-1 rounded-full border border-sky/10 mb-4">
@@ -563,7 +563,7 @@ function OurTeamPage() {
       </section>
 
       {/* 3. Inline Activity Banner (Horizontal visual card) */}
-      <section className="py-12 bg-background">
+      <section className="bg-soft">
         <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
           <div className="relative rounded-[2.5rem] overflow-hidden border border-border bg-ink text-white p-8 md:p-12 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-10 group">
             {/* Visual background image with gradient overlay */}

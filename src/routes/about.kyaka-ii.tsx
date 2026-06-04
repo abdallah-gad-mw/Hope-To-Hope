@@ -394,7 +394,7 @@ function KyakaIISettlementPage() {
                 {/* Primary Image */}
                 <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-2xl border border-border/50 group">
                   <img
-                    src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1200&q=80"
+                    src="/src/assets/images/kids.webp"
                     alt="Happy children at Angels Care school smiling"
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
@@ -404,7 +404,7 @@ function KyakaIISettlementPage() {
                 {/* Secondary Offset Image */}
                 <div className="absolute -bottom-8 -right-6 md:-right-8 w-1/2 aspect-square rounded-2xl overflow-hidden border-4 border-white shadow-2xl group hidden sm:block">
                   <img
-                    src="https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=600&q=80"
+                    src="/src/assets/images/school/2.webp"
                     alt="Active learning session"
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
