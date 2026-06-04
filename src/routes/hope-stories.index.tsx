@@ -17,8 +17,8 @@ export const Route = createFileRoute("/hope-stories/")({
 
 function HopeStoriesArchivePage() {
   return (
-    <div className="bg-soft min-h-screen pt-32 pb-24 px-6 md:px-12">
-      <div className="max-w-7xl mx-auto">
+    <div className="bg-soft min-h-screen pt-32 pb-24">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
         {/* TASK 1 HERO HEADER: Centered, minimal, and simple */}
         <header className="text-center max-w-2xl mx-auto mb-16 md:mb-24 reveal">
           <span className="text-xs uppercase tracking-widest font-semibold text-coral/80 bg-coral/5 border border-coral/15 px-4 py-1.5 rounded-full inline-block mb-4">

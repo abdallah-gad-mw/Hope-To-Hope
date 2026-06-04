@@ -66,12 +66,12 @@ function OurVisionPage() {
   return (
     <div className="bg-background min-h-screen text-foreground overflow-x-hidden">
       {/* 1. Page Hero Banner Section */}
-      <section className="relative pt-36 md:pt-44 pb-20 px-6 bg-gradient-to-b from-soft to-background overflow-hidden border-b border-border">
+      <section className="relative pt-36 md:pt-44 pb-20 bg-gradient-to-b from-soft to-background overflow-hidden border-b border-border">
         {/* Abstract decorative ambient background shapes */}
         <div className="absolute -top-40 -left-40 h-[400px] w-[400px] rounded-full bg-sky/10 blur-3xl pointer-events-none" />
         <div className="absolute top-20 -right-40 h-[350px] w-[350px] rounded-full bg-coral/5 blur-3xl pointer-events-none" />
 
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             {/* Hero text */}
             <div className="lg:col-span-6 flex flex-col items-start">
@@ -141,8 +141,8 @@ function OurVisionPage() {
       </section>
 
       {/* 2. "Who We Are & Our Journey" Section */}
-      <section id="journey" className="py-24 md:py-32 px-6 border-b border-border bg-white">
-        <div className="max-w-7xl mx-auto">
+      <section id="journey" className="py-24 md:py-32 border-b border-border bg-white">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
           <div className="grid lg:grid-cols-12 gap-12 md:gap-16 items-center">
             {/* Left Column: Story text */}
             <div className="lg:col-span-6 flex flex-col justify-center">
@@ -233,8 +233,8 @@ function OurVisionPage() {
       </section>
 
       {/* 3. "Current Impact Metrics & Demographics" Section */}
-      <section className="py-24 md:py-32 px-6 bg-soft border-b border-border">
-        <div className="max-w-7xl mx-auto">
+      <section className="py-24 md:py-32 bg-soft border-b border-border">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
           {/* Section Header */}
           <div className="max-w-3xl mx-auto text-center mb-16 md:mb-20">
             <span className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-coral font-bold">
@@ -389,8 +389,8 @@ function OurVisionPage() {
       </section>
 
       {/* 4. "Trusted Global Alliances" Section */}
-      <section className="py-24 md:py-32 px-6 bg-white border-b border-border">
-        <div className="max-w-7xl mx-auto">
+      <section className="py-24 md:py-32 bg-white border-b border-border">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
           {/* Section Header */}
           <div className="max-w-3xl mx-auto text-center mb-16 md:mb-20">
             <span className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-coral font-bold">
@@ -459,12 +459,12 @@ function OurVisionPage() {
       </section>
 
       {/* 5. "International Partnership Spotlight" Section */}
-      <section className="py-24 md:py-32 px-6 bg-gradient-to-br from-soft to-[#edf4f9] relative overflow-hidden">
+      <section className="py-24 md:py-32 bg-gradient-to-br from-soft to-[#edf4f9] relative overflow-hidden">
         {/* Background visual graphics */}
         <div className="absolute -left-32 bottom-0 h-96 w-96 rounded-full bg-coral/5 blur-3xl" />
         <div className="absolute right-0 top-0 h-[450px] w-[450px] rounded-full bg-sky/10 blur-3xl" />
 
-        <div className="max-w-5xl mx-auto relative">
+        <div className="max-w-5xl mx-auto px-6 md:px-12 lg:px-16 relative">
           <div className="rounded-[32px] md:rounded-[44px] bg-white border border-sky/20 p-8 sm:p-12 md:p-16 shadow-soft relative overflow-hidden">
             {/* Glowing borders */}
             <div className="absolute inset-0 border-t-8 border-sky pointer-events-none" />

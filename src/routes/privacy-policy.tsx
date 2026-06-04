@@ -16,8 +16,8 @@ export const Route = createFileRoute("/privacy-policy")({
 
 function PrivacyPolicyPage() {
   return (
-    <div className="bg-soft min-h-screen pt-32 pb-24 px-6 md:px-12">
-      <div className="max-w-3xl mx-auto bg-white rounded-3xl border border-border p-8 md:p-12 shadow-soft reveal">
+    <div className="bg-soft min-h-screen pt-32 pb-24">
+      <div className="max-w-3xl mx-auto px-6 md:px-12 lg:px-16 bg-white rounded-3xl border border-border p-8 md:p-12 shadow-soft reveal">
         {/* Back navigation */}
         <div className="mb-8">
           <Link

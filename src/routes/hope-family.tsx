@@ -59,8 +59,8 @@ function HopeFamilyPage() {
   return (
     <div className="bg-background min-h-screen">
       {/* 1. Full-Screen Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center justify-center pt-32 pb-20 px-6 md:px-12 text-center bg-gradient-to-b from-soft via-background to-background">
-        <div className="max-w-4xl mx-auto reveal">
+      <section className="relative min-h-[90vh] flex items-center justify-center pt-32 pb-20 text-center bg-gradient-to-b from-soft via-background to-background">
+        <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16 reveal">
           <span className="text-xs uppercase tracking-widest font-semibold text-coral bg-coral/5 border border-coral/15 px-4 py-1.5 rounded-full inline-flex items-center gap-1.5 mb-6">
             <Sparkles className="h-3 w-3 animate-pulse" /> Monthly Giving Community
           </span>
@@ -82,8 +82,8 @@ function HopeFamilyPage() {
       </section>
 
       {/* 2. Description Section ("What is the Hope Family?") */}
-      <section className="py-20 px-6 md:px-12 bg-white border-y border-border">
-        <div className="max-w-3xl mx-auto text-center reveal reveal-2">
+      <section className="py-20 bg-white border-y border-border">
+        <div className="max-w-3xl mx-auto px-6 md:px-12 lg:px-16 text-center reveal reveal-2">
           <h2 className="text-3xl md:text-4xl text-ink font-extrabold tracking-tight mb-6">
             What is the Hope Family?
           </h2>
@@ -97,8 +97,8 @@ function HopeFamilyPage() {
       </section>
 
       {/* 3. Interactive Accordion Section ("Why join the Hope Family?") */}
-      <section className="py-24 px-6 md:px-12 bg-soft">
-        <div className="max-w-3xl mx-auto reveal reveal-2">
+      <section className="py-24 bg-soft">
+        <div className="max-w-3xl mx-auto px-6 md:px-12 lg:px-16 reveal reveal-2">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl text-ink font-extrabold tracking-tight mb-4">
               Why join the Hope Family?
@@ -158,8 +158,8 @@ function HopeFamilyPage() {
       </section>
 
       {/* 4. Core Context Section ("Why give monthly?") */}
-      <section className="py-24 px-6 md:px-12 bg-white">
-        <div className="max-w-5xl mx-auto reveal">
+      <section className="py-24 bg-white">
+        <div className="max-w-5xl mx-auto px-6 md:px-12 lg:px-16 reveal">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl text-ink font-extrabold tracking-tight mb-4">
               Why give monthly?
@@ -211,8 +211,8 @@ function HopeFamilyPage() {
       </section>
 
       {/* 5. Split 2-Column Donation Section (The Main Layout Action) */}
-      <section id="donation-section" className="py-24 px-6 md:px-12 bg-soft border-t border-border">
-        <div className="max-w-6xl mx-auto reveal">
+      <section id="donation-section" className="py-24 bg-soft border-t border-border">
+        <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16 reveal">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
             {/* Left Column (Text & Instructions) */}
             <div className="lg:col-span-5 space-y-6">
@@ -257,8 +257,8 @@ function HopeFamilyPage() {
       </section>
 
       {/* 6. Premium Testimonial Section */}
-      <section className="py-24 px-6 md:px-12 bg-white">
-        <div className="max-w-4xl mx-auto text-center reveal">
+      <section className="py-24 bg-white">
+        <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16 text-center reveal">
           <div className="relative">
             <span
               aria-hidden
@@ -279,8 +279,8 @@ function HopeFamilyPage() {
       </section>
 
       {/* 7. Separate Newsletter Form */}
-      <section className="py-20 px-6 md:px-12 bg-soft border-t border-border">
-        <div className="max-w-3xl mx-auto text-center reveal">
+      <section className="py-20 bg-soft border-t border-border">
+        <div className="max-w-3xl mx-auto px-6 md:px-12 lg:px-16 text-center reveal">
           <div className="h-12 w-12 rounded-full bg-[#1cbee7]/5 border border-[#1cbee7]/15 flex items-center justify-center text-[#1cbee7] mx-auto mb-6">
             <Mail className="h-5 w-5" />
           </div>

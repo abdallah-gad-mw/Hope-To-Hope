@@ -48,14 +48,13 @@ function KyakaIISettlementPage() {
   return (
     <div className="bg-background min-h-screen text-foreground overflow-x-hidden">
       {/* 1. Dynamic Page Hero Section */}
-      <section className="relative pt-32 md:pt-40 pb-20 px-6 bg-gradient-to-b from-soft to-background overflow-hidden border-b border-border">
+      <section className="relative pt-32 md:pt-40 pb-20 bg-gradient-to-b from-soft to-background overflow-hidden border-b border-border">
         {/* Soft radial background glow for premium vibe */}
         <div className="absolute top-1/4 left-1/4 -translate-y-1/2 -translate-x-1/2 h-[500px] w-[500px] rounded-full bg-sky/10 blur-[100px] pointer-events-none" />
         <div className="absolute bottom-10 right-0 h-[400px] w-[400px] rounded-full bg-coral/5 blur-[80px] pointer-events-none" />
 
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-            {/* Hero left text content */}
             <div className="lg:col-span-7 flex flex-col items-start">
               <span className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-coral font-bold bg-coral/5 px-3 py-1 rounded-full border border-coral/10 mb-5">
                 <MapPin className="h-3 w-3 animate-bounce text-coral" />
@@ -114,8 +113,8 @@ function KyakaIISettlementPage() {
       </section>
 
       {/* 2. "The Big Picture" Global Refugee Stats Section */}
-      <section id="stats" className="py-16 md:py-20 px-6 bg-white border-b border-border">
-        <div className="max-w-7xl mx-auto">
+      <section id="stats" className="py-16 md:py-20 bg-white border-b border-border">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
           {/* Section subtitle summary heading */}
           <div className="text-center max-w-2xl mx-auto mb-12">
             <span className="text-xs uppercase tracking-widest text-sky font-bold">
@@ -167,8 +166,8 @@ function KyakaIISettlementPage() {
       </section>
 
       {/* 3. "History, Zone & Scale" Section (Bento Grid Split Layout) */}
-      <section id="history" className="py-24 md:py-32 px-6 bg-soft border-b border-border">
-        <div className="max-w-7xl mx-auto">
+      <section id="history" className="py-24 md:py-32 bg-soft border-b border-border">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
           {/* Section header */}
           <div className="max-w-3xl mx-auto text-center mb-16 md:mb-20">
             <span className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-coral font-bold bg-coral/5 px-3 py-1 rounded-full border border-coral/10">
@@ -318,8 +317,8 @@ function KyakaIISettlementPage() {
       </section>
 
       {/* 5. "Our Response & Mission" Section */}
-      <section id="response" className="py-24 md:py-32 px-6 bg-white">
-        <div className="max-w-7xl mx-auto">
+      <section id="response" className="py-24 md:py-32 bg-white">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             {/* Left side text details */}
             <div className="lg:col-span-7">

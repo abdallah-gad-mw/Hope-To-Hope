@@ -106,12 +106,12 @@ function OrphanageProjectPage() {
       style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
     >
       {/* SECTION 1: Emotional Page Hero Section */}
-      <section className="relative pt-32 pb-24 md:pt-40 md:pb-32 px-6 bg-gradient-to-b from-soft to-background overflow-hidden border-b border-border">
+      <section className="relative pt-32 pb-24 md:pt-40 md:pb-32 bg-gradient-to-b from-soft to-background overflow-hidden border-b border-border">
         {/* Soft elegant background glows */}
         <div className="absolute top-1/4 right-1/4 -translate-y-1/2 h-[450px] w-[450px] rounded-full bg-sky/5 blur-[100px] pointer-events-none" />
         <div className="absolute bottom-10 left-10 h-[350px] w-[350px] rounded-full bg-coral/5 blur-[80px] pointer-events-none" />
 
-        <div className="max-w-7xl mx-auto relative z-10">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16 relative z-10">
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             {/* Left Content Column */}
             <div className="lg:col-span-7 flex flex-col items-start">
@@ -191,8 +191,8 @@ function OrphanageProjectPage() {
       </section>
 
       {/* SECTION 2: "Our Dual Care Model" Section */}
-      <section id="dual-care-model" className="py-24 px-6 bg-white border-b border-border relative">
-        <div className="max-w-7xl mx-auto">
+      <section id="dual-care-model" className="py-24 bg-white border-b border-border relative">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
           {/* Section Section Header */}
           <div className="max-w-3xl mx-auto text-center mb-16">
             <span className="text-xs uppercase tracking-[0.25em] text-coral font-bold bg-coral/5 px-4 py-1.5 rounded-full border border-coral/10 mb-4 inline-block">
@@ -315,9 +315,9 @@ function OrphanageProjectPage() {
       {/* SECTION 3: "The Cost of a Future" Impact & Transparency Section (Bento Financial Dashboard) */}
       <section
         id="transparency-dashboard"
-        className="py-24 px-6 bg-slate-50 border-b border-border"
+        className="py-24 bg-slate-50 border-b border-border"
       >
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
           <div className="grid lg:grid-cols-12 gap-12 items-center">
             {/* Left Column: Context Text */}
             <div className="lg:col-span-5 flex flex-col justify-center">
@@ -520,12 +520,12 @@ function OrphanageProjectPage() {
       </section>
 
       {/* SECTION 5: Core Action Footer */}
-      <section className="py-24 px-6 bg-slate-50 relative overflow-hidden">
+      <section className="py-24 bg-slate-50 relative overflow-hidden">
         {/* Decorative blur elements */}
         <div className="absolute top-1/2 left-1/3 -translate-y-1/2 h-[350px] w-[350px] rounded-full bg-coral/5 blur-[90px] pointer-events-none" />
         <div className="absolute top-1/3 right-1/4 -translate-y-1/2 h-[250px] w-[250px] rounded-full bg-indigo-500/5 blur-[80px] pointer-events-none" />
 
-        <div className="max-w-5xl mx-auto relative z-10 text-center">
+        <div className="max-w-5xl mx-auto px-6 md:px-12 lg:px-16 relative z-10 text-center">
           <div className="relative rounded-[2.5rem] bg-white border border-border/80 p-8 md:p-14 shadow-xl overflow-hidden text-center backdrop-blur-sm">
             <div className="absolute top-0 right-0 h-40 w-40 bg-gradient-to-bl from-coral/5 to-transparent rounded-bl-full pointer-events-none" />
 

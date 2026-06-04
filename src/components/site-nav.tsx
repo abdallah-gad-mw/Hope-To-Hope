@@ -56,7 +56,7 @@ export function SiteNav() {
   }, [open]);
 
   return (
-    <header className="fixed top-0 inset-x-0 z-50 px-4 pt-4">
+    <header className="fixed top-0 inset-x-0 z-50 pt-4 px-6 md:px-12 lg:px-16">
       <nav
         className={`max-w-7xl mx-auto flex items-center justify-between rounded-full transition-all duration-300 px-4 md:px-6 py-2 ${
           scrolled

@@ -18,7 +18,7 @@ export const Route = createFileRoute("/hope-stories/online-launch")({
 function OnlineLaunchPage() {
   return (
     <div className="bg-white min-h-screen pt-32 pb-24">
-      <div className="max-w-4xl mx-auto px-6">
+      <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
         {/* Back link */}
         <div className="mb-10 reveal">
           <Link

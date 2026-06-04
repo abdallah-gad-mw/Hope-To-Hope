@@ -282,12 +282,12 @@ function OurTeamPage() {
   return (
     <div className="bg-background min-h-screen text-foreground overflow-x-hidden">
       {/* 1. Page Hero Section */}
-      <section className="relative pt-32 md:pt-40 pb-20 px-6 bg-gradient-to-b from-soft to-background overflow-hidden border-b border-border">
+      <section className="relative pt-32 md:pt-40 pb-20 bg-gradient-to-b from-soft to-background overflow-hidden border-b border-border">
         {/* Soft background glow accents */}
         <div className="absolute top-1/4 left-1/4 -translate-y-1/2 -translate-x-1/2 h-[500px] w-[500px] rounded-full bg-sky/10 blur-[100px] pointer-events-none" />
         <div className="absolute bottom-10 right-0 h-[400px] w-[400px] rounded-full bg-coral/5 blur-[80px] pointer-events-none" />
 
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             {/* Hero Left content block */}
             <div className="lg:col-span-7 flex flex-col items-start reveal">
@@ -367,7 +367,7 @@ function OurTeamPage() {
 
       {/* 2. Senior Leadership Section */}
       <section id="leadership" className="py-24 bg-soft border-b border-border relative">
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
           <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-16">
             <span className="text-xs uppercase tracking-[0.25em] text-sky font-bold bg-sky/5 px-3 py-1 rounded-full border border-sky/10 mb-4">
               Governing Bodies & Management
@@ -547,7 +547,7 @@ function OurTeamPage() {
 
       {/* 3. Inline Activity Banner (Horizontal visual card) */}
       <section className="py-12 bg-background">
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
           <div className="relative rounded-[2.5rem] overflow-hidden border border-border bg-ink text-white p-8 md:p-12 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-10 group">
             {/* Visual background image with gradient overlay */}
             <div className="absolute inset-0 opacity-20 group-hover:opacity-25 transition-opacity duration-500">
@@ -591,7 +591,7 @@ function OurTeamPage() {
 
       {/* 4. Interactive Team Directory */}
       <section id="directory" className="py-24 bg-soft border-b border-border">
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
           {/* Section Header */}
           <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-12">
             <div className="max-w-2xl">
@@ -760,7 +760,7 @@ function OurTeamPage() {
         {/* Soft background decor */}
         <div className="absolute top-1/2 right-1/4 -translate-y-1/2 h-[350px] w-[350px] rounded-full bg-coral/5 blur-[90px] pointer-events-none" />
 
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             {/* Canadian Liaison Info Column */}
             <div>

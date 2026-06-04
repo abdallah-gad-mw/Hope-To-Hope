@@ -19,8 +19,8 @@ export function SiteFooter() {
   };
 
   return (
-    <footer className="px-4 pb-6 pt-12">
-      <div className="max-w-7xl mx-auto rounded-[32px] bg-ink text-white p-10 md:p-14">
+    <footer className="bg-ink text-white w-full border-t border-white/5">
+      <div className="max-w-7xl mx-auto px-6 py-12 md:px-12 lg:px-16">
         {/* Inline Newsletter Signup */}
         <div className="border-b border-white/10 pb-10 mb-10">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
@@ -108,7 +108,7 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-12 pt-6 border-t border-white/10 flex flex-col md:flex-row gap-4 items-center justify-between text-sm text-white/60">
-          <p>© {new Date().getFullYear()} Angels Care Uganda. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Angels Care Uganda. All rights reserved. Powered by <a href="https://morellis.us/" target="_blank">Morellis</a></p>
           <div className="flex gap-6">
             <Link to="/privacy-policy" className="hover:text-white transition">
               Privacy Policy

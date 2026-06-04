@@ -144,12 +144,12 @@ function HopeProjectsPage() {
       style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
     >
       {/* SECTION 1: Visionary Page Hero Section */}
-      <section className="relative pt-32 pb-24 md:pt-40 md:pb-32 px-6 bg-gradient-to-b from-soft to-background overflow-hidden border-b border-border">
+      <section className="relative pt-32 pb-24 md:pt-40 md:pb-32 bg-gradient-to-b from-soft to-background overflow-hidden border-b border-border">
         {/* Soft elegant background glows */}
         <div className="absolute top-1/4 right-1/4 -translate-y-1/2 h-[450px] w-[450px] rounded-full bg-sky/5 blur-[100px] pointer-events-none" />
         <div className="absolute bottom-10 left-10 h-[350px] w-[350px] rounded-full bg-coral/5 blur-[80px] pointer-events-none" />
 
-        <div className="max-w-7xl mx-auto relative z-10">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16 relative z-10">
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             {/* Left Content Column */}
             <div className="lg:col-span-7 flex flex-col items-start">
@@ -225,8 +225,8 @@ function HopeProjectsPage() {
       </section>
 
       {/* SECTION 2: "Projects in Need of Support" Interactive Grid */}
-      <section id="projects-in-need" className="py-24 px-6 bg-white border-b border-border">
-        <div className="max-w-7xl mx-auto">
+      <section id="projects-in-need" className="py-24 bg-white border-b border-border">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
           {/* Section Headers */}
           <div className="max-w-3xl mb-16 text-left">
             <span className="text-xs uppercase tracking-[0.25em] text-coral font-bold bg-coral/5 px-4 py-1.5 rounded-full border border-coral/10 mb-4 inline-block">
@@ -370,9 +370,9 @@ function HopeProjectsPage() {
       {/* SECTION 3: "The Maize Initiative" Featured Crowdfunding Campaign */}
       <section
         id="maize-milling-campaign"
-        className="py-24 px-6 bg-slate-50 border-b border-border"
+        className="py-24 bg-slate-50 border-b border-border"
       >
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
             {/* Left Narrative Column */}
             <div className="lg:col-span-5 flex flex-col justify-center">
@@ -541,8 +541,8 @@ function HopeProjectsPage() {
       </section>
 
       {/* SECTION 4: Empathy Call to Action Panel */}
-      <section className="py-24 px-6 bg-white border-b border-border">
-        <div className="max-w-4xl mx-auto text-center">
+      <section className="py-24 bg-white border-b border-border">
+        <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16 text-center">
           <div className="rounded-[2.5rem] border-2 border-dashed border-sky/30 bg-sky/5 p-8 sm:p-14 relative overflow-hidden text-center backdrop-blur-sm">
             <div className="absolute top-0 right-0 h-40 w-40 bg-gradient-to-bl from-sky/10 to-transparent rounded-bl-full pointer-events-none animate-pulse" />
 
