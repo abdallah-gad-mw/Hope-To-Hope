@@ -536,8 +536,6 @@ function HopeProjectsPage() {
         </div>
       </section>
 
-
-
       {/* SECTION 5: Call To Action Footer Banner */}
       <section className="py-24 bg-soft relative overflow-hidden">
         {/* Soft elegant blur rings matching design guide */}
@@ -555,11 +553,13 @@ function HopeProjectsPage() {
               </span>
 
               <h2 className="text-3xl sm:text-4xl text-ink font-semibold tracking-tight leading-none mb-4 text-balance">
-                “If any of these Hope Projects resonate with you, please consider sponsoring hope today!”
+                “If any of these Hope Projects resonate with you, please consider sponsoring hope
+                today!”
               </h2>
 
               <p className="text-muted-foreground text-sm sm:text-base leading-relaxed text-balance mb-10 max-w-xl">
-                Empowering vulnerable communities through sustainable, holistic development across four interconnected pillars of hope.
+                Empowering vulnerable communities through sustainable, holistic development across
+                four interconnected pillars of hope.
               </p>
 
               {/* Action Buttons styled precisely according to brand constraints */}
@@ -574,8 +574,6 @@ function HopeProjectsPage() {
                   <span>Give Hope Now</span>
                   <ArrowRight className="h-4 w-4 transform group-hover:translate-x-1 transition-transform" />
                 </a>
-
-                
               </div>
 
               <div className="mt-8 flex items-center gap-1.5 text-xs text-muted-foreground/80 font-mono">
@@ -588,9 +586,6 @@ function HopeProjectsPage() {
           </div>
         </div>
       </section>
-
-
-      
     </div>
   );
 }

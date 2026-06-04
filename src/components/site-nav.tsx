@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { ChevronDown, Heart, Menu, X } from "lucide-react";
 import logo from "@/assets/angels-care-logo.webp.asset.json";
@@ -40,6 +40,9 @@ export function SiteNav() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [openGroup, setOpenGroup] = useState<string | null>(null);
+  const location = useLocation();
+
+  const isHomeUnscrolled = location.pathname === "/" && !scrolled;
 
   useEffect(() => {
     const f = () => setScrolled(window.scrollY > 16);
@@ -69,34 +72,43 @@ export function SiteNav() {
         </Link>
 
         <ul className="hidden lg:flex items-center gap-1 text-sm">
-          {NAV.map((n) => (
-            <li key={n.label} className="relative group">
-              <Link
-                to={n.to}
-                className="px-3 py-2 rounded-full text-foreground/75 hover:text-foreground hover:bg-white/70 transition inline-flex items-center gap-1"
-                activeOptions={{ exact: n.to === "/" }}
-                activeProps={{ className: "text-coral font-semibold" }}
-              >
-                {n.label}
-                {n.children && <ChevronDown className="h-3.5 w-3.5 opacity-60" />}
-              </Link>
-              {n.children && (
-                <div className="invisible opacity-0 translate-y-1 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 transition-all absolute left-0 top-full pt-3 w-60 z-50">
-                  <div className="rounded-2xl bg-white border border-border shadow-xl p-2">
-                    {n.children.map((c) => (
-                      <Link
-                        key={c.to}
-                        to={c.to}
-                        className="block px-3 py-2 rounded-xl text-sm text-foreground/80 hover:text-coral hover:bg-soft transition"
-                      >
-                        {c.label}
-                      </Link>
-                    ))}
+          {NAV.map((n) => {
+            const isActive =
+              n.to === "/" ? location.pathname === "/" : location.pathname.startsWith(n.to);
+            return (
+              <li key={n.label} className="relative group">
+                <Link
+                  to={n.to}
+                  className={`px-3 py-2 rounded-full transition inline-flex items-center gap-1 ${
+                    isActive
+                      ? "text-coral font-semibold"
+                      : isHomeUnscrolled
+                        ? "text-white/95 hover:text-white hover:bg-white/10"
+                        : "text-foreground/75 hover:text-foreground hover:bg-white/70"
+                  }`}
+                  activeOptions={{ exact: n.to === "/" }}
+                >
+                  {n.label}
+                  {n.children && <ChevronDown className="h-3.5 w-3.5 opacity-60" />}
+                </Link>
+                {n.children && (
+                  <div className="invisible opacity-0 translate-y-1 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 transition-all absolute left-0 top-full pt-3 w-60 z-50">
+                    <div className="rounded-2xl bg-white border border-border shadow-xl p-2">
+                      {n.children.map((c) => (
+                        <Link
+                          key={c.to}
+                          to={c.to}
+                          className="block px-3 py-2 rounded-xl text-sm text-foreground/80 hover:text-coral hover:bg-soft transition"
+                        >
+                          {c.label}
+                        </Link>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
-            </li>
-          ))}
+                )}
+              </li>
+            );
+          })}
         </ul>
 
         <div className="flex items-center gap-2">

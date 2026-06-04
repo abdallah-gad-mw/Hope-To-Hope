@@ -415,8 +415,6 @@ function OrphanageProjectPage() {
         </div>
       </section>
 
-      
-
       {/* SECTION 5: Core Action Footer */}
       <section className="py-24 bg-slate-50 relative overflow-hidden">
         {/* Decorative blur elements */}
