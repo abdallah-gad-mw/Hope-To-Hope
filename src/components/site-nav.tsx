@@ -59,16 +59,16 @@ export function SiteNav() {
   }, [open]);
 
   return (
-    <header className="fixed top-0 inset-x-0 z-50 pt-4 px-6 md:px-12 lg:px-16">
+    <header className="fixed top-0 inset-x-0 z-50 pt-3 sm:pt-4 px-3 sm:px-6 md:px-12 lg:px-16">
       <nav
-        className={`max-w-7xl mx-auto flex items-center justify-between rounded-full transition-all duration-300 px-4 md:px-6 py-2 ${
+        className={`max-w-7xl mx-auto flex items-center justify-between rounded-full transition-all duration-300 px-3 sm:px-6 py-1.5 sm:py-2 ${
           scrolled
             ? "glass backdrop-blur-md shadow-[0_10px_40px_-10px_rgba(0,0,0,0.12)] border border-white/20 pdi-10-20"
             : "bg-white/20 backdrop-blur-md border border-white/10 pdi-10-20"
         }`}
       >
         <Link to="/" className="flex items-center gap-2 shrink-0">
-          <img src={logo.url} alt="Angels Care Uganda" className="h-9 md:h-10 w-auto" />
+          <img src={logo.url} alt="Angels Care Uganda" className="h-7 sm:h-9 md:h-10 w-auto" />
         </Link>
 
         <ul className="hidden lg:flex items-center gap-1 text-sm">
@@ -111,21 +111,21 @@ export function SiteNav() {
           })}
         </ul>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2">
           <a
             href={DONATE_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 btn-coral rounded-full px-4 md:px-5 py-2.5 text-sm font-medium"
+            className="inline-flex items-center gap-1.5 sm:gap-2 btn-coral rounded-full px-3 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm font-medium shrink-0"
           >
-            Donate Now <Heart className="h-3.5 w-3.5 fill-current" />
+            Donate Now <Heart className="h-3 w-3 sm:h-3.5 sm:w-3.5 fill-current" />
           </a>
           <button
             onClick={() => setOpen(true)}
-            className="lg:hidden grid place-items-center h-10 w-10 rounded-full bg-ink text-white"
+            className="lg:hidden grid place-items-center h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-ink text-white shrink-0"
             aria-label="Open menu"
           >
-            <Menu className="h-4 w-4" />
+            <Menu className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
           </button>
         </div>
       </nav>

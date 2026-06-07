@@ -18,8 +18,7 @@ import {
 import { motion } from "motion/react";
 
 const DONATE_URL = "https://www.theforgottenintl.org/donate/";
-const HERO_IMG =
-  "/src/assets/images/hero.webp";
+const HERO_IMG = "/src/assets/images/hero.webp";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -68,7 +67,7 @@ function IndexPage() {
   return (
     <div className="bg-background overflow-x-hidden">
       {/* SECTION 1: Full-Screen Hero Section */}
-      <section className="relative h-[95vh] min-h-[640px] w-full overflow-hidden flex items-center">
+      <section className="relative min-h-[100vh] w-full overflow-hidden flex items-center">
         <div className="absolute inset-0">
           <img
             src={HERO_IMG}
@@ -535,8 +534,6 @@ function IndexPage() {
         </div>
       </section>
 
-      
-
       {/* SECTION 5: Sustainable Hope Projects */}
       <section className="py-24 bg-soft border-t border-b border-border">
         <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
@@ -655,8 +652,6 @@ function IndexPage() {
         </div>
       </section>
 
-
-
       {/* 3. Inline Activity Banner (Horizontal visual card) */}
       <section className="">
         <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
@@ -699,11 +694,6 @@ function IndexPage() {
           </div>
         </div>
       </section>
-
-      
-
-
-      
 
       {/* SECTION 9: Direct Contact Area & Form */}
       <section id="contact" className="py-24 bg-white">

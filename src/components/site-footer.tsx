@@ -37,7 +37,7 @@ export function SiteFooter() {
                   <span className="text-sm font-semibold">Successfully Subscribed!</span>
                 </div>
               ) : (
-                <form onSubmit={handleSubscribe} className="flex gap-2 w-full">
+                <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-2 w-full">
                   <input
                     id="footer-newsletter-email"
                     type="email"
@@ -45,11 +45,11 @@ export function SiteFooter() {
                     placeholder="Your email address"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="flex-grow rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm text-white placeholder:text-white/40 outline-none transition focus:border-coral focus:ring-2 focus:ring-coral/20"
+                    className="flex-grow rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm text-white placeholder:text-white/40 outline-none transition focus:border-coral focus:ring-2 focus:ring-coral/20 w-full"
                   />
                   <button
                     type="submit"
-                    className="bg-[#1cbee7] hover:bg-[#15a2c6] text-white rounded-full px-6 py-3 text-xs uppercase tracking-wider font-bold transition duration-200 shrink-0"
+                    className="bg-[#1cbee7] hover:bg-[#15a2c6] text-white rounded-full px-6 py-3 text-xs uppercase tracking-wider font-bold transition duration-200 shrink-0 w-full sm:w-auto"
                   >
                     Subscribe
                   </button>
