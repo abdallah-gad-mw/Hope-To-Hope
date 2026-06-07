@@ -202,7 +202,7 @@ function HopeProjectsPage() {
                 <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-2xl border border-border/60 bg-white p-3 group">
                   <div className="relative w-full h-full rounded-2xl overflow-hidden bg-soft">
                     <img
-                      src="/src/assets/images/kids.webp"
+                      src="/images/kids.webp"
                       alt="Refugee youth working with agricultural products and smiles"
                       className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                       referrerPolicy="no-referrer"

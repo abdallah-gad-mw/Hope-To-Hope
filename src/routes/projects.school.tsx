@@ -127,73 +127,73 @@ function SchoolProjectPage() {
   const galleryImages: GalleryImage[] = [
     {
       id: 1,
-      url: "/src/assets/images/school/1.webp",
+      url: "/images/school/1.webp",
       caption: "",
       category: "",
     },
     {
       id: 2,
-      url: "/src/assets/images/school/2.webp",
+      url: "/images/school/2.webp",
       caption: "",
       category: "",
     },
     {
       id: 3,
-      url: "/src/assets/images/school/3.webp",
+      url: "/images/school/3.webp",
       caption: "",
       category: "",
     },
     {
       id: 4,
-      url: "/src/assets/images/school/4.webp",
+      url: "/images/school/4.webp",
       caption: "",
       category: "",
     },
     {
       id: 5,
-      url: "/src/assets/images/school/5.webp",
+      url: "/images/school/5.webp",
       caption: "",
       category: "",
     },
     {
       id: 6,
-      url: "/src/assets/images/school/6.webp",
+      url: "/images/school/6.webp",
       caption: "",
       category: "",
     },
     {
       id: 7,
-      url: "/src/assets/images/school/7.webp",
+      url: "/images/school/7.webp",
       caption: "",
       category: "",
     },
     {
       id: 8,
-      url: "/src/assets/images/school/8.webp",
+      url: "/images/school/8.webp",
       caption: "",
       category: "",
     },
     {
       id: 9,
-      url: "/src/assets/images/school/9.webp",
+      url: "/images/school/9.webp",
       caption: "",
       category: "",
     },
     {
       id: 10,
-      url: "/src/assets/images/school/10.webp",
+      url: "/images/school/10.webp",
       caption: "",
       category: "",
     },
     {
       id: 11,
-      url: "/src/assets/images/school/12.webp",
+      url: "/images/school/12.webp",
       caption: "",
       category: "",
     },
     {
       id: 12,
-      url: "/src/assets/images/school/13.webp",
+      url: "/images/school/13.webp",
       caption: "",
       category: "",
     },
@@ -290,7 +290,7 @@ function SchoolProjectPage() {
                 <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-2xl border border-border/60 bg-white p-3 group">
                   <div className="relative w-full h-full rounded-2xl overflow-hidden bg-soft">
                     <img
-                      src="/src/assets/images/school/2.webp"
+                      src="/images/school/2.webp"
                       alt="Refugee child engaged in learning at school desk"
                       className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />

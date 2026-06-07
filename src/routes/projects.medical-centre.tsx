@@ -337,7 +337,7 @@ function MedicalCentrePage() {
                 <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-2xl border border-border/60 bg-white p-3 group">
                   <div className="relative w-full h-full rounded-2xl overflow-hidden bg-soft">
                     <img
-                      src="/src/assets/images/107050000_579153106133552_4669114132287895332_n.webp"
+                      src="/images/107050000_579153106133552_4669114132287895332_n.webp"
                       alt="Refugee families undergoing clinical wellness exam"
                       className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 animate-fade-in"
                       referrerPolicy="no-referrer"

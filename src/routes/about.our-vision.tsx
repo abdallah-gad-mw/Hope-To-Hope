@@ -203,7 +203,7 @@ function OurVisionPage() {
                 {/* Primary Image */}
                 <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-2xl border border-border/50 group">
                   <img
-                    src="/src/assets/images/kids.webp"
+                    src="/images/kids.webp"
                     alt="Happy children at Angels Care school smiling"
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
@@ -213,7 +213,7 @@ function OurVisionPage() {
                 {/* Secondary Offset Image */}
                 <div className="absolute -bottom-8 -right-6 md:-right-8 w-1/2 aspect-square rounded-2xl overflow-hidden border-4 border-white shadow-2xl group hidden sm:block">
                   <img
-                    src="/src/assets/images/school/2.webp"
+                    src="/images/school/2.webp"
                     alt="Active learning session"
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />

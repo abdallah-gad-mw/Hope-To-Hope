@@ -107,7 +107,7 @@ function KyakaIISettlementPage() {
               <div className="relative rounded-[32px] overflow-hidden border border-border bg-white p-3 shadow-soft group">
                 <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-soft">
                   <img
-                    src="/src/assets/images/Image8.webp"
+                    src="/images/Image8.webp"
                     alt="Aerial overview of the Kyaka II refugee settlement camp showing shelters"
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
@@ -288,7 +288,7 @@ function KyakaIISettlementPage() {
                     className="relative rounded-2xl overflow-hidden border border-border bg-soft group cursor-zoom-in group shadow-md"
                   >
                     <img
-                      src="/src/assets/images/Kyaka+II+Settlement+Profile_31Jan2022+(1).webp"
+                      src="/images/Kyaka+II+Settlement+Profile_31Jan2022+(1).webp"
                       alt="UNHCR Kyaka II settlement statistical profile map from January 2022"
                       className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-[1.02]"
                     />
@@ -394,7 +394,7 @@ function KyakaIISettlementPage() {
                 {/* Primary Image */}
                 <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-2xl border border-border/50 group">
                   <img
-                    src="/src/assets/images/kids.webp"
+                    src="/images/kids.webp"
                     alt="Happy children at Angels Care school smiling"
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
@@ -404,7 +404,7 @@ function KyakaIISettlementPage() {
                 {/* Secondary Offset Image */}
                 <div className="absolute -bottom-8 -right-6 md:-right-8 w-1/2 aspect-square rounded-2xl overflow-hidden border-4 border-white shadow-2xl group hidden sm:block">
                   <img
-                    src="/src/assets/images/school/2.webp"
+                    src="/images/school/2.webp"
                     alt="Active learning session"
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
@@ -462,7 +462,7 @@ function KyakaIISettlementPage() {
                   onClick={(e) => e.stopPropagation()}
                 >
                   <img
-                    src="/src/assets/images/Kyaka+II+Settlement+Profile_31Jan2022+(1).webp"
+                    src="/images/Kyaka+II+Settlement+Profile_31Jan2022+(1).webp"
                     alt="Detailed UNHCR Refugee Statistics map from OPM Progress version 4"
                     className="w-full h-auto object-contain max-h-[80vh]"
                   />
