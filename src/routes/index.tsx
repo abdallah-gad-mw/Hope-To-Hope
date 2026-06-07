@@ -18,7 +18,7 @@ import {
 import { motion } from "motion/react";
 
 const DONATE_URL = "https://www.theforgottenintl.org/donate/";
-const HERO_IMG = "/images/hero.webp";
+const HERO_IMG = "/src/assets/images/hero.webp";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -179,7 +179,7 @@ function IndexPage() {
                 <div className="absolute inset-0 rounded-[2.2rem] overflow-hidden border-4 border-white shadow-2xl bg-white p-3">
                   <div className="relative w-full h-full rounded-2xl overflow-hidden bg-slate-100">
                     <img
-                      src="/images/kids.webp"
+                      src="/src/assets/images/kids.webp"
                       alt="Refugee children inside Angels Care primary school classroom"
                       className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
                       loading="lazy"
@@ -192,7 +192,7 @@ function IndexPage() {
                 {/* Branding asset showcase */}
                 <div className="absolute bottom-5 right-5 bg-white/90 backdrop-blur rounded-xl p-3 border border-border flex items-center gap-3 shadow-md">
                   <img
-                    src="/images/Uganda-Stamp.webp"
+                    src="/src/assets/images/Uganda-Stamp.webp"
                     alt="Uganda Stamp Official branding"
                     onError={(e) => {
                       e.currentTarget.style.display = "none";
@@ -357,7 +357,7 @@ function IndexPage() {
                 <div className="absolute inset-0 rounded-[2.2rem] overflow-hidden border-4 border-white shadow-2xl bg-white p-3">
                   <div className="relative w-full h-full rounded-2xl overflow-hidden bg-slate-100">
                     <img
-                      src="/images/school/2.webp"
+                      src="/src/assets/images/school/2.webp"
                       alt="Refugee children inside Angels Care primary school classroom"
                       className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
                       loading="lazy"
@@ -400,7 +400,7 @@ function IndexPage() {
                 <div className="absolute inset-0 rounded-[2.2rem] overflow-hidden border-4 border-white shadow-2xl bg-white p-3">
                   <div className="relative w-full h-full rounded-2xl overflow-hidden bg-slate-100">
                     <img
-                      src="/images/107050000_579153106133552_4669114132287895332_n.webp"
+                      src="/src/assets/images/107050000_579153106133552_4669114132287895332_n.webp"
                       alt="Medical clinic response checkup within settlement region"
                       className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
                       loading="lazy"
@@ -506,7 +506,7 @@ function IndexPage() {
                 <div className="absolute inset-0 rounded-[2.2rem] overflow-hidden border-4 border-white shadow-2xl bg-white p-3">
                   <div className="relative w-full h-full rounded-2xl overflow-hidden bg-slate-100">
                     <img
-                      src="/images/Image38-2sized.webp"
+                      src="/src/assets/images/Image38-2sized.webp"
                       alt="Refugee children growing in our community safe foster network"
                       className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
                       loading="lazy"
@@ -659,7 +659,7 @@ function IndexPage() {
             {/* Visual background image with gradient overlay */}
             <div className="absolute inset-0 opacity-20 group-hover:opacity-25 transition-opacity duration-500">
               <img
-                src="/images/hero.webp"
+                src="/src/assets/images/hero.webp"
                 alt="Angels Care Uganda community assembly with children"
                 className="w-full h-full object-cover"
               />

@@ -169,7 +169,7 @@ function OrphanageProjectPage() {
                 <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-2xl border border-border/60 bg-white p-3 group">
                   <div className="relative w-full h-full rounded-2xl overflow-hidden bg-soft">
                     <img
-                      src="/images/Image38-2sized.webp"
+                      src="/src/assets/images/Image38-2sized.webp"
                       alt="Happy children playing and laughing outside"
                       className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                       referrerPolicy="no-referrer"

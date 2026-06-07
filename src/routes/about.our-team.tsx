@@ -82,10 +82,10 @@ function OurTeamPage() {
 
   // Primary image fallback handlers for bulletproof loading
   const [heroImageSrc, setHeroImageSrc] = useState(
-    "/images/107050000_579153106133552_4669114132287895332_n.webp",
+    "/src/assets/images/107050000_579153106133552_4669114132287895332_n.webp",
   );
   const [galleryImageSrc, setGalleryImageSrc] = useState(
-    "/images/WhatsApp+Image+2020-12-06+at+04.27.32.webp",
+    "/src/assets/images/WhatsApp+Image+2020-12-06+at+04.27.32.webp",
   );
 
   const handleHeroImageError = () => {
