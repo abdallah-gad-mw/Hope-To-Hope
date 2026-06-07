@@ -1,7 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { BlankPage } from "@/components/blank-page";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/projects/")({
-  head: () => ({ meta: [{ title: "Projects — Angels Care Uganda" }] }),
-  component: () => <BlankPage title="Projects" />,
+  beforeLoad: () => {
+    throw redirect({ to: "/projects/school", replace: true });
+  },
 });

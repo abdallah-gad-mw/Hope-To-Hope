@@ -75,22 +75,37 @@ export function SiteNav() {
           {NAV.map((n) => {
             const isActive =
               n.to === "/" ? location.pathname === "/" : location.pathname.startsWith(n.to);
+            const hasChildren = !!n.children;
             return (
-              <li key={n.label} className="relative group">
-                <Link
-                  to={n.to}
-                  className={`px-3 py-2 rounded-full transition inline-flex items-center gap-1 ${
-                    isActive
-                      ? "text-coral font-semibold"
-                      : isHomeUnscrolled
-                        ? "text-white/95 hover:text-white hover:bg-white/10"
-                        : "text-foreground/75 hover:text-foreground hover:bg-white/70"
-                  }`}
-                  activeOptions={{ exact: n.to === "/" }}
-                >
-                  {n.label}
-                  {n.children && <ChevronDown className="h-3.5 w-3.5 opacity-60" />}
-                </Link>
+              <li key={n.label} className="relative group nav-group-desktop">
+                {hasChildren ? (
+                  <span
+                    className={`px-3 py-2 rounded-full transition inline-flex items-center gap-1 cursor-pointer outline-none ${
+                      isActive
+                        ? "text-coral font-semibold"
+                        : isHomeUnscrolled
+                          ? "text-white/95 hover:text-white hover:bg-white/10"
+                          : "text-foreground/75 hover:text-foreground hover:bg-white/70"
+                    }`}
+                  >
+                    {n.label}
+                    <ChevronDown className="h-3.5 w-3.5 opacity-60 transition-transform duration-200 group-hover:rotate-180" />
+                  </span>
+                ) : (
+                  <Link
+                    to={n.to}
+                    className={`px-3 py-2 rounded-full transition inline-flex items-center gap-1 ${
+                      isActive
+                        ? "text-coral font-semibold"
+                        : isHomeUnscrolled
+                          ? "text-white/95 hover:text-white hover:bg-white/10"
+                          : "text-foreground/75 hover:text-foreground hover:bg-white/70"
+                    }`}
+                    activeOptions={{ exact: n.to === "/" }}
+                  >
+                    {n.label}
+                  </Link>
+                )}
                 {n.children && (
                   <div className="invisible opacity-0 translate-y-1 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 transition-all absolute left-0 top-full pt-3 w-60 z-50">
                     <div className="rounded-2xl bg-white border border-border shadow-xl p-2">
@@ -159,30 +174,31 @@ export function SiteNav() {
             <ul className="flex flex-col">
               {NAV.map((n) => {
                 const isOpenGroup = openGroup === n.label;
+                const hasChildren = !!n.children;
                 return (
                   <li key={n.label} className="border-b border-border/60">
-                    <div className="flex items-center">
+                    {hasChildren ? (
+                      <button
+                        type="button"
+                        onClick={() => setOpenGroup(isOpenGroup ? null : n.label)}
+                        className="w-full flex items-center justify-between px-3 py-3.5 text-base font-medium text-ink text-left cursor-pointer outline-none"
+                      >
+                        <span>{n.label}</span>
+                        <ChevronDown
+                          className={`h-4 w-4 text-ink/60 transition-transform duration-200 ${
+                            isOpenGroup ? "rotate-180" : ""
+                          }`}
+                        />
+                      </button>
+                    ) : (
                       <Link
                         to={n.to}
                         onClick={() => setOpen(false)}
-                        className="flex-1 block px-3 py-3.5 text-base font-medium text-ink"
+                        className="block px-3 py-3.5 text-base font-medium text-ink"
                       >
                         {n.label}
                       </Link>
-                      {n.children && (
-                        <button
-                          onClick={() => setOpenGroup(isOpenGroup ? null : n.label)}
-                          className="px-3 py-3.5 text-ink/60"
-                          aria-label="Expand"
-                        >
-                          <ChevronDown
-                            className={`h-4 w-4 transition-transform ${
-                              isOpenGroup ? "rotate-180" : ""
-                            }`}
-                          />
-                        </button>
-                      )}
-                    </div>
+                    )}
                     {n.children && isOpenGroup && (
                       <ul className="pb-2 pl-4">
                         {n.children.map((c) => (
@@ -190,7 +206,7 @@ export function SiteNav() {
                             <Link
                               to={c.to}
                               onClick={() => setOpen(false)}
-                              className="block px-3 py-2.5 text-sm text-foreground/75 hover:text-coral"
+                              className="block px-3 py-2.5 text-sm text-foreground/75 hover:text-coral transition-colors duration-200"
                             >
                               {c.label}
                             </Link>
