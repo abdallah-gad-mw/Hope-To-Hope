@@ -9,24 +9,38 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TermsOfServiceRouteImport } from './routes/terms-of-service'
 import { Route as ProjectsRouteImport } from './routes/projects'
+import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as HopeStoriesRouteImport } from './routes/hope-stories'
 import { Route as HopeFamilyRouteImport } from './routes/hope-family'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProjectsIndexRouteImport } from './routes/projects.index'
+import { Route as HopeStoriesIndexRouteImport } from './routes/hope-stories.index'
 import { Route as AboutIndexRouteImport } from './routes/about.index'
 import { Route as ProjectsSchoolRouteImport } from './routes/projects.school'
 import { Route as ProjectsOrphanageRouteImport } from './routes/projects.orphanage'
 import { Route as ProjectsMedicalCentreRouteImport } from './routes/projects.medical-centre'
 import { Route as ProjectsHopeProjectsRouteImport } from './routes/projects.hope-projects'
+import { Route as HopeStoriesOnlineLaunchRouteImport } from './routes/hope-stories.online-launch'
 import { Route as AboutOurVisionRouteImport } from './routes/about.our-vision'
 import { Route as AboutOurTeamRouteImport } from './routes/about.our-team'
 import { Route as AboutKyakaIiRouteImport } from './routes/about.kyaka-ii'
 
+const TermsOfServiceRoute = TermsOfServiceRouteImport.update({
+  id: '/terms-of-service',
+  path: '/terms-of-service',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProjectsRoute = ProjectsRouteImport.update({
   id: '/projects',
   path: '/projects',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
+  id: '/privacy-policy',
+  path: '/privacy-policy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HopeStoriesRoute = HopeStoriesRouteImport.update({
@@ -54,6 +68,11 @@ const ProjectsIndexRoute = ProjectsIndexRouteImport.update({
   path: '/',
   getParentRoute: () => ProjectsRoute,
 } as any)
+const HopeStoriesIndexRoute = HopeStoriesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => HopeStoriesRoute,
+} as any)
 const AboutIndexRoute = AboutIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -79,6 +98,11 @@ const ProjectsHopeProjectsRoute = ProjectsHopeProjectsRouteImport.update({
   path: '/hope-projects',
   getParentRoute: () => ProjectsRoute,
 } as any)
+const HopeStoriesOnlineLaunchRoute = HopeStoriesOnlineLaunchRouteImport.update({
+  id: '/online-launch',
+  path: '/online-launch',
+  getParentRoute: () => HopeStoriesRoute,
+} as any)
 const AboutOurVisionRoute = AboutOurVisionRouteImport.update({
   id: '/our-vision',
   path: '/our-vision',
@@ -99,30 +123,37 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRouteWithChildren
   '/hope-family': typeof HopeFamilyRoute
-  '/hope-stories': typeof HopeStoriesRoute
+  '/hope-stories': typeof HopeStoriesRouteWithChildren
+  '/privacy-policy': typeof PrivacyPolicyRoute
   '/projects': typeof ProjectsRouteWithChildren
+  '/terms-of-service': typeof TermsOfServiceRoute
   '/about/kyaka-ii': typeof AboutKyakaIiRoute
   '/about/our-team': typeof AboutOurTeamRoute
   '/about/our-vision': typeof AboutOurVisionRoute
+  '/hope-stories/online-launch': typeof HopeStoriesOnlineLaunchRoute
   '/projects/hope-projects': typeof ProjectsHopeProjectsRoute
   '/projects/medical-centre': typeof ProjectsMedicalCentreRoute
   '/projects/orphanage': typeof ProjectsOrphanageRoute
   '/projects/school': typeof ProjectsSchoolRoute
   '/about/': typeof AboutIndexRoute
+  '/hope-stories/': typeof HopeStoriesIndexRoute
   '/projects/': typeof ProjectsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/hope-family': typeof HopeFamilyRoute
-  '/hope-stories': typeof HopeStoriesRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
+  '/terms-of-service': typeof TermsOfServiceRoute
   '/about/kyaka-ii': typeof AboutKyakaIiRoute
   '/about/our-team': typeof AboutOurTeamRoute
   '/about/our-vision': typeof AboutOurVisionRoute
+  '/hope-stories/online-launch': typeof HopeStoriesOnlineLaunchRoute
   '/projects/hope-projects': typeof ProjectsHopeProjectsRoute
   '/projects/medical-centre': typeof ProjectsMedicalCentreRoute
   '/projects/orphanage': typeof ProjectsOrphanageRoute
   '/projects/school': typeof ProjectsSchoolRoute
   '/about': typeof AboutIndexRoute
+  '/hope-stories': typeof HopeStoriesIndexRoute
   '/projects': typeof ProjectsIndexRoute
 }
 export interface FileRoutesById {
@@ -130,16 +161,20 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRouteWithChildren
   '/hope-family': typeof HopeFamilyRoute
-  '/hope-stories': typeof HopeStoriesRoute
+  '/hope-stories': typeof HopeStoriesRouteWithChildren
+  '/privacy-policy': typeof PrivacyPolicyRoute
   '/projects': typeof ProjectsRouteWithChildren
+  '/terms-of-service': typeof TermsOfServiceRoute
   '/about/kyaka-ii': typeof AboutKyakaIiRoute
   '/about/our-team': typeof AboutOurTeamRoute
   '/about/our-vision': typeof AboutOurVisionRoute
+  '/hope-stories/online-launch': typeof HopeStoriesOnlineLaunchRoute
   '/projects/hope-projects': typeof ProjectsHopeProjectsRoute
   '/projects/medical-centre': typeof ProjectsMedicalCentreRoute
   '/projects/orphanage': typeof ProjectsOrphanageRoute
   '/projects/school': typeof ProjectsSchoolRoute
   '/about/': typeof AboutIndexRoute
+  '/hope-stories/': typeof HopeStoriesIndexRoute
   '/projects/': typeof ProjectsIndexRoute
 }
 export interface FileRouteTypes {
@@ -149,29 +184,36 @@ export interface FileRouteTypes {
     | '/about'
     | '/hope-family'
     | '/hope-stories'
+    | '/privacy-policy'
     | '/projects'
+    | '/terms-of-service'
     | '/about/kyaka-ii'
     | '/about/our-team'
     | '/about/our-vision'
+    | '/hope-stories/online-launch'
     | '/projects/hope-projects'
     | '/projects/medical-centre'
     | '/projects/orphanage'
     | '/projects/school'
     | '/about/'
+    | '/hope-stories/'
     | '/projects/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/hope-family'
-    | '/hope-stories'
+    | '/privacy-policy'
+    | '/terms-of-service'
     | '/about/kyaka-ii'
     | '/about/our-team'
     | '/about/our-vision'
+    | '/hope-stories/online-launch'
     | '/projects/hope-projects'
     | '/projects/medical-centre'
     | '/projects/orphanage'
     | '/projects/school'
     | '/about'
+    | '/hope-stories'
     | '/projects'
   id:
     | '__root__'
@@ -179,15 +221,19 @@ export interface FileRouteTypes {
     | '/about'
     | '/hope-family'
     | '/hope-stories'
+    | '/privacy-policy'
     | '/projects'
+    | '/terms-of-service'
     | '/about/kyaka-ii'
     | '/about/our-team'
     | '/about/our-vision'
+    | '/hope-stories/online-launch'
     | '/projects/hope-projects'
     | '/projects/medical-centre'
     | '/projects/orphanage'
     | '/projects/school'
     | '/about/'
+    | '/hope-stories/'
     | '/projects/'
   fileRoutesById: FileRoutesById
 }
@@ -195,17 +241,33 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRouteWithChildren
   HopeFamilyRoute: typeof HopeFamilyRoute
-  HopeStoriesRoute: typeof HopeStoriesRoute
+  HopeStoriesRoute: typeof HopeStoriesRouteWithChildren
+  PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   ProjectsRoute: typeof ProjectsRouteWithChildren
+  TermsOfServiceRoute: typeof TermsOfServiceRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/terms-of-service': {
+      id: '/terms-of-service'
+      path: '/terms-of-service'
+      fullPath: '/terms-of-service'
+      preLoaderRoute: typeof TermsOfServiceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/projects': {
       id: '/projects'
       path: '/projects'
       fullPath: '/projects'
       preLoaderRoute: typeof ProjectsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy-policy': {
+      id: '/privacy-policy'
+      path: '/privacy-policy'
+      fullPath: '/privacy-policy'
+      preLoaderRoute: typeof PrivacyPolicyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/hope-stories': {
@@ -243,6 +305,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProjectsIndexRouteImport
       parentRoute: typeof ProjectsRoute
     }
+    '/hope-stories/': {
+      id: '/hope-stories/'
+      path: '/'
+      fullPath: '/hope-stories/'
+      preLoaderRoute: typeof HopeStoriesIndexRouteImport
+      parentRoute: typeof HopeStoriesRoute
+    }
     '/about/': {
       id: '/about/'
       path: '/'
@@ -277,6 +346,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/projects/hope-projects'
       preLoaderRoute: typeof ProjectsHopeProjectsRouteImport
       parentRoute: typeof ProjectsRoute
+    }
+    '/hope-stories/online-launch': {
+      id: '/hope-stories/online-launch'
+      path: '/online-launch'
+      fullPath: '/hope-stories/online-launch'
+      preLoaderRoute: typeof HopeStoriesOnlineLaunchRouteImport
+      parentRoute: typeof HopeStoriesRoute
     }
     '/about/our-vision': {
       id: '/about/our-vision'
@@ -318,6 +394,20 @@ const AboutRouteChildren: AboutRouteChildren = {
 
 const AboutRouteWithChildren = AboutRoute._addFileChildren(AboutRouteChildren)
 
+interface HopeStoriesRouteChildren {
+  HopeStoriesOnlineLaunchRoute: typeof HopeStoriesOnlineLaunchRoute
+  HopeStoriesIndexRoute: typeof HopeStoriesIndexRoute
+}
+
+const HopeStoriesRouteChildren: HopeStoriesRouteChildren = {
+  HopeStoriesOnlineLaunchRoute: HopeStoriesOnlineLaunchRoute,
+  HopeStoriesIndexRoute: HopeStoriesIndexRoute,
+}
+
+const HopeStoriesRouteWithChildren = HopeStoriesRoute._addFileChildren(
+  HopeStoriesRouteChildren,
+)
+
 interface ProjectsRouteChildren {
   ProjectsHopeProjectsRoute: typeof ProjectsHopeProjectsRoute
   ProjectsMedicalCentreRoute: typeof ProjectsMedicalCentreRoute
@@ -342,8 +432,10 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRouteWithChildren,
   HopeFamilyRoute: HopeFamilyRoute,
-  HopeStoriesRoute: HopeStoriesRoute,
+  HopeStoriesRoute: HopeStoriesRouteWithChildren,
+  PrivacyPolicyRoute: PrivacyPolicyRoute,
   ProjectsRoute: ProjectsRouteWithChildren,
+  TermsOfServiceRoute: TermsOfServiceRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
