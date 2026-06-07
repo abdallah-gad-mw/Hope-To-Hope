@@ -108,7 +108,7 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-12 pt-6 border-t border-white/10 flex flex-col md:flex-row gap-4 items-center justify-between text-sm text-white/60">
-          <p>
+          <p className="text-center md:text-left">
             © {new Date().getFullYear()} Angels Care Uganda. All rights reserved. Powered by{" "}
             <a href="https://morellis.us/" target="_blank">
               Morellis

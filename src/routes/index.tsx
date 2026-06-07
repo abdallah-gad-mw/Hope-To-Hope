@@ -19,7 +19,7 @@ import { motion } from "motion/react";
 
 const DONATE_URL = "https://www.theforgottenintl.org/donate/";
 const HERO_IMG =
-  "https://seashell-sparrow-179171.hostingersite.com/hopetohope/justice-rising-ECHO-AND-EARL-3.webp";
+  "/src/assets/images/hero.webp";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -125,7 +125,7 @@ function IndexPage() {
               </Link>
               <a
                 href="#vision"
-                className="bg-white/10 hover:bg-white/20 text-white border border-white/20 rounded-full px-8 py-4 text-xs tracking-wider uppercase font-extrabold inline-flex items-center gap-2 backdrop-blur-sm transition-all"
+                className="bg-[#1cbee7] hover:bg-[#1b97b7] text-white border border-white/20 rounded-full px-8 py-4 text-xs tracking-wider uppercase font-extrabold inline-flex items-center  gap-2 transition-all"
               >
                 Discover Our Story
               </a>
@@ -142,7 +142,7 @@ function IndexPage() {
               <span className="text-xs uppercase tracking-widest font-extrabold text-coral bg-coral/5 border border-coral/15 px-4 py-1.5 rounded-full inline-block">
                 Our Purpose
               </span>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl text-ink font-black tracking-tight leading-[1.1] text-balance">
+              <h2 className="text-3xl sm:text-3xl md:text-3xl text-ink font-semi-bold tracking-tight leading-[1.1] text-balance">
                 Educate and raise the <span className="text-coral">leaders of tomorrow</span>{" "}
                 through innovative and sustainable development.
               </h2>
@@ -169,21 +169,31 @@ function IndexPage() {
               </div>
             </div>
 
-            <div className="lg:col-span-5 relative">
-              {/* Overlay graphics placeholder */}
-              <div className="absolute inset-0 bg-coral/5 rounded-3xl -rotate-2 scale-98" />
-              <div className="relative rounded-3xl overflow-hidden border border-border shadow-soft bg-slate-150">
-                <img
-                  src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=800&q=80"
-                  alt="Angels Care Children studying"
-                  className="w-full h-auto object-cover max-h-[380px]"
-                  referrerPolicy="no-referrer"
-                />
+            {/* Layout Column (RIGHT) */}
+            <div className="lg:col-span-5 relative" data-aos="fade-left">
+              <div className="relative w-full aspect-[4/3] sm:aspect-square max-w-lg mx-auto">
+                {/* Layered backgrounds with offset angles */}
+                <div className="absolute inset-0 bg-[#f05153]/5 rounded-[2.5rem] -rotate-6 scale-95" />
+                <div className="absolute inset-0 bg-[#1cbee7]/10 rounded-[2.5rem] rotate-3 scale-98 border-2 border-[#1cbee7]/20" />
+
+                {/* Main Image Container */}
+                <div className="absolute inset-0 rounded-[2.2rem] overflow-hidden border-4 border-white shadow-2xl bg-white p-3">
+                  <div className="relative w-full h-full rounded-2xl overflow-hidden bg-slate-100">
+                    <img
+                      src="/src/assets/images/kids.webp"
+                      alt="Refugee children inside Angels Care primary school classroom"
+                      className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                      loading="lazy"
+                      referrerPolicy="no-referrer"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+                  </div>
+                </div>
 
                 {/* Branding asset showcase */}
-                <div className="absolute bottom-4 right-4 bg-white/90 backdrop-blur rounded-xl p-3 border border-border flex items-center gap-3 shadow-md">
+                <div className="absolute bottom-5 right-5 bg-white/90 backdrop-blur rounded-xl p-3 border border-border flex items-center gap-3 shadow-md">
                   <img
-                    src="/watermarked_img_14364215628709291835.png"
+                    src="/src/assets/images/Uganda-Stamp.webp"
                     alt="Uganda Stamp Official branding"
                     onError={(e) => {
                       e.currentTarget.style.display = "none";
@@ -210,7 +220,7 @@ function IndexPage() {
             <span className="text-xs uppercase tracking-widest font-extrabold text-[#1cbee7] bg-[#1cbee7]/5 border border-[#1cbee7]/15 px-4 py-1.5 rounded-full inline-block mb-4">
               Organization Metrics
             </span>
-            <h2 className="text-3xl md:text-4xl text-ink font-extrabold tracking-tight">
+            <h2 className="text-3xl md:text-4xl text-ink font-semi-bold tracking-tight">
               Our Measured Impact
             </h2>
             <p className="text-xs sm:text-sm text-muted-foreground mt-2">
@@ -302,146 +312,242 @@ function IndexPage() {
         </div>
       </section>
 
-      {/* SECTION 4: The Three Essential Strategic Pillars */}
-      <section className="py-24 bg-white">
+      {/* SECTION 6A: Angels Care School Pillar Showcase */}
+      <section className="py-24 bg-white border-border overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
-          <div className="max-w-3xl mb-16">
-            <span className="text-xs uppercase tracking-widest font-extrabold text-coral bg-coral/5 border border-coral/15 px-4 py-1.5 rounded-full inline-block mb-4">
-              Strategic Pillars
-            </span>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl text-ink font-black tracking-tight mb-4">
-              Three Core Strategic Pillars
-            </h2>
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-              Operating custom operations targeting absolute educational mastery, safety placements,
-              and primary treatments.
-            </p>
-          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            {/* Text Column (LEFT) */}
+            <div className="lg:col-span-6 space-y-6" data-aos="fade-right">
+              <span className="text-xs uppercase tracking-[0.2em] font-extrabold text-coral bg-coral/5 border border-coral/15 px-4 py-1.5 rounded-full inline-block">
+                OUR EDUCATION STRACETGY
+              </span>
+              <h2 className="text-3xl sm:text-3xl md:text-3xl font-bold text-ink  tracking-tight leading-[1.1] text-balance font-sans">
+                Angels Care School: Nurturing the Leaders of Tomorrow
+              </h2>
+              <div className="w-16 h-1.5 bg-[#1cbee7] rounded-full" />
+              <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-normal">
+                Operating inside the heart of the Kyaka II refugee settlement and host community,
+                our nursery and primary schools provide a sanctuary of learning for over 1,000
+                active students from Kindergarten through Primary 7. Fleeing severe instability in
+                the DRC, these children find not only safety but an elite academic track.
+              </p>
+              <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-normal">
+                Despite facing profound resource limitations and accommodating an average of 120
+                eager children per classroom, our dedicated faculty inspires excellence—resulting in
+                our students achieving the top scores in nationwide educational evaluations within
+                the entire settlement region.
+              </p>
+              <div className="pt-4">
+                <Link
+                  to="/projects/school"
+                  className="bg-coral hover:bg-[#d63d3f] text-white rounded-full px-8 py-4 text-xs font-bold tracking-wider uppercase inline-flex items-center gap-2 shadow-lg shadow-coral/20 hover:shadow-xl hover:shadow-coral/30 hover:scale-[1.02] transition-all cursor-pointer"
+                >
+                  Explore Our School Curriculum & Needs <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
+            </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* PILLAR 1 */}
-            <article className="bg-[#fcfdfd] border border-border rounded-3xl overflow-hidden shadow-sm flex flex-col justify-between hover:shadow-md transition">
-              <div className="relative h-56 overflow-hidden">
-                <img
-                  src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=800&q=80"
-                  alt="Angels Care School classroom"
-                  className="w-full h-full object-cover grayscale-[5%]"
-                  loading="lazy"
-                  referrerPolicy="no-referrer"
-                />
-                <div className="absolute top-4 left-4 bg-white/95 backdrop-blur border border-border rounded-lg text-ink text-[10px] font-bold uppercase px-3 py-1 scale-90">
-                  Primary Education
-                </div>
-              </div>
-              <div className="p-8 flex-grow flex flex-col justify-between">
-                <div>
-                  <h3 className="text-2xl font-bold text-ink mb-3 group-hover:text-coral transition-colors flex items-center gap-2">
-                    <GraduationCap className="h-6 w-6 text-coral" /> Angels Care School
-                  </h3>
-                  <p className="text-xs sm:text-sm text-slate-650 leading-relaxed mb-6">
-                    Serves the Kyaka II Refugee settlement and local children. Despite structural
-                    challenges like an average of 120 children per class, our nursery and primary
-                    students achieve the best national test marks within the settlement.
-                  </p>
-                </div>
-                <div className="pt-4 border-t border-border mt-auto">
-                  <Link
-                    to="/projects/school"
-                    className="text-xs font-bold text-coral inline-flex items-center gap-1 hover:underline"
-                  >
-                    View School Programs <ArrowRight className="h-3.5 w-3.5" />
-                  </Link>
-                </div>
-              </div>
-            </article>
+            {/* Layout Column (RIGHT) */}
+            <div className="lg:col-span-6 relative" data-aos="fade-left">
+              <div className="relative w-full aspect-[4/3] sm:aspect-square max-w-lg mx-auto">
+                {/* Layered backgrounds with offset angles */}
+                <div className="absolute inset-0 bg-[#f05153]/5 rounded-[2.5rem] -rotate-6 scale-95" />
+                <div className="absolute inset-0 bg-[#1cbee7]/10 rounded-[2.5rem] rotate-3 scale-98 border-2 border-[#1cbee7]/20" />
 
-            {/* PILLAR 2 */}
-            <article className="bg-[#fcfdfd] border border-border rounded-3xl overflow-hidden shadow-sm flex flex-col justify-between hover:shadow-md transition">
-              <div className="relative h-56 overflow-hidden">
-                <img
-                  src="https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&w=800&q=80"
-                  alt="Medical facility checkup"
-                  className="w-full h-full object-cover grayscale-[5%]"
-                  loading="lazy"
-                  referrerPolicy="no-referrer"
-                />
-                <div className="absolute top-4 left-4 bg-white/95 backdrop-blur border border-border rounded-lg text-ink text-[10px] font-bold uppercase px-3 py-1 scale-90">
-                  Clinical Care
+                {/* Main Image Container */}
+                <div className="absolute inset-0 rounded-[2.2rem] overflow-hidden border-4 border-white shadow-2xl bg-white p-3">
+                  <div className="relative w-full h-full rounded-2xl overflow-hidden bg-slate-100">
+                    <img
+                      src="/src/assets/images/school/2.webp"
+                      alt="Refugee children inside Angels Care primary school classroom"
+                      className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                      loading="lazy"
+                      referrerPolicy="no-referrer"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+                  </div>
                 </div>
-              </div>
-              <div className="p-8 flex-grow flex flex-col justify-between">
-                <div>
-                  <h3 className="text-2xl font-bold text-ink mb-3 group-hover:text-coral transition-colors flex items-center gap-2">
-                    <Stethoscope className="h-6 w-6 text-coral" /> Medical Centre
-                  </h3>
-                  <p className="text-xs sm:text-sm text-slate-650 leading-relaxed mb-6">
-                    A dream five years in the making operating 24 hours a day. We provide subsidized
-                    healthcare services priced 40% less than private clinics, and 100% free medical
-                    care to all students of Angels Care School.
-                  </p>
-                </div>
-                <div className="pt-4 border-t border-border mt-auto">
-                  <Link
-                    to="/projects/medical-centre"
-                    className="text-xs font-bold text-coral inline-flex items-center gap-1 hover:underline"
-                  >
-                    View Clinic Services <ArrowRight className="h-3.5 w-3.5" />
-                  </Link>
-                </div>
-              </div>
-            </article>
 
-            {/* PILLAR 3 */}
-            <article className="bg-[#fcfdfd] border border-border rounded-3xl overflow-hidden shadow-sm flex flex-col justify-between hover:shadow-md transition">
-              <div className="relative h-56 overflow-hidden">
-                <img
-                  src="https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=800&q=80"
-                  alt="Loving family sanctuary"
-                  className="w-full h-full object-cover grayscale-[5%]"
-                  loading="lazy"
-                  referrerPolicy="no-referrer"
-                />
-                <div className="absolute top-4 left-4 bg-white/95 backdrop-blur border border-border rounded-lg text-ink text-[10px] font-bold uppercase px-3 py-1 scale-90">
-                  Sanctuary Shelter
+                {/* Floating badge */}
+                <div className="absolute -bottom-6 right-4 sm:-right-4 bg-white/95 backdrop-blur-md rounded-2xl p-4 border border-border shadow-xl flex items-center gap-3">
+                  <div className="p-2.5 rounded-xl bg-coral/10 text-coral">
+                    <GraduationCap className="h-6 w-6" />
+                  </div>
+                  <div className="text-left select-none">
+                    <p className="text-[10px] font-black uppercase text-coral tracking-widest">
+                      Settlement Rank
+                    </p>
+                    <p className="text-xs font-bold text-ink">#1 Score Nationwide</p>
+                  </div>
                 </div>
               </div>
-              <div className="p-8 flex-grow flex flex-col justify-between">
-                <div>
-                  <h3 className="text-2xl font-bold text-ink mb-3 group-hover:text-coral transition-colors flex items-center gap-2">
-                    <HomeIcon className="h-5 w-5 text-coral" /> Angels Care Orphanage
-                  </h3>
-                  <p className="text-xs sm:text-sm text-slate-650 leading-relaxed mb-6">
-                    Ensuring refugee children escape isolation. 15 orphans live directly within
-                    Pastor Godfrey's compassionate home environment, while 115 are safely assigned
-                    to foster families throughout our refugee community supported entirely by our
-                    sponsorship fund.
-                  </p>
-                </div>
-                <div className="pt-4 border-t border-border mt-auto">
-                  <Link
-                    to="/projects/orphanage"
-                    className="text-xs font-bold text-coral inline-flex items-center gap-1 hover:underline"
-                  >
-                    View Orphanage Details <ArrowRight className="h-3.5 w-3.5" />
-                  </Link>
-                </div>
-              </div>
-            </article>
+            </div>
           </div>
         </div>
       </section>
 
+      {/* SECTION 6B: Angels Care Medical Centre Pillar Showcase */}
+      <section className="py-24 bg-soft border-t border-border overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            {/* Layout Column (LEFT) */}
+            <div className="lg:col-span-6 order-2 lg:order-1 relative" data-aos="fade-right">
+              <div className="relative w-full aspect-[4/3] sm:aspect-square max-w-lg mx-auto">
+                {/* Layered backgrounds with offset angles */}
+                <div className="absolute inset-0 bg-[#1cbee7]/5 rounded-[2.5rem] -rotate-3 scale-95" />
+                <div className="absolute inset-0 bg-[#f05153]/10 rounded-[2.5rem] rotate-6 scale-98 border-2 border-[#f05153]/20" />
+
+                {/* Main Image Container */}
+                <div className="absolute inset-0 rounded-[2.2rem] overflow-hidden border-4 border-white shadow-2xl bg-white p-3">
+                  <div className="relative w-full h-full rounded-2xl overflow-hidden bg-slate-100">
+                    <img
+                      src="/src/assets/images/107050000_579153106133552_4669114132287895332_n.webp"
+                      alt="Medical clinic response checkup within settlement region"
+                      className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                      loading="lazy"
+                      referrerPolicy="no-referrer"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+                  </div>
+                </div>
+
+                {/* Floating badge */}
+                <div className="absolute -bottom-6 left-4 sm:-left-4 bg-white/95 backdrop-blur-md rounded-2xl p-4 border border-border shadow-xl flex items-center gap-3">
+                  <div className="p-2.5 rounded-xl bg-sky/10 text-[#1cbee7]">
+                    <Stethoscope className="h-6 w-6" />
+                  </div>
+                  <div className="text-left select-none">
+                    <p className="text-[10px] font-black uppercase text-[#1cbee7] tracking-widest">
+                      ACMC Clinic
+                    </p>
+                    <p className="text-xs font-bold text-ink">24/7 Life-Saving Care</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Text Column (RIGHT) */}
+            <div className="lg:col-span-6 order-1 lg:order-2 space-y-6" data-aos="fade-left">
+              <span className="text-xs uppercase tracking-[0.2em] font-extrabold text-[#1cbee7] bg-[#1cbee7]/5 border border-[#1cbee7]/15 px-4 py-1.5 rounded-full inline-block">
+                CRITICAL HEALTHCARE RESPONSE
+              </span>
+              <h2 className="text-3xl sm:text-3xl md:text-3xl text-ink font-bold tracking-tight leading-[1.1] text-balance font-sans">
+                Angels Care Medical Centre: 24/7 Life-Saving Care
+              </h2>
+              <div className="w-16 h-1.5 bg-coral rounded-full" />
+              <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-normal">
+                A visionary project five years in the making, the Angels Care Medical Centre (ACMC)
+                stands as a vital beacon of health, operating round-the-clock to manage critical
+                emergencies. Positioned as one of only three operational medical facilities
+                servicing a swelling refugee population of over 130,000 individuals, ACMC answers up
+                to 2,800 urgent healthcare requests daily.
+              </p>
+              <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-normal">
+                To ensure true humanitarian relief, our medical treatments are fully
+                subsidized—priced 40% lower than standard private clinics—while extending 100% free
+                comprehensive healthcare to every student enrolled in Angels Care School.
+              </p>
+              <div className="pt-4">
+                <Link
+                  to="/projects/medical-centre"
+                  className="bg-[#1cbee7] hover:bg-[#1b97b7] text-white border border-border rounded-full px-8 py-4 text-xs font-bold tracking-wider uppercase inline-flex items-center gap-2 shadow-md hover:shadow-lg hover:scale-[1.02] transition-all cursor-pointer"
+                >
+                  View Clinic Infrastructure & Medical Services{" "}
+                  <ArrowRight className="h-4 w-4 text-white" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 6C: Angels Care Orphanage Pillar Showcase */}
+      <section className="py-24 bg-white border-t border-border overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            {/* Text Column (LEFT) */}
+            <div className="lg:col-span-6 space-y-6" data-aos="fade-right">
+              <span className="text-xs uppercase tracking-[0.2em] font-extrabold text-coral bg-coral/5 border border-coral/15 px-4 py-1.5 rounded-full inline-block">
+                CHILD SAFEGUARDING & FAMILY INFRASTRUCTURE
+              </span>
+              <h2 className="text-3xl sm:text-3xl md:text-3xl text-ink font-bold tracking-tight leading-[1.1] text-balance font-sans">
+                Angels Care Orphanage: A Sanctuary of Pure Compassion
+              </h2>
+              <div className="w-16 h-1.5 bg-[#1cbee7] rounded-full" />
+              <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-normal">
+                No child should ever face the trauma of displacement in isolation. The Angels Care
+                Orphanage program acts as a loving shield for 130 fully sponsored orphans, providing
+                complete security, nutrition, clothing, medical care, and permanent educational
+                support.
+              </p>
+              <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-normal">
+                Our model is deeply community-driven: while 15 highly vulnerable orphans reside
+                directly within the warm family household of Pastor Godfrey, our robust sponsorship
+                network allows us to integrate 115 orphans into vetted, loving foster care homes
+                safely distributed across the Kyaka II refugee community.
+              </p>
+              <div className="pt-4">
+                <Link
+                  to="/projects/orphanage"
+                  className="bg-coral hover:bg-[#d63d3f] text-white rounded-full px-8 py-4 text-xs font-bold tracking-wider uppercase inline-flex items-center gap-2 shadow-lg shadow-coral/20 hover:shadow-xl hover:shadow-coral/30 hover:scale-[1.02] transition-all cursor-pointer"
+                >
+                  Sponsor a Refugee Child Today <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
+            </div>
+
+            {/* Layout Column (RIGHT) */}
+            <div className="lg:col-span-6 relative" data-aos="fade-left">
+              <div className="relative w-full aspect-[4/3] sm:aspect-square max-w-lg mx-auto">
+                {/* Layered backgrounds with offset angles */}
+                <div className="absolute inset-0 bg-[#f05153]/10 rounded-[2.5rem] rotate-3 scale-95" />
+                <div className="absolute inset-0 bg-[#1cbee7]/5 rounded-[2.5rem] -rotate-6 scale-98 border-2 border-[#1cbee7]/20" />
+
+                {/* Main Image Container */}
+                <div className="absolute inset-0 rounded-[2.2rem] overflow-hidden border-4 border-white shadow-2xl bg-white p-3">
+                  <div className="relative w-full h-full rounded-2xl overflow-hidden bg-slate-100">
+                    <img
+                      src="/src/assets/images/Image38-2sized.webp"
+                      alt="Refugee children growing in our community safe foster network"
+                      className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                      loading="lazy"
+                      referrerPolicy="no-referrer"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+                  </div>
+                </div>
+
+                {/* Floating badge */}
+                <div className="absolute -bottom-6 right-4 sm:-right-4 bg-white/95 backdrop-blur-md rounded-2xl p-4 border border-border shadow-xl flex items-center gap-3">
+                  <div className="p-2.5 rounded-xl bg-coral/10 text-coral">
+                    <Heart className="h-6 w-6 stroke-coral fill-current" />
+                  </div>
+                  <div className="text-left select-none">
+                    <p className="text-[10px] font-black uppercase text-coral tracking-widest">
+                      Active Guardians
+                    </p>
+                    <p className="text-xs font-bold text-ink">130 Children Sponsored</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      
+
       {/* SECTION 5: Sustainable Hope Projects */}
-      <section className="py-24 bg-soft border-t border-border">
+      <section className="py-24 bg-soft border-t border-b border-border">
         <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
           <header className="text-center max-w-3xl mx-auto mb-16">
             <span className="text-xs uppercase tracking-widest font-extrabold text-[#1cbee7] bg-[#1cbee7]/5 border border-[#1cbee7]/15 px-4 py-1.5 rounded-full inline-block mb-4">
               Sustainability Initiatives
             </span>
-            <h2 className="text-3xl md:text-4xl text-ink font-extrabold tracking-tight mb-4">
+            <h2 className="text-3xl md:text-3xl text-ink font-bold tracking-tight mb-4">
               Innovative Community Development Projects
             </h2>
-            <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+            <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed max-w-[500px] m-auto">
               Creating localized income generation and environmental tools to foster
               self-sustainability within the Kyaka II refugee settlement.
             </p>
@@ -449,7 +555,7 @@ function IndexPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-12">
             {/* Project A */}
-            <div className="bg-white p-8 rounded-3xl border border-border shadow-sm flex flex-col justify-between">
+            <div className="bg-white p-8 rounded-3xl border border-border flex flex-col justify-between">
               <div>
                 <span className="text-[10px] font-bold text-[#1cbee7] uppercase tracking-wider">
                   Project A
@@ -465,7 +571,7 @@ function IndexPage() {
             </div>
 
             {/* Project B */}
-            <div className="bg-white p-8 rounded-3xl border border-border shadow-sm flex flex-col justify-between">
+            <div className="bg-white p-8 rounded-3xl border border-border flex flex-col justify-between">
               <div>
                 <span className="text-[10px] font-bold text-[#1cbee7] uppercase tracking-wider">
                   Project B
@@ -480,7 +586,7 @@ function IndexPage() {
             </div>
 
             {/* Project C */}
-            <div className="bg-white p-8 rounded-3xl border border-border shadow-sm flex flex-col justify-between">
+            <div className="bg-white p-8 rounded-3xl border border-border  flex flex-col justify-between">
               <div>
                 <span className="text-[10px] font-bold text-coral uppercase tracking-wider">
                   Project C
@@ -500,7 +606,7 @@ function IndexPage() {
           <div className="text-center">
             <Link
               to="/projects/hope-projects"
-              className="bg-white hover:bg-slate-50 text-ink border border-border rounded-full px-8 py-3.5 text-xs tracking-wider uppercase font-extrabold inline-flex items-center gap-2 transition"
+              className="bg-[#1cbee7] hover:bg-[#1b97b7] text-white border border-border rounded-full px-8 py-3.5 text-xs tracking-wider uppercase font-extrabold inline-flex items-center gap-2 transition"
             >
               Explore Sustainable Projects <ChevronRight className="h-4 w-4" />
             </Link>
@@ -534,135 +640,70 @@ function IndexPage() {
             </div>
 
             <div className="lg:col-span-6">
-              <div className="rounded-3xl overflow-hidden shadow-lg border border-border aspect-video bg-soft relative flex items-center justify-center">
-                {activeVideo ? (
-                  <iframe
-                    title="Watch a Firsthand Look at Angels Care"
-                    src="https://www.youtube.com/embed/fstkH_h4BM4?autoplay=1"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    className="w-full h-full"
-                  />
-                ) : (
-                  <div className="absolute inset-0">
-                    <img
-                      src="https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=1200&q=80"
-                      alt="Refugee Community Play video"
-                      className="w-full h-full object-cover grayscale-[10%]"
-                      referrerPolicy="no-referrer"
-                    />
-                    <div className="absolute inset-0 bg-black/30 backdrop-blur-xs flex items-center justify-center">
-                      <button
-                        onClick={() => setActiveVideo(true)}
-                        className="h-16 w-16 bg-coral hover:bg-[#d63d3f] text-white rounded-full flex items-center justify-center shadow-lg transform hover:scale-105 transition"
-                        aria-label="Play informational video"
-                      >
-                        <Play className="h-6 w-6 fill-current ml-1" />
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION 7: Join the Hope Family Campaign Banner */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
-          <div className="bg-coral/5 border border-coral/10 rounded-[32px] p-8 md:p-14 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8">
-            <div className="max-w-2xl space-y-4">
-              <span className="text-xs uppercase tracking-widest font-extrabold text-coral bg-coral/10 border border-coral/15 px-3 py-1 rounded inline-block">
-                Increase Your Impact
-              </span>
-              <h3 className="text-2xl sm:text-3.5xl font-extrabold text-ink tracking-tight">
-                Join the <span className="text-coral">Hope Family!</span>
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-700 leading-relaxed font-normal">
-                A transparent community of dedicated sponsors providing recurrent monthly donations
-                key to covering long-term infrastructure milestones.
-              </p>
-            </div>
-            <div>
-              <Link
-                to="/hope-family"
-                className="btn-coral rounded-full px-8 py-4 text-xs font-bold tracking-wider uppercase inline-block text-center shadow-md hover:shadow-lg transition-transform hover:scale-102"
-              >
-                Become a Monthly Sponsor
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION 8: Latest News Feed (Static Card Preview) */}
-      <section className="py-24 bg-soft border-y border-border">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
-          <header className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
-            <div>
-              <span className="text-xs uppercase tracking-widest font-extrabold text-coral bg-coral/5 border border-coral/15 px-4 py-1.5 rounded-full inline-block mb-3">
-                Updates from Kyaka II
-              </span>
-              <h2 className="text-3xl md:text-4xl text-ink font-black tracking-tight">
-                Latest from <span className="text-coral">Hope Stories</span>
-              </h2>
-            </div>
-            <div>
-              <Link
-                to="/hope-stories"
-                className="text-xs font-bold text-[#1cbee7] hover:underline uppercase tracking-wider inline-flex items-center gap-1"
-              >
-                Browse All Stories <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
-          </header>
-
-          <div className="max-w-md">
-            <article className="bg-white rounded-3xl border border-border shadow-sm overflow-hidden flex flex-col justify-between min-h-[460px]">
-              <div className="relative h-48 overflow-hidden bg-slate-100">
-                <img
-                  src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=800&q=80"
-                  alt="Angels Care Online Launch header"
-                  className="w-full h-full object-cover"
-                  referrerPolicy="no-referrer"
+              {/* Responsive Iframe Container */}
+              <div className="mx-auto rounded-xl overflow-hidden shadow-md aspect-video max-w-2xl border border-border">
+                <iframe
+                  title="Watch a Firsthand Look at Angels Care"
+                  src="https://www.youtube.com/embed/fstkH_h4BM4"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="w-full h-full"
                 />
               </div>
-              <div className="p-6 flex-grow flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center gap-3 text-xs text-muted-foreground font-semibold mb-3">
-                    <span className="flex items-center gap-1">
-                      <Calendar className="h-3.5 w-3.5 text-sky" />
-                      Jun 18
-                    </span>
-                    <span>•</span>
-                    <span className="flex items-center gap-1">
-                      <User className="h-3.5 w-3.5 text-sky" />
-                      Angels Care / NSCC
-                    </span>
-                  </div>
-                  <h3 className="text-lg font-bold text-ink hover:text-coral transition-colors mb-3 leading-snug">
-                    <Link to="/hope-stories/online-launch">Angels Care Online Launch!</Link>
-                  </h3>
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed line-clamp-4">
-                    We are excited to launch our online Sponsor Hope initiative for Angels Care! In
-                    2008, Pastor Godfrey Byaruhanga opened Angels Care School to address refugee
-                    needs...
-                  </p>
-                </div>
-                <div className="pt-4 border-t border-border mt-6">
-                  <Link
-                    to="/hope-stories/online-launch"
-                    className="text-xs font-black text-coral uppercase tracking-wider inline-flex items-center gap-1"
-                  >
-                    Read Article <ArrowRight className="h-3.5 w-3.5" />
-                  </Link>
-                </div>
-              </div>
-            </article>
+            </div>
           </div>
         </div>
       </section>
+
+
+
+      {/* 3. Inline Activity Banner (Horizontal visual card) */}
+      <section className="">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
+          <div className="relative rounded-[2.5rem] overflow-hidden border border-border bg-ink text-white p-8 md:p-12 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-10 group">
+            {/* Visual background image with gradient overlay */}
+            <div className="absolute inset-0 opacity-20 group-hover:opacity-25 transition-opacity duration-500">
+              <img
+                src="/src/assets/images/hero.webp"
+                alt="Angels Care Uganda community assembly with children"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            {/* Ink fallback gradient structure */}
+            <div className="absolute inset-0 bg-gradient-to-r from-ink/90 via-ink/80 to-transparent pointer-events-none" />
+
+            <div className="relative z-10 md:w-3/5 text-left">
+              <span className="inline-flex items-center gap-1.5 bg-sky/20 border border-sky/30 text-sky text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-full mb-4">
+                Life at Angels Care
+              </span>
+              <h3 className="text-3xl md:text-4xl font-semibold tracking-tight leading-none text-white">
+                Our Team in Action
+              </h3>
+              <p className="mt-3 text-sm md:text-base text-gray-300 leading-relaxed">
+                Empowering the 900+ active scholars of Kyaka II refugee camp daily. Through
+                classroom schedules, outdoor assemblies, sports tournaments, and food programs, we
+                stand unified to nurture the regional leaders of tomorrow.
+              </p>
+            </div>
+
+            <div className="relative z-10 w-full md:w-auto flex flex-col sm:flex-row gap-4">
+              <a
+                href="https://www.theforgottenintl.org/donate/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-coral rounded-full px-6 py-3.5 text-xs uppercase tracking-wider font-bold text-center inline-flex items-center justify-center gap-2 hover:shadow-coral"
+              >
+                Support our School Meal Program <Heart className="h-4 w-4 fill-white" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      
+
+
+      
 
       {/* SECTION 9: Direct Contact Area & Form */}
       <section id="contact" className="py-24 bg-white">
@@ -673,7 +714,7 @@ function IndexPage() {
               <span className="text-xs uppercase tracking-widest font-extrabold text-coral bg-coral/5 border border-coral/15 px-4 py-1.5 rounded-full inline-block">
                 Get In Touch
               </span>
-              <h2 className="text-3xl sm:text-4xl text-ink font-black tracking-tight leading-tight">
+              <h2 className="text-3xl sm:text-3xl text-ink font-bold tracking-tight leading-tight">
                 Contact Us
               </h2>
               <div className="w-16 h-1.5 bg-[#1cbee7] rounded-full" />
