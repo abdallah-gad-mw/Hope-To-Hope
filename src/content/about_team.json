@@ -1,0 +1,275 @@
+{
+  "hero": {
+    "badge": "Staff Members & Coordinators",
+    "title": "Meet Our Dedicated Team",
+    "subtitle": "“Dedicated staff with a heart to serve the children and community.”",
+    "paragraphs": [
+      "At Angels Care Uganda, our local educators, admin leaders, and supportive caretakers work tirelessly in Kyaka II Refugee Settlement. We provide educational foundations, security, health initiatives, and compassionate mentorship to empower 900+ active students daily."
+    ],
+    "primaryBtn": "Explore Directory",
+    "secondaryBtn": "Our Leadership"
+  },
+  "leadership": {
+    "badge": "Governing Bodies & Management",
+    "title": "Senior Leadership & Field Directors",
+    "description": "Driven by conviction, experience, and local expertise. Our leadership steers the vision, finances, operations, and academic excellence of Angels Care.",
+    "founder": {
+      "id": "byaruhanga-godfrey",
+      "name": "Byaruhanga Godfrey",
+      "role": "Executive Director & Founder",
+      "description": "Godfrey founded Angels Care Uganda in 2008 inside Kyaka II Refugee Settlement with a bold goal: guaranteeing education, medical access, and shelter to children fleeing regional conflicts. Under his stewardship, the school evolved from basic temporary straw shelters to a fully active, certifiable educational campus hosting 900+ scholars.",
+      "status": "Founder & ED",
+      "linkText": "Field Liaison",
+      "linkUrl": "https://www.theforgottenintl.org"
+    },
+    "leaders": [
+      {
+        "id": "alinda-george",
+        "name": "Alinda George",
+        "role": "Head Teacher",
+        "description": "Leads core primary school operations, academic curriculum design, and instructional planning across standard subjects. Focuses on local staff development.",
+        "category": "Teaching Category",
+        "subrole": "Academic Head"
+      },
+      {
+        "id": "bamwesigye-daniel",
+        "name": "Bamwesigye Daniel",
+        "role": "Deputy Head Teacher",
+        "description": "Oversees student affairs, classroom activities, disciplinary affairs, and field events for safe settlement learning. Coordinates teaching schedules.",
+        "category": "Teaching Category",
+        "subrole": "Co-Management"
+      },
+      {
+        "id": "sangwa-willy",
+        "name": "Sangwa Willy",
+        "role": "School Bursar",
+        "description": "Controls budget allocations, tracks donor funding transfers, manages vendor agreements, and coordinates field project financial sheets.",
+        "category": "Finance Category",
+        "subrole": "Finance Lead"
+      },
+      {
+        "id": "dusengeyezu-auginia",
+        "name": "Dusengeyezu Auginia",
+        "role": "Secretary & Admin Assistant",
+        "description": "Coordinates file databases, handles child registration forms, student rosters, and logs reports matching international liaisons.",
+        "category": "Administration Category",
+        "subrole": "Administration"
+      }
+    ]
+  },
+  "actionBanner": {
+    "badge": "Life at Angels Care",
+    "title": "Our Team in Action",
+    "description": "Empowering the 900+ active scholars of Kyaka II refugee camp daily. Through classroom schedules, outdoor assemblies, sports tournaments, and food programs, we stand unified to nurture the regional leaders of tomorrow.",
+    "btnText": "Support our School Meal Program"
+  },
+  "directory": {
+    "badge": "Interactive Directory",
+    "title": "Our Dedicated Professionals",
+    "description": "Click tabs to filter our teaching staff, campus support crew, and international liaison partners. Use the input field to find staff by name or role.",
+    "searchPlaceholder": "Search staff by name/qualification...",
+    "emptyState": {
+      "title": "No team members match your filter or search query",
+      "subtext": "Try resetting the tab selection or checking your spelling.",
+      "btnText": "Reset filters"
+    },
+    "staffList": [
+      {
+        "id": "alinda-george",
+        "name": "Alinda George",
+        "role": "Head Teacher",
+        "category": "teaching",
+        "initials": "AG",
+        "grad": "Bachelor of Education (MUK)",
+        "avatarBg": "from-sky/80 to-sky",
+        "bio": "Leads school administration and curriculum planning. George ensures academic standards are maintained and matches child support with high quality learning."
+      },
+      {
+        "id": "bamwesigye-daniel",
+        "name": "Bamwesigye Daniel",
+        "role": "Deputy Head Teacher",
+        "category": "teaching",
+        "initials": "BD",
+        "grad": "Diploma in Primary Education",
+        "avatarBg": "from-coral/30 to-coral/10",
+        "bio": "Coordinates academic timetables, co-curricular sports, and general safety policies for our 900+ registered students."
+      },
+      {
+        "id": "nagasha-eden",
+        "name": "Nagasha Eden",
+        "role": "Classroom Teacher",
+        "category": "teaching",
+        "initials": "NE",
+        "grad": "Early Childhood Teacher",
+        "avatarBg": "from-sky/30 to-coral/10"
+      },
+      {
+        "id": "kansiime-mwajabu",
+        "name": "Kansiime Mwajabu",
+        "role": "Classroom Teacher",
+        "category": "teaching",
+        "initials": "KM",
+        "grad": "Primary Education Grade III Cert",
+        "avatarBg": "from-coral/20 to-sky/20"
+      },
+      {
+        "id": "angabire-mary-gorret",
+        "name": "Angabire Mary Gorret",
+        "role": "Classroom Teacher",
+        "category": "teaching",
+        "initials": "AM",
+        "grad": "Grade III Teaching Certificate",
+        "avatarBg": "from-sky/40 to-sky/20"
+      },
+      {
+        "id": "twesigomwe-jonathan",
+        "name": "Twesigomwe Jonathan",
+        "role": "Classroom Teacher",
+        "category": "teaching",
+        "initials": "TJ",
+        "grad": "Primary Specialist Teacher",
+        "avatarBg": "from-coral/40 to-coral/10"
+      },
+      {
+        "id": "nzamurambaho-george",
+        "name": "Nzamurambaho George",
+        "role": "Classroom Teacher",
+        "category": "teaching",
+        "initials": "NG",
+        "grad": "Science & Math Specialist",
+        "avatarBg": "from-sky/50 to-coral/25"
+      },
+      {
+        "id": "ninsiima-catheline",
+        "name": "Ninsiima Catheline",
+        "role": "Classroom Teacher",
+        "category": "teaching",
+        "initials": "NC",
+        "grad": "Languages Teacher",
+        "avatarBg": "from-coral/35 to-coral/15"
+      },
+      {
+        "id": "nkarubo-mary",
+        "name": "Nkarubo Mary",
+        "role": "Classroom Teacher",
+        "category": "teaching",
+        "initials": "NM",
+        "grad": "Lower Primary Specialist",
+        "avatarBg": "from-sky/30 to-coral/20"
+      },
+      {
+        "id": "tuhaise-balongo",
+        "name": "Tuhaise Balongo",
+        "role": "Classroom Teacher",
+        "category": "teaching",
+        "initials": "TB",
+        "grad": "Grade III Educator",
+        "avatarBg": "from-coral/30 to-sky/30"
+      },
+      {
+        "id": "baguma-maria",
+        "name": "Baguma Maria",
+        "role": "Classroom Teacher",
+        "category": "teaching",
+        "initials": "BM",
+        "grad": "Primary Methods Cert",
+        "avatarBg": "from-sky/35 to-sky/15"
+      },
+      {
+        "id": "kabugho-rehema",
+        "name": "Kabugho Rehema",
+        "role": "Classroom Teacher",
+        "category": "teaching",
+        "initials": "KR",
+        "grad": "Language Arts",
+        "avatarBg": "from-coral/25 to-coral/10"
+      },
+      {
+        "id": "jafoyombe-paul",
+        "name": "Jafoyombe Paul",
+        "role": "Classroom Teacher",
+        "category": "teaching",
+        "initials": "JP",
+        "grad": "Primary Grade III Cert",
+        "avatarBg": "from-sky/40 to-sky/10"
+      },
+      {
+        "id": "turyamureba-vanansio",
+        "name": "Turyamureba Vanansio",
+        "role": "Security Guard",
+        "category": "support",
+        "initials": "TV",
+        "grad": "Campus Safety & Field Security",
+        "avatarBg": "from-ink/10 to-ink/30"
+      },
+      {
+        "id": "vuguziga-emmanuel",
+        "name": "Vuguziga Emmanuel",
+        "role": "Lead Cook",
+        "category": "support",
+        "initials": "VE",
+        "grad": "Nutrition & Mess Coordinator",
+        "avatarBg": "from-coral/20 to-coral/10"
+      },
+      {
+        "id": "turyaheebwa-atanazio",
+        "name": "Turyaheebwa Atanazio",
+        "role": "Cook",
+        "category": "support",
+        "initials": "TA",
+        "grad": "Meal Prep Specialist",
+        "avatarBg": "from-sky/20 to-sky/10"
+      },
+      {
+        "id": "twongirwe-saliva",
+        "name": "Twongirwe Saliva",
+        "role": "Cook",
+        "category": "support",
+        "initials": "TS",
+        "grad": "Meal Prep Specialist",
+        "avatarBg": "from-coral/15 to-sky/15"
+      },
+      {
+        "id": "robert-tarnowski",
+        "name": "Robert Tarnowski",
+        "role": "Canadian Liaison & Coordinator",
+        "category": "liaison",
+        "initials": "RT",
+        "grad": "Hopetohope.org Partnership Director",
+        "avatarBg": "from-sky/50 to-sky",
+        "bio": "Manages donor transparency, reporting metrics, and international support funds crossing Canada and USA to the Field operations in Kyaka II Refugee Settlement."
+      },
+      {
+        "id": "tatum-bergen",
+        "name": "Tatum Bergen",
+        "role": "Canadian Support Partners Liaison",
+        "category": "liaison",
+        "initials": "TB",
+        "grad": "Hopetohope.org Support Liaison",
+        "avatarBg": "from-coral/40 to-coral",
+        "bio": "Coordinates sponsor outreach, children messaging systems, community fundraising projects, and field reporting updates."
+      }
+    ]
+  },
+  "liaison": {
+    "badge": "Canadian Support Liaison",
+    "title": "Hopetohope.org — Canadian Liaison Contacts",
+    "description": "Our Canadian coordinates represent the funding and communication lifeblood of the Angels Care Uganda operation. Bridging the gap between compassionate donors in Canada and our immediate field needs in Uganda.",
+    "subtext": "Robert and Tatum support our funding audits, student sponsorship matches, educational packages procurement, and local transparency logs. They ensure that every dollar directly hits field budgets in Kyaka II Refugee settlement.",
+    "points": [
+      "100% of designated sponsorships reach Kyaka II settlement budgets.",
+      "Regular auditing reports and tax receipts for Canadian and Global donors."
+    ],
+    "btnText": "Partner With Us",
+    "dialog": {
+      "successTitle": "Message Sent to Liaisons!",
+      "successText": "Thank you, {name}. We will relay this inquiry to {role} and get back to you at {email} within 48 hours.",
+      "title": "Send inquiry to ",
+      "nameLabel": "Your Name",
+      "emailLabel": "Email Address",
+      "subjectLabel": "Subject",
+      "messageLabel": "Message",
+      "submitBtn": "Submit Inquiry"
+    }
+  }
+}

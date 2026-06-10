@@ -20,6 +20,7 @@ import {
   DollarSign,
   Coffee,
 } from "lucide-react";
+import orphanageData from "@/content/projects_orphanage.json";
 
 export const Route = createFileRoute("/projects/orphanage")({
   head: () => ({
@@ -43,62 +44,18 @@ export const Route = createFileRoute("/projects/orphanage")({
   component: OrphanageProjectPage,
 });
 
-// Structural Typings for Interactive Models
-interface FinancialBreakdownItem {
-  name: string;
-  amount: string;
-  percentage: number;
-  icon: React.ReactNode;
-  description: string;
-}
-
 function OrphanageProjectPage() {
+  const d = orphanageData;
   const [showTooltipLeft, setShowTooltipLeft] = useState(false);
-  const [supportTier, setSupportTier] = useState<"child" | "home">("child");
 
-  // Bento Dollar Allocation Breakdown
-  const dollarBreakdown: FinancialBreakdownItem[] = [
-    {
-      name: "Safe Housing & Shelter",
-      amount: "$22 CAN",
-      percentage: 24,
-      icon: <Home className="h-5 w-5 text-coral" />,
-      description:
-        "Direct protection from seasonal winds, secure compound housing, structural repairs, and mosquito nets.",
-    },
-    {
-      name: "Nutritious Daily Feeding",
-      amount: "$28 CAN",
-      percentage: 31,
-      icon: <Coffee className="h-5 w-5 text-sky" />,
-      description:
-        "Three hot meals daily covering essential vitamins, crop harvests, and storage security for food supply.",
-    },
-    {
-      name: "Full Schooling & Uniforms",
-      amount: "$18 CAN",
-      percentage: 20,
-      icon: <GraduationCap className="h-5 w-5 text-indigo-500" />,
-      description:
-        "Enrollment at Angels Care School, uniform clothing, learning books, pencil kits, and teacher backing.",
-    },
-    {
-      name: "Clean Clothing & Essentials",
-      amount: "$12 CAN",
-      percentage: 13,
-      icon: <Shirt className="h-5 w-5 text-coral" />,
-      description:
-        "Shoes, regional clothing changes for warm weather, bedding, basic sanitary packs, and wash supplies.",
-    },
-    {
-      name: "Basic Medical Care & Clinic Access",
-      amount: "$10 CAN",
-      percentage: 12,
-      icon: <Activity className="h-5 w-5 text-sky" />,
-      description:
-        "Immediate diagnostic access to Angels Care Medical Centre, routine vaccination checkups, and triage treatments.",
-    },
-  ];
+  const getFinancialIcon = (name: string) => {
+    if (name.includes("Housing")) return <Home className="h-5 w-5 text-coral" />;
+    if (name.includes("Feeding")) return <Coffee className="h-5 w-5 text-sky" />;
+    if (name.includes("Schooling")) return <GraduationCap className="h-5 w-5 text-indigo-500" />;
+    if (name.includes("Clothing")) return <Shirt className="h-5 w-5 text-coral" />;
+    if (name.includes("Medical")) return <Activity className="h-5 w-5 text-sky" />;
+    return <Heart className="h-5 w-5 text-sky" />;
+  };
 
   return (
     <div
@@ -118,7 +75,7 @@ function OrphanageProjectPage() {
               {/* Minimalist Tech-Forward Status Badge */}
               <div className="inline-flex items-center gap-1.5 mb-6 bg-coral/10 text-coral text-xs font-semibold px-4 py-1.5 rounded-full border border-coral/25">
                 <Heart className="h-3.5 w-3.5" />
-                <span>100% Care & Restoration Pipeline</span>
+                <span>{d.hero.badge}</span>
               </div>
 
               {/* Title heading with custom typography */}
@@ -127,18 +84,17 @@ function OrphanageProjectPage() {
               </h1>
 
               <h2 className="mt-4 text-sky font-semibold tracking-wide text-lg sm:text-xl md:text-2xl uppercase">
-                Where refugee children find family, healing, and a place to belong.
+                {d.hero.subtitle}
               </h2>
 
               {/* Vision and Emotional Callout Block */}
-              <div className="mt-8 p-6 rounded-2xl bg-white border border border-border shadow-sm max-w-xl relative overflow-hidden">
+              <div className="mt-8 p-6 rounded-2xl bg-white border border-border shadow-sm max-w-xl relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-2 h-full bg-coral animate-pulse" />
                 <p
                   className="text-lg sm:text-xl text-ink leading-relaxed text-left text-balance"
                   style={{ fontFamily: "'Playfair Display', serif" }}
                 >
-                  “At Angels Care, we ensure that every child experiences the safety and love of a
-                  family environment, escaping the trauma of isolation.”
+                  {d.hero.quote}
                 </p>
               </div>
 
@@ -147,13 +103,13 @@ function OrphanageProjectPage() {
                   href="#dual-care-model"
                   className="btn-coral rounded-full px-6 py-3 text-xs uppercase tracking-wider font-bold inline-flex items-center gap-2 animate-fade-in"
                 >
-                  See Dual Care Model <ChevronRight className="h-4 w-4" />
+                  {d.hero.primaryBtn} <ChevronRight className="h-4 w-4" />
                 </a>
                 <a
                   href="#transparency-dashboard"
                   className="px-6 py-3 rounded-full border border-border bg-white hover:bg-soft text-ink text-xs uppercase tracking-wider font-bold transition duration-200"
                 >
-                  Check Direct Expenses
+                  {d.hero.secondaryBtn}
                 </a>
               </div>
             </div>
@@ -193,17 +149,16 @@ function OrphanageProjectPage() {
       {/* SECTION 2: "Our Dual Care Model" Section */}
       <section id="dual-care-model" className="py-24 bg-white border-b border-border relative">
         <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
-          {/* Section Section Header */}
+          {/* Section Header */}
           <div className="max-w-3xl mx-auto text-center mb-16">
             <span className="text-xs uppercase tracking-[0.25em] text-coral font-bold bg-coral/5 px-4 py-1.5 rounded-full border border-coral/10 mb-4 inline-block">
-              Government Aligned Strategy
+              {d.dualModel.badge}
             </span>
             <h3 className="text-3xl sm:text-4xl text-ink font-bold tracking-tight">
-              Our Dual Care Model
+              {d.dualModel.title}
             </h3>
             <p className="mt-4 text-muted-foreground text-sm sm:text-base leading-relaxed text-balance">
-              Aligning our operations with international child development goals and Ugandan social
-              welfare policies to prioritize home restoration.
+              {d.dualModel.description}
             </p>
           </div>
 
@@ -216,7 +171,7 @@ function OrphanageProjectPage() {
               <div>
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-mono text-coral font-bold bg-coral/5 px-2.5 py-1 rounded-full border border-coral/10">
-                    Pastor Godfrey's Sanctuary Care
+                    {d.dualModel.houseOfGodfrey.badge}
                   </span>
                   <div className="relative">
                     <button
@@ -248,16 +203,15 @@ function OrphanageProjectPage() {
                   </div>
                 </div>
 
-                <h4 className="text-2xl font-bold text-ink mt-4 mb-2">Immediate Sanctuary Care</h4>
+                <h4 className="text-2xl font-bold text-ink mt-4 mb-2">
+                  {d.dualModel.houseOfGodfrey.title}
+                </h4>
                 <div className="text-3xl font-extrabold text-coral/90 tracking-tight mb-4">
-                  15 Rescued Children
+                  {d.dualModel.houseOfGodfrey.subtitle}
                 </div>
 
                 <p className="text-sm text-balance text-muted-foreground leading-relaxed">
-                  Fifteen of our orphans are directly taken care of, loved, and raised by Pastor
-                  Godfrey and his wife themselves in our central campus home. They are entirely fed,
-                  clothed, and sent to Angels Care School within a deeply compassionate home
-                  setting.
+                  {d.dualModel.houseOfGodfrey.description}
                 </p>
               </div>
 
@@ -267,7 +221,7 @@ function OrphanageProjectPage() {
                   Sponsorship Stream
                 </span>
                 <span className="inline-block text-xs font-mono text-coral bg-coral/5 border border-coral/10 rounded-lg px-3 py-1 font-semibold">
-                  Sustains: $1,200 CAN / Month
+                  {d.dualModel.houseOfGodfrey.footer}
                 </span>
               </div>
             </div>
@@ -279,22 +233,18 @@ function OrphanageProjectPage() {
 
               <div>
                 <span className="text-xs font-mono text-sky font-bold bg-sky/5 px-2.5 py-1 rounded-full border border-sky/10">
-                  Refugee Foster Network
+                  {d.dualModel.communityFoster.badge}
                 </span>
 
                 <h4 className="text-2xl font-bold text-ink mt-4 mb-2">
-                  Community Foster Placement
+                  {d.dualModel.communityFoster.title}
                 </h4>
                 <div className="text-3xl font-extrabold text-sky/95 tracking-tight mb-4">
-                  115 Orphans Placed
+                  {d.dualModel.communityFoster.subtitle}
                 </div>
 
                 <p className="text-sm text-balance text-muted-foreground leading-relaxed">
-                  The Ugandan government prefers orphans to be assigned to families to experience a
-                  natural family setting. For this reason, 115 orphans are carefully integrated into
-                  verified families throughout our refugee community. If any issue arises, the child
-                  is brought back immediately to our central care. Otherwise, Angels Care
-                  continuously acts as their lifeline, financially supporting these host families.
+                  {d.dualModel.communityFoster.description}
                 </p>
               </div>
 
@@ -304,7 +254,7 @@ function OrphanageProjectPage() {
                   Safety Triage
                 </span>
                 <span className="inline-block text-xs font-mono text-sky bg-sky/5 border border-sky/10 rounded-lg px-3 py-1 font-semibold">
-                  Supported & Monitored Weekly
+                  {d.dualModel.communityFoster.footer}
                 </span>
               </div>
             </div>
@@ -319,19 +269,13 @@ function OrphanageProjectPage() {
             {/* Left Column: Context Text */}
             <div className="lg:col-span-5 flex flex-col justify-center">
               <span className="text-xs uppercase tracking-[0.25em] text-coral font-bold bg-coral/5 px-3 py-1 rounded-full border border-coral/10 mb-4 inline-block self-start">
-                Financial Transparency
+                {d.financials.badge}
               </span>
               <h3 className="text-3xl sm:text-4xl text-ink font-bold tracking-tight leading-tight">
-                Financial Transparency & True Cost of Care
+                {d.financials.title}
               </h3>
               <p className="mt-6 text-muted-foreground text-sm sm:text-base leading-relaxed text-balance">
-                The local families who generously open their hearts to look after these orphans
-                rarely can financially afford to do so. They depend entirely on the backing of
-                Angels Care Orphanage to survive.
-              </p>
-              <p className="mt-4 text-muted-foreground text-sm sm:text-base leading-relaxed text-balance">
-                By maintaining a highly optimal, transparent donor-to-field pipeline, we translate
-                clean accountability from global resources directly into children's well-being.
+                {d.financials.description}
               </p>
 
               {/* Highlight Note */}
@@ -342,7 +286,7 @@ function OrphanageProjectPage() {
                 <div>
                   <h5 className="text-xs font-bold text-ink">92% Direct Action Metric</h5>
                   <p className="text-xs text-muted-foreground">
-                    Over 92% of all sponsorship funding goes directly of costs inside Kyaka II.
+                    Over 92% of all sponsorship funding goes directly to costs inside Kyaka II.
                   </p>
                 </div>
               </div>
@@ -382,12 +326,12 @@ function OrphanageProjectPage() {
                   Monthly Allocations Detail
                 </h4>
 
-                {dollarBreakdown.map((item, idx) => (
+                {d.financials.breakdown.map((item, idx) => (
                   <div key={idx} className="group/item">
                     <div className="flex justify-between items-center mb-1 text-xs sm:text-sm font-medium">
                       <div className="flex items-center gap-2 text-ink">
                         <div className="p-1 bg-slate-50 rounded-md shadow-sm border border-border group-hover/item:scale-110 transition-transform">
-                          {item.icon}
+                          {getFinancialIcon(item.name)}
                         </div>
                         <span className="font-semibold">{item.name}</span>
                       </div>
@@ -427,16 +371,15 @@ function OrphanageProjectPage() {
 
             <div className="max-w-2xl mx-auto flex flex-col items-center">
               <span className="text-[11px] uppercase tracking-[0.25em] font-extrabold text-coral bg-coral/5 border border-coral/15 px-4 py-1.5 rounded-full mb-6 leading-none">
-                Make an Immediate Difference
+                {d.tiers.badge}
               </span>
 
               <h2 className="text-3xl sm:text-4xl text-ink font-bold tracking-tight leading-none mb-4 text-balance">
-                Elevate a Child's Future
+                {d.tiers.title}
               </h2>
 
               <p className="text-muted-foreground text-sm sm:text-base leading-relaxed text-balance mb-10 max-w-xl">
-                Ready to take action? Secure an orphan's education, clothes, and well-being, or
-                learn about our robust education system.
+                {d.tiers.description}
               </p>
 
               {/* Action Buttons styled precisely according to brand constraints */}
@@ -448,7 +391,7 @@ function OrphanageProjectPage() {
                   rel="noopener noreferrer"
                   className="bg-[#f05153] hover:bg-[#d63d3f] text-white rounded-full px-8 py-4 text-xs uppercase tracking-wider font-bold transition duration-200 text-center shadow-lg hover:shadow-[#f05153]/35 flex items-center justify-center gap-2 group cursor-pointer"
                 >
-                  <span>Sponsor a Child Now</span>
+                  <span>{d.tiers.childTier.btnText}</span>
                   <ArrowRight className="h-4 w-4 transform group-hover:translate-x-1 transition-transform" />
                 </a>
 

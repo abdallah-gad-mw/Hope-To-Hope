@@ -19,9 +19,9 @@ import {
   ArrowRight,
   School,
   Star,
-  Users2,
   Globe,
 } from "lucide-react";
+import schoolData from "@/content/projects_school.json";
 
 export const Route = createFileRoute("/projects/school")({
   head: () => ({
@@ -29,8 +29,7 @@ export const Route = createFileRoute("/projects/school")({
       { title: "Angels Care School — Angels Care Uganda" },
       {
         name: "description",
-        content:
-          "Discover how Angels Care School empowers refugee children in Kyaka II Settlement. Providing safe learning, curriculum mastery, and building regional leaders.",
+        content: schoolData.hero.subheading,
       },
     ],
     links: [
@@ -45,26 +44,13 @@ export const Route = createFileRoute("/projects/school")({
   component: SchoolProjectPage,
 });
 
-// Demographic Metric Data Types
-interface MetricCard {
-  id: string;
-  title: string;
-  value: string;
-  subtext: string;
-  badge?: string;
-  icon: React.ReactNode;
-  bgGradient: string;
-}
-
-// Media Gallery Image Types
 interface GalleryImage {
   id: number;
   url: string;
-  caption: string;
-  category: string;
 }
 
 function SchoolProjectPage() {
+  const d = schoolData;
   const [showBadgeTooltip, setShowBadgeTooltip] = useState(false);
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
   const [mounted, setMounted] = useState(false);
@@ -84,119 +70,20 @@ function SchoolProjectPage() {
     };
   }, [selectedImage]);
 
-  // Stats Card data
-  const demographicCards: MetricCard[] = [
-    {
-      id: "active-students",
-      title: "1,000+ Active Students",
-      value: "1,000+",
-      subtext: "Serving both the Kyaka II Refugee Settlement and local Ugandan children.",
-      icon: <Users className="h-5 w-5 text-coral" />,
-      bgGradient: "from-coral/5 to-soft border border-coral/10",
-    },
-    {
-      id: "refugee-ratio",
-      title: "Demographic Breakdown",
-      value: "80% Refugee",
-      subtext: "Integrating refugee scholars with local host community peers.",
-      badge: "Inclusion",
-      icon: <BookOpen className="h-5 w-5 text-sky" />,
-      bgGradient: "from-sky/5 to-soft border border-sky/10",
-    },
-    {
-      id: "academic-pipeline",
-      title: "Nursery to Elementary",
-      value: "P1 to P7 Pipeline",
-      subtext: "Full academic pipeline from Kindergarten up to Primary 7.",
-      icon: <School className="h-5 w-5 text-indigo-500" />,
-      bgGradient: "from-indigo-50/20 to-soft border border-indigo-100",
-    },
-    {
-      id: "national-marks",
-      title: "Top National Test Marks",
-      value: "Grade A Standards",
-      subtext:
-        "Students receive the best education in the settlement, consistently achieving the highest marks in national tests.",
-      badge: "Outstanding Results",
-      icon: <Star className="h-5 w-5 text-amber-500 fill-amber-400" />,
-      bgGradient: "from-amber-500/5 to-soft border-2 border-amber-500/20 shadow-sm",
-    },
-  ];
-
-  // Gallery items using high quality Unsplash photos matching refugee/education
+  // Gallery items using local assets
   const galleryImages: GalleryImage[] = [
-    {
-      id: 1,
-      url: "/src/assets/images/school/1.webp",
-      caption: "",
-      category: "",
-    },
-    {
-      id: 2,
-      url: "/src/assets/images/school/2.webp",
-      caption: "",
-      category: "",
-    },
-    {
-      id: 3,
-      url: "/src/assets/images/school/3.webp",
-      caption: "",
-      category: "",
-    },
-    {
-      id: 4,
-      url: "/src/assets/images/school/4.webp",
-      caption: "",
-      category: "",
-    },
-    {
-      id: 5,
-      url: "/src/assets/images/school/5.webp",
-      caption: "",
-      category: "",
-    },
-    {
-      id: 6,
-      url: "/src/assets/images/school/6.webp",
-      caption: "",
-      category: "",
-    },
-    {
-      id: 7,
-      url: "/src/assets/images/school/7.webp",
-      caption: "",
-      category: "",
-    },
-    {
-      id: 8,
-      url: "/src/assets/images/school/8.webp",
-      caption: "",
-      category: "",
-    },
-    {
-      id: 9,
-      url: "/src/assets/images/school/9.webp",
-      caption: "",
-      category: "",
-    },
-    {
-      id: 10,
-      url: "/src/assets/images/school/10.webp",
-      caption: "",
-      category: "",
-    },
-    {
-      id: 11,
-      url: "/src/assets/images/school/12.webp",
-      caption: "",
-      category: "",
-    },
-    {
-      id: 12,
-      url: "/src/assets/images/school/13.webp",
-      caption: "",
-      category: "",
-    },
+    { id: 1, url: "/src/assets/images/school/1.webp" },
+    { id: 2, url: "/src/assets/images/school/2.webp" },
+    { id: 3, url: "/src/assets/images/school/3.webp" },
+    { id: 4, url: "/src/assets/images/school/4.webp" },
+    { id: 5, url: "/src/assets/images/school/5.webp" },
+    { id: 6, url: "/src/assets/images/school/6.webp" },
+    { id: 7, url: "/src/assets/images/school/7.webp" },
+    { id: 8, url: "/src/assets/images/school/8.webp" },
+    { id: 9, url: "/src/assets/images/school/9.webp" },
+    { id: 10, url: "/src/assets/images/school/10.webp" },
+    { id: 11, url: "/src/assets/images/school/12.webp" },
+    { id: 12, url: "/src/assets/images/school/13.webp" },
   ];
 
   return (
@@ -210,8 +97,8 @@ function SchoolProjectPage() {
         <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16 relative z-10">
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             {/* Left Content column */}
-            <div className="lg:col-span-7 flex flex-col items-start reveal">
-              {/* Minimalist Tech-Forward Hero Badge with Interactive Tooltip */}
+            <div className="lg:col-span-7 flex flex-col items-start text-left">
+              {/* Minimalist Top Badge with Interactive Tooltip */}
               <div className="relative inline-flex items-center gap-2.5 mb-6 z-20">
                 <div
                   className="inline-flex items-center gap-1.5 cursor-pointer select-none bg-coral/10 hover:bg-coral/15 text-coral text-xs font-semibold px-4 py-1.5 rounded-full border border-coral/25 transition-all duration-200"
@@ -220,7 +107,7 @@ function SchoolProjectPage() {
                   onMouseLeave={() => setShowBadgeTooltip(false)}
                 >
                   <Award className="h-4 w-4" />
-                  <span>Govt Recognized Since 2011</span>
+                  <span>{d.hero.badge}</span>
                   <Info className="h-3.5 w-3.5 opacity-80" />
                 </div>
 
@@ -232,47 +119,44 @@ function SchoolProjectPage() {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 10, scale: 0.95 }}
                       transition={{ duration: 0.2 }}
-                      className="absolute left-0 top-full mt-2 w-72 sm:w-80 bg-ink text-white rounded-2xl p-4 shadow-xl border border-white/10 text-xs z-30 leading-relaxed"
+                      className="absolute left-0 top-full mt-2 w-72 sm:w-80 bg-ink text-white rounded-2xl p-4 shadow-xl border border-white/10 text-xs z-30 leading-relaxed text-left"
                     >
                       <div className="absolute -top-1.5 left-8 w-3 h-3 bg-ink rotate-45 border-t border-l border-white/10" />
                       <p className="font-semibold text-coral flex items-center gap-1 mb-1">
                         <CheckCircle2 className="h-3.5 w-3.5 text-coral" /> Official Ministerial
                         Status
                       </p>
-                      In 2011, the Ugandan government issued a formal document recognizing the
-                      exemplary work that Angels Care School does for the Kyaka II settlement,
-                      approving our curriculum and licensing public testing on resource grounds.
+                      In 2011, the Ugandan government issued formal recognition of our exemplary
+                      educational standards within Kyaka II Refugee Settlement, authorizing
+                      curriculum testing and standards criteria.
                     </motion.div>
                   )}
                 </AnimatePresence>
               </div>
 
-              {/* Title heading with Sky Blue text accent */}
+              {/* Title heading */}
               <h1 className="text-4xl sm:text-5xl md:text-6xl text-ink leading-[1.05] tracking-tight font-semibold text-balance">
                 Angels Care <span className="text-coral">School</span>
               </h1>
 
-              <h2 className="mt-4 text-sky font-semibold tracking-wide text-lg sm:text-xl md:text-2xl uppercase">
-                Education for Refugee Children: Shaping the Leaders of Tomorrow.
+              <h2 className="mt-4 text-sky font-semibold tracking-wide text-lg sm:text-xl md:text-2xl uppercase font-sans">
+                {d.hero.subheading}
               </h2>
 
               <p className="mt-6 text-muted-foreground text-sm sm:text-base md:text-lg leading-relaxed max-w-xl text-balance">
-                Operating directly inside Kyaka II Refugee Settlement, Angels Care School provides
-                free, safe, and world-class foundational training. By combining rigorous state
-                academics with emotional therapy and protective services, we help orphaned and
-                vulnerable children convert survival into stable futures.
+                {d.hero.intro}
               </p>
 
               <div className="mt-8 flex flex-wrap gap-4 select-none">
                 <a
                   href="#demographics"
-                  className="btn-coral rounded-full px-6 py-3 text-xs uppercase tracking-wider font-bold inline-flex items-center gap-2"
+                  className="btn-coral rounded-full px-6 py-3 text-xs uppercase tracking-wider font-bold inline-flex items-center gap-2 cursor-pointer"
                 >
                   Explore Our Core <ChevronRight className="h-4 w-4" />
                 </a>
                 <a
                   href="#needs"
-                  className="px-6 py-3 rounded-full border border-border bg-white hover:bg-soft text-ink text-xs uppercase tracking-wider font-bold transition duration-200"
+                  className="px-6 py-3 rounded-full border border-border bg-white hover:bg-soft text-ink text-xs uppercase tracking-wider font-bold transition duration-200 cursor-pointer"
                 >
                   Urgent Class Needs
                 </a>
@@ -280,7 +164,7 @@ function SchoolProjectPage() {
             </div>
 
             {/* Right Image Frame showcasing Classroom */}
-            <div className="lg:col-span-5 relative flex items-center justify-center reveal reveal-2">
+            <div className="lg:col-span-5 relative flex items-center justify-center">
               <div className="relative w-full max-w-md aspect-[4/3] sm:aspect-[4/5] object-cover">
                 {/* Asymmetric visual backing grids */}
                 <div className="absolute inset-4 rounded-3xl bg-sky/15 -rotate-3 transform -translate-x-3 scale-105" />
@@ -293,11 +177,12 @@ function SchoolProjectPage() {
                       src="/src/assets/images/school/2.webp"
                       alt="Refugee child engaged in learning at school desk"
                       className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      referrerPolicy="no-referrer"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
 
                     {/* Floating caption tag */}
-                    <div className="absolute bottom-4 left-4 right-4 text-white z-10 p-2 rounded-xl backdrop-blur-md bg-black/30 border border-white/10 text-xs">
+                    <div className="absolute bottom-4 left-4 right-4 text-white z-10 p-2 rounded-xl backdrop-blur-md bg-black/30 border border-white/10 text-xs text-center">
                       <p className="font-semibold leading-tight">Focus & Growth inside Kyaka II</p>
                     </div>
                   </div>
@@ -313,252 +198,170 @@ function SchoolProjectPage() {
         <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
             {/* Left Column: Narrative Block */}
-            <div className="lg:col-span-6 flex flex-col justify-center h-full">
+            <div className="lg:col-span-6 flex flex-col justify-center h-full text-left">
               <div className="max-w-xl">
                 <span className="text-xs uppercase tracking-[0.25em] text-coral font-bold bg-coral/5 px-3 py-1 rounded-full border border-coral/10 mb-4 inline-block">
-                  High-Readability Narrative
+                  {d.curriculum.badge}
                 </span>
 
                 <h3 className="text-3xl sm:text-4xl text-ink font-semibold tracking-tight leading-tight">
-                  Empowering Futures Beyond Circumstances
+                  {d.curriculum.title}
                 </h3>
 
-                <div className="mt-6 text-muted-foreground space-y-5 text-sm sm:text-base leading-relaxed text-left text-balance">
-                  <p>
-                    For refugee children, education is paramount to building their future. For young
-                    girls, the classroom provides safety, protection from early childhood marriage,
-                    and cultivates their leadership skills.
-                  </p>
-                  <p>
-                    For young boys, education teaches diligence and discipline, engages them in
-                    teamwork and cooperation through extracurriculars, and gives them opportunities
-                    to serve their community. Education gives refugee children hope that they can
-                    accomplish their dreams and have a stable future, even in the midst of grave
-                    circumstances.
-                  </p>
-                  <p className="font-medium text-ink bg-soft/80 p-4 border-l-4 border-sky rounded-r-2xl">
+                <p className="mt-4 text-slate-600 text-sm sm:text-base leading-relaxed">
+                  {d.curriculum.description}
+                </p>
+
+                <div className="mt-6 text-muted-foreground space-y-3 text-sm leading-relaxed">
+                  {d.curriculum.list.map((item, id) => (
+                    <div key={id} className="flex gap-2 items-start">
+                      <span className="text-emerald-500 font-bold font-sans">✓</span>
+                      <p className="font-medium text-ink/90">{item}</p>
+                    </div>
+                  ))}
+                  <p className="font-medium text-ink bg-soft/80 p-4 border-l-4 border-sky rounded-r-2xl mt-4">
                     Angels Care School educates refugee children so that they can be the leaders of
-                    tomorrow. Many of our graduates have gone on to become teachers and doctors,
-                    with many proudly returning to Angels Care as staff.
+                    tomorrow. Many of our graduates return to Angels Care proudly as teachers.
                   </p>
                 </div>
               </div>
             </div>
 
-            {/* Right Column: Interactive Demographics Cards Grid */}
-            <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-6 w-full">
-              {demographicCards.map((card) => {
-                const isRefugeeCard = card.id === "refugee-ratio";
-                return (
-                  <div
-                    key={card.id}
-                    className={`rounded-2xl p-6 ${card.bgGradient} flex flex-col justify-between min-h-[190px] transition-all duration-300 hover:shadow-md hover:-translate-y-1 group`}
-                  >
-                    <div>
-                      {/* Flex header */}
-                      <div className="flex items-center justify-between">
-                        <div className="p-2.5 bg-white rounded-xl shadow-sm border border-border/80 group-hover:scale-110 transition-transform">
-                          {card.icon}
-                        </div>
-                        {card.badge && (
-                          <span className="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 bg-white border border-border/30 rounded-md text-slate-500">
-                            {card.badge}
-                          </span>
-                        )}
-                      </div>
-
-                      <div className="mt-4">
-                        <span className="text-xs uppercase font-semibold text-muted-foreground/80 tracking-normal">
-                          {card.title}
-                        </span>
-                        <h4 className="text-2xl text-ink font-bold tracking-tight mt-1">
-                          {card.value}
-                        </h4>
-                      </div>
-                    </div>
-
-                    {/* Progress Bar injection for Card B */}
-                    {isRefugeeCard ? (
-                      <div className="mt-4 space-y-1">
-                        <div className="flex justify-between text-[11px] font-mono leading-none text-muted-foreground/90">
-                          <span className="text-sky font-bold">80% Refugee</span>
-                          <span className="text-coral font-bold">20% Local Host</span>
-                        </div>
-                        {/* Progress bar container */}
-                        <div className="w-full h-2.5 rounded-full bg-slate-100 overflow-hidden flex">
-                          <div className="h-full bg-sky" style={{ width: "80%" }} />
-                          <div className="h-full bg-coral" style={{ width: "20%" }} />
-                        </div>
-                      </div>
-                    ) : (
-                      <p className="mt-3 text-xs text-muted-foreground/90 leading-relaxed">
-                        {card.subtext}
-                      </p>
-                    )}
+            {/* Right Column: Metrics Grid */}
+            <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-3 gap-6 w-full text-left">
+              {/* Stat 1 */}
+              <div className="rounded-2xl p-6 bg-coral/5 border border-coral/10 flex flex-col justify-between min-h-[190px] transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+                <div>
+                  <div className="p-2.5 bg-white rounded-xl shadow-sm border border-border/80 w-fit">
+                    <Users className="h-5 w-5 text-coral" />
                   </div>
-                );
-              })}
+                  <div className="mt-4">
+                    <span className="text-xs uppercase font-semibold text-muted-foreground/85 tracking-tight block">
+                      {d.metrics.students.label}
+                    </span>
+                    <h4 className="text-3xl text-ink font-bold tracking-tight mt-1">
+                      {d.metrics.students.value}
+                    </h4>
+                  </div>
+                </div>
+                <p className="mt-3 text-xs text-muted-foreground/90 leading-relaxed">
+                  {d.metrics.students.detail}
+                </p>
+              </div>
+
+              {/* Stat 2 */}
+              <div className="rounded-2xl p-6 bg-sky/5 border border-sky/10 flex flex-col justify-between min-h-[190px] transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+                <div>
+                  <div className="p-2.5 bg-white rounded-xl shadow-sm border border-border/80 w-fit">
+                    <BookOpen className="h-5 w-5 text-sky" />
+                  </div>
+                  <div className="mt-4">
+                    <span className="text-xs uppercase font-semibold text-muted-foreground/85 tracking-tight block">
+                      {d.metrics.ratio.label}
+                    </span>
+                    <h4 className="text-3xl text-ink font-bold tracking-tight mt-1">
+                      {d.metrics.ratio.value}
+                    </h4>
+                  </div>
+                </div>
+                <p className="mt-3 text-xs text-muted-foreground/90 leading-relaxed">
+                  {d.metrics.ratio.detail}
+                </p>
+              </div>
+
+              {/* Stat 3 */}
+              <div className="rounded-2xl p-6 bg-indigo-50/40 border border-indigo-100 flex flex-col justify-between min-h-[190px] transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+                <div>
+                  <div className="p-2.5 bg-white rounded-xl shadow-sm border border-border/80 w-fit">
+                    <GraduationCap className="h-5 w-5 text-indigo-500" />
+                  </div>
+                  <div className="mt-4">
+                    <span className="text-xs uppercase font-semibold text-muted-foreground/85 tracking-tight block">
+                      {d.metrics.rank.label}
+                    </span>
+                    <h4 className="text-3xl text-ink font-bold tracking-tight mt-1 col-auto">
+                      {d.metrics.rank.value}
+                    </h4>
+                  </div>
+                </div>
+                <p className="mt-3 text-xs text-muted-foreground/90 leading-relaxed">
+                  {d.metrics.rank.detail}
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* SECTION 3: "Continued Critical Needs" Section (Premium Bento Grid) */}
+      {/* SECTION 3: Continued Critical Needs */}
       <section id="needs" className="py-24 bg-soft border-b border-border">
         <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
           {/* Main Headers */}
           <div className="max-w-3xl mx-auto text-center mb-16">
             <span className="text-xs uppercase tracking-[0.25em] text-coral font-bold bg-coral/5 px-3 py-1 rounded-full border border-coral/10 mb-4 inline-block">
-              Immediate Priorities & Interventions
+              {d.needs.badge}
             </span>
             <h3 className="text-3xl sm:text-4xl text-ink font-semibold tracking-tight">
-              Continued Needs for Angels Care School
+              {d.needs.title}
             </h3>
             <p className="mt-4 text-muted-foreground text-sm sm:text-base leading-relaxed text-balance">
-              To maintain our high standards and support the growing community, we face urgent
-              infrastructure and operational milestones.
+              {d.needs.description}
             </p>
           </div>
 
-          {/* 3-Column Modern Interactive Card Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Needs Card 1 (The Educators) */}
-            <div className="group relative rounded-3xl bg-white border border-border/80 p-8 flex flex-col justify-between card-hover shadow-sm overflow-hidden min-h-[440px]">
-              {/* Corner soft accent background circle */}
-              <div className="absolute top-0 right-0 h-28 w-28 bg-gradient-to-bl from-indigo-50 to-transparent rounded-bl-full pointer-events-none" />
+          {/* Dynamic 5-Column Grid spanning beautifully */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+            {d.needs.items.map((item, index) => (
+              <div
+                key={item.id}
+                className="group relative rounded-2xl bg-white border border-border p-6 flex flex-col justify-between card-hover shadow-sm overflow-hidden min-h-[380px] text-left"
+              >
+                <div>
+                  <div className="flex justify-between items-center mb-4">
+                    <span className="text-[10px] font-mono text-indigo-500 font-bold bg-indigo-50 px-2 py-0.5 rounded">
+                      Priority 0{index + 1}
+                    </span>
+                    <span className="text-[9px] uppercase tracking-wider font-extrabold text-coral bg-coral/5 border border-coral/10 px-2 py-0.5 rounded">
+                      {item.cost}
+                    </span>
+                  </div>
 
-              <div>
-                <span className="text-xs font-mono text-indigo-500 font-bold bg-indigo-50 px-2 py-1 rounded">
-                  Priority 01
-                </span>
+                  <h4 className="text-lg font-bold text-ink mb-3 group-hover:text-coral transition-colors">
+                    {item.title}
+                  </h4>
 
-                <h4 className="text-xl sm:text-2xl text-ink font-semibold tracking-tight mt-3 mb-4 group-hover:text-coral transition-colors">
-                  1. Teachers & Fair Wages
-                </h4>
-
-                <p className="text-xs sm:text-sm text-balance text-muted-foreground leading-relaxed">
-                  Education wouldn’t happen without dedicated educators. A loving teacher who
-                  inspires and recognizes potential can directly impact the trajectory of a life.
-                </p>
-
-                <p className="mt-3 text-xs sm:text-sm text-balance text-muted-foreground leading-relaxed">
-                  Currently, we have 20 teachers, averaging 1 to 2 teachers per classroom of 100
-                  students. We are currently unable to pay wages competitive with government
-                  schools. Our teachers love and are dedicated to our students, but this comes with
-                  heavy challenges.
-                </p>
-              </div>
-
-              {/* Targets / Output Badge */}
-              <div className="mt-6 pt-5 border-t border-border">
-                <span className="block text-[10px] uppercase font-bold tracking-wider text-slate-400 mb-1 leading-none">
-                  Core Mandate
-                </span>
-                <span className="inline-block text-xs font-mono text-indigo-600 bg-indigo-50 border border-indigo-100 rounded-lg px-3 py-2 font-semibold">
-                  Our Hope: Increase wages, build staff housing, and hire more educators.
-                </span>
-              </div>
-            </div>
-
-            {/* Needs Card 2 (Classroom Size Expansion) */}
-            <div className="group relative rounded-3xl bg-white border-2 border-sky/30 p-8 flex flex-col justify-between shadow-soft overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-sky hover:shadow-lg min-h-[440px]">
-              {/* Corner soft sky background circle */}
-              <div className="absolute top-0 right-0 h-28 w-28 bg-gradient-to-bl from-sky/10 to-transparent rounded-bl-full pointer-events-none" />
-
-              <div>
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-mono text-sky font-bold bg-sky/5 px-2 py-1 rounded">
-                    Priority 02
-                  </span>
-                  <span className="text-[9px] uppercase font-bold bg-sky text-sky-foreground px-2 py-0.5 rounded-full">
-                    Crucial Needs
-                  </span>
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    {item.description}
+                  </p>
                 </div>
 
-                <h4 className="text-xl sm:text-2xl text-ink font-semibold tracking-tight mt-3 mb-4">
-                  2. Expanding Classrooms
-                </h4>
-
-                <p className="text-xs sm:text-sm text-balance text-muted-foreground leading-relaxed">
-                  With the refugee population in Kyaka II ever-increasing, our student body is
-                  growing rapidly. At the moment, our classroom sizes are too small to accommodate
-                  them.
-                </p>
-
-                <p className="mt-3 text-xs sm:text-sm text-balance text-muted-foreground leading-relaxed font-medium text-ink bg-sky/5 p-3 rounded-xl border border-sky/10">
-                  On average, they have 120 children crammed per class. We need physical partition
-                  walls and concrete structures.
-                </p>
-              </div>
-
-              {/* Targets / Output Badge */}
-              <div className="mt-6 pt-5 border-t border-sky/20">
-                <span className="block text-[10px] uppercase font-bold tracking-wider text-sky mb-1 leading-none">
-                  Goal Metric
-                </span>
-                <span className="inline-block text-xs font-mono text-sky-foreground bg-sky/5 border border-sky/20 rounded-lg px-3 py-2 font-semibold">
-                  Our Goal: Raise funds to build 6 new classrooms to safely meet the government
-                  standard ratio of 45:1.
-                </span>
-              </div>
-            </div>
-
-            {/* Needs Card 3 (Support & Sponsorship Pipeline) */}
-            <div className="group relative rounded-3xl bg-white border border-border/80 p-8 flex flex-col justify-between card-hover shadow-sm overflow-hidden min-h-[440px]">
-              {/* Corner soft background circle */}
-              <div className="absolute top-0 right-0 h-28 w-28 bg-gradient-to-bl from-coral/10 to-transparent rounded-bl-full pointer-events-none" />
-
-              <div>
-                <span className="text-xs font-mono text-coral font-bold bg-coral/5 px-2 py-1 rounded">
-                  Priority 03
-                </span>
-
-                <h4 className="text-xl sm:text-2xl text-ink font-semibold tracking-tight mt-3 mb-4 group-hover:text-coral transition-colors">
-                  3. Child Sponsorship
-                </h4>
-
-                <p className="text-xs sm:text-sm text-balance text-muted-foreground leading-relaxed">
-                  For a child to attend school, it takes a village of conscious global supporters.
-                  Your continuous backing ensures these children have access to materials, safe
-                  classrooms, and bright futures.
-                </p>
-
-                <p className="mt-3 text-xs sm:text-sm text-balance text-muted-foreground leading-relaxed">
-                  Direct child sponsorship funds their meal plans, learning notebooks, field
-                  healthcare checkups, and uniform clothing. Connecting clean accountability from
-                  Canada resources to the field.
-                </p>
-              </div>
-
-              {/* Interactive Target Badge + Pulsing Coral Red Link */}
-              <div className="mt-6 pt-5 border-t border-border flex flex-col items-start gap-4">
-                <div className="block leading-none">
-                  <span className="block text-[10px] uppercase font-bold tracking-wider text-slate-400 mb-1">
-                    Direct Outcome
-                  </span>
-                  <span className="text-xs font-semibold text-slate-700">
-                    Your continuous backing ensures tuition materials, food, health care, and care.
-                  </span>
+                <div className="mt-6 pt-4 border-t border-border flex flex-col gap-3">
+                  <div className="flex flex-wrap gap-1">
+                    {item.pills.map((pill, pId) => (
+                      <span
+                        key={pId}
+                        className="text-[9px] font-bold uppercase tracking-tight text-slate-500 bg-slate-105 px-2 py-0.5 rounded border border-border/60"
+                      >
+                        {pill}
+                      </span>
+                    ))}
+                  </div>
+                  <a
+                    href="https://www.theforgottenintl.org/donate/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-xs font-bold text-coral hover:underline mt-1"
+                  >
+                    Sponsor This Needs →
+                  </a>
                 </div>
-
-                <Link
-                  to="/hope-family"
-                  className="inline-flex items-center gap-1 text-sm font-semibold text-coral hover:underline relative group mt-1.5"
-                >
-                  <span className="relative">
-                    Learn how to sponsor a student →
-                    <span className="absolute bottom-0 left-0 w-full h-[1.5px] bg-coral transform scale-x-100 group-hover:scale-x-110 transition-transform origin-left" />
-                  </span>
-                  {/* Subtle pulse wrapper icon around link text */}
-                  <span className="h-2 w-2 rounded-full bg-coral inline-block animate-ping ml-1" />
-                </Link>
               </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* SECTION 4: "Life at ACS" Dynamic Media Gallery Section */}
+      {/* SECTION 4: Live at ACS Gallery */}
       <section className="py-24 bg-white border-b border-border">
         <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
           {/* Gallery Header */}
@@ -575,26 +378,22 @@ function SchoolProjectPage() {
             </p>
           </div>
 
-          {/* Interactive CSS Grid Masonry Gallery (6 slots) */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 select-none">
+          {/* Grid Gallery */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 select-none">
             {galleryImages.map((img) => (
               <div
                 key={img.id}
                 onClick={() => setSelectedImage(img)}
                 className="group relative cursor-pointer overflow-hidden rounded-2xl bg-soft border border-border/60 aspect-[4/3] shadow-sm transition-all duration-300 hover:shadow-md hover:border-sky/20"
               >
-                {/* Image element with smooth zoom trigger */}
                 <img
                   src={img.url}
                   className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                   loading="lazy"
+                  referrerPolicy="no-referrer"
                 />
-
-                {/* Background tint overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
-
-                {/* Action zoom icon */}
-                <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-md rounded-full p-2 border border-white/25 text-white scale-75 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300 pointer-events-none" />
+                <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-md rounded-full p-2 border border-white/25 text-white scale-75 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300 pointer-events-none">
                   <Maximize2 className="h-4 w-4" />
                 </div>
               </div>
@@ -603,13 +402,12 @@ function SchoolProjectPage() {
         </div>
       </section>
 
-      {/* Dynamic Lightbox popup modal */}
+      {/* Dynamic Lightbox Modal */}
       {mounted &&
         createPortal(
           <AnimatePresence>
             {selectedImage && (
               <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-                {/* Modal backdrop wrapper click to exit */}
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -618,7 +416,6 @@ function SchoolProjectPage() {
                   className="absolute inset-0 bg-ink/90 backdrop-blur-md cursor-pointer"
                 />
 
-                {/* Main responsive lightbox chassis */}
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95, y: 10 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -634,12 +431,12 @@ function SchoolProjectPage() {
                     <X className="h-5 w-5" />
                   </button>
 
-                  {/* Inner wrapper image & text */}
                   <div className="flex flex-col bg-slate-900 rounded-2xl overflow-hidden">
                     <div className="aspect-[16/10] sm:aspect-[16/9] w-full relative bg-slate-950 flex items-center justify-center overflow-hidden">
                       <img
                         src={selectedImage.url}
                         className="max-h-[75vh] max-w-full object-contain"
+                        referrerPolicy="no-referrer"
                       />
                     </div>
                   </div>
@@ -652,7 +449,7 @@ function SchoolProjectPage() {
 
       {/* SECTION 5: Call To Action Footer Banner */}
       <section className="py-24 bg-soft relative overflow-hidden">
-        {/* Soft elegant blur rings matching design guide */}
+        {/* Soft elegant blur rings */}
         <div className="absolute top-1/2 left-1/3 -translate-y-1/2 h-[350px] w-[350px] rounded-full bg-coral/5 blur-[90px] pointer-events-none animate-pulse" />
         <div className="absolute top-1/3 right-1/4 -translate-y-1/2 h-[250px] w-[250px] rounded-full bg-indigo-500/5 blur-[80px] pointer-events-none" />
 
@@ -662,34 +459,34 @@ function SchoolProjectPage() {
             <div className="absolute top-0 right-0 h-40 w-40 bg-gradient-to-bl from-coral/5 to-transparent rounded-bl-full pointer-events-none" />
 
             <div className="max-w-2xl mx-auto flex flex-col items-center">
-              <span className="text-[11px] uppercase tracking-[0.25em] font-extrabold text-coral bg-coral/5 border border-coral/15 px-4 py-1.5 rounded-full mb-6 leading-none">
-                Get Involved & Elevate Classrooms
+              <span className="text-[11px] uppercase tracking-[0.25em] font-extrabold text-coral bg-coral/5 border border-coral/15 px-4 py-1.5 rounded-full mb-6 leading-none font-mono">
+                {d.advocacy.badge}
               </span>
 
               <h2 className="text-3xl sm:text-4xl text-ink font-semibold tracking-tight leading-none mb-4 text-balance">
-                Help Us Build the Classrooms of Tomorrow
+                {d.advocacy.title}
               </h2>
 
-              <p className="text-muted-foreground text-sm sm:text-base leading-relaxed text-balance mb-10 max-w-xl">
-                Every concrete brick, teaching salary contribution, and uniform sponsorship brings a
-                displaced refugee scholar closer to taking flight. Join our international efforts
-                spanning Canada and Kyaka II.
+              <p className="text-muted-foreground text-sm sm:text-base leading-relaxed text-balance mb-6 max-w-xl">
+                {d.advocacy.description}
               </p>
 
-              {/* Action Buttons styled precisely according to brand constraints */}
+              <div className="bg-coral/5 p-4 rounded-xl border border-coral/10 text-coral font-medium text-xs sm:text-sm italic mb-10 text-center max-w-lg">
+                {d.advocacy.quote}
+              </div>
+
+              {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto items-stretch sm:items-center">
-                {/* Solid Coral Red Button 1 (#f05153) */}
                 <a
                   href="https://www.theforgottenintl.org/donate/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-[#f05153] hover:bg-[#d63d3f] text-white rounded-full px-8 py-4 text-xs uppercase tracking-wider font-bold transition duration-200 text-center shadow-lg hover:shadow-[#f05153]/35 flex items-center justify-center gap-2 group cursor-pointer"
                 >
-                  <span>Donate for New Classrooms</span>
+                  <span>{d.advocacy.primaryBtn}</span>
                   <ArrowRight className="h-4 w-4 transform group-hover:translate-x-1 transition-transform" />
                 </a>
 
-                {/* Outline Sky Blue Button 2 (#1cbee7) */}
                 <Link
                   to="/hope-family"
                   className="border-2 border-[#1cbee7] hover:bg-[#1cbee7] text-[#1cbee7] hover:text-white rounded-full px-8 py-4 text-xs uppercase tracking-wider font-bold transition duration-200 text-center flex items-center justify-center gap-2 group cursor-pointer"

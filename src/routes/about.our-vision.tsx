@@ -14,17 +14,17 @@ import {
   ShieldCheck,
   Briefcase,
 } from "lucide-react";
+import aboutVisionData from "@/content/about_vision.json";
 
 const DONATE_URL = "https://www.theforgottenintl.org/donate/";
 
 export const Route = createFileRoute("/about/our-vision")({
   head: () => ({
     meta: [
-      { title: "Our Vision & Mission — Angels Care Uganda" },
+      { title: aboutVisionData.metaTitle },
       {
         name: "description",
-        content:
-          "Explore the vision, mission, and global impact of Angels Care Uganda in the Kyaka II refugee settlement.",
+        content: aboutVisionData.metaDescription,
       },
     ],
     links: [
@@ -63,6 +63,7 @@ const itemVariants = {
 };
 
 function OurVisionPage() {
+  const d = aboutVisionData;
   return (
     <div className="bg-background min-h-screen text-foreground overflow-x-hidden">
       {/* 1. Page Hero Banner Section */}
@@ -77,15 +78,13 @@ function OurVisionPage() {
             <div className="lg:col-span-6 flex flex-col items-start">
               <span className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-coral font-bold bg-coral/5 px-3 py-1 rounded-full border border-coral/10">
                 <span className="h-1.5 w-1.5 rounded-full bg-coral animate-pulse" />
-                About Our Cause
+                {d.hero.badge}
               </span>
               <h1 className="mt-5 text-4xl sm:text-5xl md:text-6xl text-ink leading-[1.05] tracking-tight font-semibold text-balance">
                 Our Vision & <span className="text-coral">Mission</span>
               </h1>
               <p className="mt-6 text-muted-foreground text-lg leading-relaxed max-w-xl">
-                Angels Care Uganda dedicatedly fosters sustainable development, provides quality
-                education, and coordinates multi-sectoral support to elevate vulnerable children in
-                Kyaka II into tomorrow's impact leaders.
+                {d.hero.description}
               </p>
               <div className="mt-8 flex flex-wrap gap-4">
                 <a
@@ -115,8 +114,7 @@ function OurVisionPage() {
                 <Quote className="h-10 w-10 text-sky/30 transform rotate-180 mb-6" />
 
                 <blockquote className="text-xl sm:text-2xl text-ink leading-relaxed font-semibold italic text-balance font-display">
-                  “To provide quality and competitive education to enable the young generation to be
-                  leaders in the global village.”
+                  {d.founderMsg.quote}
                 </blockquote>
 
                 <hr className="my-6 border-border" />
@@ -127,10 +125,10 @@ function OurVisionPage() {
                   </div>
                   <div>
                     <cite className="not-italic block font-semibold text-ink text-base">
-                      Byaruhanga Godfrey
+                      {d.founderMsg.author}
                     </cite>
                     <span className="text-xs text-muted-foreground block font-medium">
-                      Founder & Executive Director, Angels Care Uganda
+                      {d.founderMsg.role}
                     </span>
                   </div>
                 </div>
@@ -148,7 +146,7 @@ function OurVisionPage() {
             <div className="lg:col-span-6 flex flex-col justify-center">
               <span className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-coral font-semibold">
                 <span className="h-1.5 w-1.5 rounded-full bg-coral" />
-                Who We Are
+                {d.journey.badge}
               </span>
               <h2 className="mt-4 text-3xl sm:text-4xl md:text-5xl text-ink leading-[1.1] font-semibold text-balance">
                 Rooted in the Community <br />
@@ -156,22 +154,9 @@ function OurVisionPage() {
               </h2>
 
               <div className="mt-8 space-y-6 text-muted-foreground text-base md:text-lg leading-relaxed">
-                <p>
-                  Angels Care Uganda is a community-based institution in the{" "}
-                  <span className="text-ink font-semibold">Kyaka II refugee settlement</span>{" "}
-                  providing accommodation, education, and medical care to both refugee and host
-                  community children.
-                </p>
-                <p>
-                  Angels Care was established in 2008 to provide shelter and other essential basic
-                  needs to homeless vulnerable children (OVCs). Over the last decade and a half, we
-                  have dedicated ourselves to transforming despair into lifelong self-reliance.
-                </p>
-                <p>
-                  Since then, ACU has grown to provide essential schooling, medical outreach,
-                  nutrition, and home-care options to the broader community, bringing together
-                  refugee and national populations in peace and progress.
-                </p>
+                {d.journey.paragraphs.map((p, idx) => (
+                  <p key={idx} dangerouslySetInnerHTML={{ __html: p }} />
+                ))}
               </div>
 
               <div className="mt-8 grid grid-cols-2 gap-4">
@@ -203,7 +188,7 @@ function OurVisionPage() {
                 {/* Primary Image */}
                 <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-2xl border border-border/50 group">
                   <img
-                    src="/src/assets/images/kids.webp"
+                    src={d.journey.imageUrlPrimary}
                     alt="Happy children at Angels Care school smiling"
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
@@ -213,7 +198,7 @@ function OurVisionPage() {
                 {/* Secondary Offset Image */}
                 <div className="absolute -bottom-8 -right-6 md:-right-8 w-1/2 aspect-square rounded-2xl overflow-hidden border-4 border-white shadow-2xl group hidden sm:block">
                   <img
-                    src="/src/assets/images/school/2.webp"
+                    src={d.journey.imageUrlSecondary}
                     alt="Active learning session"
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
@@ -242,12 +227,9 @@ function OurVisionPage() {
               Dynamic Metrics
             </span>
             <h2 className="mt-4 text-3xl sm:text-4xl md:text-5xl text-ink font-semibold tracking-tight leading-[1.1] text-balance">
-              Current Impact & Demographics
+              {d.metrics.title}
             </h2>
-            <p className="mt-4 text-muted-foreground text-base md:text-lg">
-              Through strategic framework growth, we measure our success in the stories and
-              empowerment of the hundreds of children we care for daily.
-            </p>
+            <p className="mt-4 text-muted-foreground text-base md:text-lg">{d.metrics.subtitle}</p>
           </div>
 
           {/* Bento Grid Layout (3 card responsive grid) */}
@@ -260,11 +242,10 @@ function OurVisionPage() {
                   <Users className="h-3.5 w-3.5" /> Education Reach
                 </span>
                 <h3 className="text-3xl font-semibold text-ink font-display">
-                  1,000 Students Served
+                  {d.metrics.educationCard.title}
                 </h3>
                 <p className="mt-4 text-muted-foreground text-sm leading-relaxed text-balance">
-                  Today, Angels Care School serves 1,000 students, supporting an inclusive community
-                  model that bridges the gap between refugee children and local national peers.
+                  {d.metrics.educationCard.description}
                 </p>
               </div>
 
@@ -273,25 +254,25 @@ function OurVisionPage() {
                 <div className="flex justify-between text-xs font-semibold mb-3">
                   <span className="text-sky flex items-center gap-1.5">
                     <span className="h-2.5 w-2.5 rounded-full bg-sky" />
-                    80% Refugee Children
+                    {d.metrics.educationCard.labelPrimary}
                   </span>
                   <span className="text-coral flex items-center gap-1.5">
                     <span className="h-2.5 w-2.5 rounded-full bg-coral" />
-                    20% Ugandan Nationals
+                    {d.metrics.educationCard.labelSecondary}
                   </span>
                 </div>
                 <div className="h-4 w-full rounded-full bg-soft overflow-hidden flex border border-border">
                   <div
                     className="h-full bg-sky transition-all duration-1000"
-                    style={{ width: "80%" }}
+                    style={{ width: `${d.metrics.educationCard.ratioPrimary}%` }}
                   />
                   <div
                     className="h-full bg-coral transition-all duration-1000"
-                    style={{ width: "20%" }}
+                    style={{ width: `${d.metrics.educationCard.ratioSecondary}%` }}
                   />
                 </div>
                 <p className="mt-3 text-xs text-muted-foreground/80 italic text-center">
-                  Integrated classrooms cultivating unity, empathy, and academic excellence.
+                  {d.metrics.educationCard.footerLabel}
                 </p>
               </div>
             </div>
@@ -304,27 +285,20 @@ function OurVisionPage() {
                   <Heart className="h-3.5 w-3.5 fill-current" /> PSNs & Vulnerables
                 </span>
                 <h3 className="text-3xl font-semibold text-ink font-display">
-                  130 Orphans Supported
+                  {d.metrics.orphansCard.title}
                 </h3>
                 <p className="mt-4 text-muted-foreground text-sm leading-relaxed text-balance">
-                  The institution runs a dedicated care home providing entirely for 130 orphans and
-                  Persons of Specific Needs (PSNs). We care for their whole-person growth with deep
-                  familial love.
+                  {d.metrics.orphansCard.description}
                 </p>
               </div>
 
               {/* Support tags block */}
               <div className="mt-8 border-t border-border pt-6">
                 <span className="text-xs uppercase tracking-wider text-muted-foreground font-semibold block mb-3">
-                  Compiling 100% Comprehensive Care:
+                  {d.metrics.orphansCard.listHeader}
                 </span>
                 <div className="grid grid-cols-2 gap-2">
-                  {[
-                    { label: "Schooling Fees" },
-                    { label: "Uniforms & Material" },
-                    { label: "Food & Meals" },
-                    { label: "Accommodations" },
-                  ].map((p) => (
+                  {d.metrics.orphansCard.items.map((p) => (
                     <div
                       key={p.label}
                       className="inline-flex items-center gap-2 text-xs px-3 py-2 rounded-xl bg-coral/5 text-ink font-medium border border-coral/10"
@@ -346,13 +320,10 @@ function OurVisionPage() {
                     <Award className="h-3.5 w-3.5 text-coral" /> Out-of-School Youth Support
                   </span>
                   <h3 className="text-3xl font-semibold text-ink font-display">
-                    Vocational Training & Self-Reliance
+                    {d.metrics.vocationalCard.title}
                   </h3>
                   <p className="mt-4 text-muted-foreground text-sm md:text-base leading-relaxed text-balance">
-                    By providing targeted handcraft, tailoring, agricultural, and general trades
-                    workshops, Angels Care supports local orphans, vulnerable children, and
-                    out-of-school youth to gain vital vocational skills to break cycles of poverty
-                    and establish self-sufficient, dignified local careers.
+                    {d.metrics.vocationalCard.description}
                   </p>
                 </div>
 
@@ -408,26 +379,7 @@ function OurVisionPage() {
 
           {/* Logo Strip / Decorative boxes for partners */}
           <div className="grid md:grid-cols-3 gap-6">
-            {[
-              {
-                title: "Kings Temple Missionary Society",
-                desc: "Facilitators through SOLMA — Spring of Life Ministries / Ensulo y’Obulamu Ministries inside Uganda.",
-                pills: ["SOLMA Partner", "Canada Support"],
-                abbrev: "KTMS",
-              },
-              {
-                title: "The Forgotten International",
-                desc: "Committed global organization facilitating continuous grassroots nourishment, relief, and educational funding.",
-                pills: ["Grassroots Sponsor", "USA Partner"],
-                abbrev: "TFI",
-              },
-              {
-                title: "hopetohope.org",
-                desc: "Established in Canada solely as the primary fundraising arm to support Pastor Godfrey and the Angels Care children.",
-                pills: ["hopetohope.org", "Fundraising Arm"],
-                abbrev: "H2H",
-              },
-            ].map((p) => (
+            {d.partners.map((p) => (
               <div
                 key={p.title}
                 className="card-hover flex flex-col justify-between p-6 rounded-3xl border border-border bg-white text-left relative overflow-hidden h-72 md:h-80"
@@ -476,7 +428,7 @@ function OurVisionPage() {
               </span>
 
               <h3 className="mt-5 text-2xl sm:text-3xl md:text-4xl text-ink leading-tight font-semibold text-balance font-display">
-                A Note from Canada — Kings Temple Missionary Society
+                {d.canadaSpotlight.header}
               </h3>
 
               <span
@@ -487,26 +439,23 @@ function OurVisionPage() {
               </span>
 
               <div className="relative z-10 text-muted-foreground text-sm sm:text-base md:text-lg leading-relaxed max-w-4xl text-center italic font-display">
-                <p>
-                  "Every once in a while, we come across a cause that is so exceptional and worthy
-                  of support that we are compelled to do whatever we can to help with the success of
-                  that cause. Angels Care Uganda and Pastor Godfrey are both such a cause and such a
-                  person."
-                </p>
+                <p>{d.canadaSpotlight.quoteParagraph1}</p>
                 <p className="mt-4">
-                  "We have established{" "}
+                  We have established{" "}
                   <span className="text-ink font-semibold not-italic">hopetohope.org</span> solely
                   as a fundraising arm, here in Canada, to provide financial support to the work
                   that is being done in Uganda by Angels Care and Pastor Godfrey. We are privileged
                   to work with Angels Care in this capacity and believe your donated funds will
-                  accomplish more than we could ever dream of for these children and families."
+                  accomplish more than we could ever dream of for these children and families.
                 </p>
               </div>
 
               <div className="mt-8 flex flex-col items-center">
-                <span className="font-bold text-ink text-base md:text-lg block">Rob Tarnowski</span>
+                <span className="font-bold text-ink text-base md:text-lg block">
+                  {d.canadaSpotlight.author}
+                </span>
                 <span className="text-xs text-coral font-bold tracking-widest uppercase mt-1">
-                  Kings Temple Missionary Society
+                  {d.canadaSpotlight.authorSubtitle}
                 </span>
               </div>
 

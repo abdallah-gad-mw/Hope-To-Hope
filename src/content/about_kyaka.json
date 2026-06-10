@@ -1,0 +1,62 @@
+{
+  "metaTitle": "Kyaka II Refugee Settlement — Angels Care Uganda",
+  "metaDescription": "Understand the context of our mission inside Kyaka II Refugee Settlement. Supporting over 130,000 vulnerable individuals.",
+  "hero": {
+    "badge": "Uganda Conflict & Settlement Context",
+    "title": "Kyaka II Refugee Settlement",
+    "subtitle": "The context of our mission. Where resilience meets the urgent need for hope, education, safety, and sustainable development.",
+    "primaryBtn": "View Vital Statistics",
+    "secondaryBtn": "Our Regional History",
+    "imageUrl": "/src/assets/images/Image8.webp"
+  },
+  "refugeeStats": {
+    "sectionBadge": "The Big Picture",
+    "sectionTitle": "Displacement Scale in Uganda & Kyaka",
+    "cardPrimary": {
+      "badge": "Nationwide Influx",
+      "value": "1.5 Million+",
+      "description": "Refugees seeking safety and asylum across Uganda nationwide, making it the largest refugee-hosting nation in all of Africa."
+    },
+    "cardSecondary": {
+      "badge": "Local Camp Density",
+      "value": "130,000",
+      "description": "Vulnerable individuals hosted inside Kyaka II Settlement. Integrating refugee families with the surrounding Ugandan nationals."
+    }
+  },
+  "history": {
+    "sectionTitle": "History, Zone & Scale",
+    "sectionSubtitle": "Kyaka II represents a vast landscape housing several generations of displaced populations under sustainable developmental integration.",
+    "originCard": {
+      "title": "Origin & Scale",
+      "p1": "Located in South Western Uganda, the Government of Uganda created the Kyaka I Settlement in 1984 to address the heavy influx of Rwandan refugees fleeing conflict. In 2005, Kyaka I was merged with Kyaka II.",
+      "p2": "Today, the total settlement encompasses <strong>nine administrative zones</strong>, stretching across a vast land area of approximately <strong>81.5 km²</strong>."
+    },
+    "congoCard": {
+      "title": "The Congo Crisis",
+      "p1": "In December of 2017, the settlement faced a massive humanitarian refugee influx, as thousands and thousands of families crossed the border fleeing intense ethnic violence and political conflicts inside the Democratic Republic of the Congo (DRC).",
+      "p2": "Today, the grand majority of the refugee population hosted inside Kyaka II is of Congolese nationality, a number that continues to grow with ongoing rebel activity across the border."
+    },
+    "unhcrCard": {
+      "tag": "Verified UNHCR Data",
+      "title": "Uganda Refugee Statistics",
+      "description": "Review the official UNHCR statistical profile dashboard map for the Kyaka II Refugee Settlement. This certified data outlines country of origin breakdown, age brackets, occupation segments, and vulnerability indexes.",
+      "mapImageUrl": "/src/assets/images/Kyaka+II+Settlement+Profile_31Jan2022+(1).webp",
+      "lightboxBadge": "UNHCR January 2022 Statistics Profile",
+      "lightboxCredit": "*Source: United Nations High Commissioner for Refugees (UNHCR) & Office of the Prime Minister (OPM) ProGreq version 4."
+    }
+  },
+  "demographics": {
+    "badge": "Demographic Reality",
+    "ratioBadge": "77%",
+    "ratioTitle": "of Kyaka II’s refugee population are Women and Children.",
+    "description": "Investing in early primary education, youth vocational empowerment, and women's specialized health-care clinics is not just an initiative—it is paramount to easing the heavy, daily burdens refugees in Kyaka II face every single day."
+  },
+  "response": {
+    "badge": "Active Field Intervention",
+    "title": "Our Frontline Response — Angels Care Medical Clinic",
+    "description": "Within the massive landscape of the settlement, the <strong>Angels Care Medical Clinic</strong> stands proudly as one of only three medical clinics serving this entire population of 130,000. It is in this exact context of Kyaka II that Angels Care Uganda works day and night to bring hope to refugees.",
+    "missionQuote": "“By meeting core educational, medical, and social needs, our mission is to bring immediate relief and long-term sustainable development to this community in need.”",
+    "imageUrlPrimary": "/src/assets/images/kids.webp",
+    "imageUrlSecondary": "/src/assets/images/school/2.webp"
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "metaTitle": "Our Vision & Mission — Angels Care Uganda",
+  "metaDescription": "Discover how Angels Care Uganda fosters sustainable development, provides quality education, and coordinates healthcare in Kyaka II settlement.",
+  "hero": {
+    "badge": "About Our Cause",
+    "description": "Angels Care Uganda dedicatedly fosters sustainable development, provides quality education, and coordinates multi-sectoral support to elevate vulnerable children in Kyaka II into tomorrow's impact leaders."
+  },
+  "founderMsg": {
+    "quote": "“To provide quality and competitive education to enable the young generation to be leaders in the global village.”",
+    "author": "Byaruhanga Godfrey",
+    "role": "Founder & Executive Director, Angels Care Uganda"
+  },
+  "journey": {
+    "badge": "Who We Are",
+    "paragraphs": [
+      "Angels Care Uganda is a community-based institution in the Kyaka II refugee settlement providing accommodation, education, and medical care to both refugee and host community children.",
+      "Angels Care was established in 2008 to provide shelter and other essential basic needs to homeless vulnerable children (OVCs). Over the last decade and a half, we have dedicated ourselves to transforming despair into lifelong self-reliance.",
+      "Since then, ACU has grown to provide essential schooling, medical outreach, nutrition, and home-care options to the broader community, bringing together refugee and national populations in peace and progress."
+    ],
+    "imageUrlPrimary": "/src/assets/images/kids.webp",
+    "imageUrlSecondary": "/src/assets/images/school/2.webp"
+  },
+  "metrics": {
+    "title": "Current Impact & Demographics",
+    "subtitle": "Through strategic framework growth, we measure our success in the stories and empowerment of the hundreds of children we care for daily.",
+    "educationCard": {
+      "title": "1,000 Students Served",
+      "description": "Today, Angels Care School serves 1,000 students, supporting an inclusive community model that bridges the gap between refugee children and local national peers.",
+      "labelPrimary": "80% Refugee Children",
+      "labelSecondary": "20% Ugandan Nationals",
+      "ratioPrimary": 80,
+      "ratioSecondary": 20,
+      "footerLabel": "Integrated classrooms cultivating unity, empathy, and academic excellence."
+    },
+    "orphansCard": {
+      "title": "130 Orphans Supported",
+      "description": "The institution runs a dedicated care home providing entirely for 130 orphans and Persons of Specific Needs (PSNs). We care for their whole-person growth with deep familial love.",
+      "listHeader": "Compiling 100% Comprehensive Care:",
+      "items": [
+        { "label": "Schooling Fees" },
+        { "label": "Uniforms & Material" },
+        { "label": "Food & Meals" },
+        { "label": "Accommodations" }
+      ]
+    },
+    "vocationalCard": {
+      "title": "Vocational Training & Self-Reliance",
+      "description": "By providing targeted handcraft, tailoring, agricultural, and general trades workshops, Angels Care supports local orphans, vulnerable children, and out-of-school youth to gain vital vocational skills to break cycles of poverty and establish self-sufficient, dignified local careers."
+    }
+  },
+  "partners": [
+    {
+      "abbrev": "KTMS",
+      "pills": ["SOLMA Partner", "Canada Support"],
+      "title": "Kings Temple Missionary Society",
+      "desc": "Facilitators through SOLMA — Spring of Life Ministries / Ensulo y’Obulamu Ministries inside Uganda."
+    },
+    {
+      "abbrev": "TFI",
+      "pills": ["Grassroots Sponsor", "USA Partner"],
+      "title": "The Forgotten International",
+      "desc": "Committed global organization facilitating continuous grassroots nourishment, relief, and educational funding."
+    },
+    {
+      "abbrev": "H2H",
+      "pills": ["hopetohope.org", "Fundraising Arm"],
+      "title": "hopetohope.org",
+      "desc": "Established in Canada solely as the primary fundraising arm to support Pastor Godfrey and the Angels Care children."
+    }
+  ],
+  "canadaSpotlight": {
+    "header": "A Note from Canada — Kings Temple Missionary Society",
+    "quoteParagraph1": "Every once in a while, we come across a cause that is so exceptional and worthy of support that we are compelled to do whatever we can to help with the success of that cause. Angels Care Uganda and Pastor Godfrey are both such a cause and such a person.",
+    "author": "Rob Tarnowski",
+    "authorSubtitle": "Kings Temple Missionary Society"
+  }
+}

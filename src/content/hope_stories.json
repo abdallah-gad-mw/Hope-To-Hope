@@ -1,0 +1,32 @@
+{
+  "hero": {
+    "badge": "Testimonies & Updates",
+    "title": "Stories of Hope",
+    "subtitle": "Read the latest updates and testimonies from our community."
+  },
+  "stories": [
+    {
+      "id": "online-launch",
+      "slug": "online-launch",
+      "title": "Angels Care Online Launch!",
+      "category": "Community Update",
+      "date": "Jun 18",
+      "author": "Angels Care / NSCC",
+      "excerpt": "We are excited to launch our online Sponsor Hope initiative for Angels Care! In 2008, Pastor Godfrey Byaruhanga opened Angels Care School...",
+      "readTime": "3 min read",
+      "image": "/src/assets/images/Image38-2sized.webp",
+      "to": "/hope-stories/online-launch"
+    }
+  ],
+  "placeholders": {
+    "comingSoon": {
+      "title": "More Testimonies Coming",
+      "description": "We are gathering hope-filled stories directly from Kyaka II. Stay tuned for updates!"
+    },
+    "sponsor": {
+      "title": "Sponsor a Life",
+      "description": "Every child's success story is made possible by supporters like you.",
+      "btnText": "Get involved →"
+    }
+  }
+}

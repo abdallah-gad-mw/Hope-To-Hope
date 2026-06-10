@@ -1,0 +1,148 @@
+{
+  "hero": {
+    "badge": "Established 2008",
+    "title": "Hope for refugee children through education and care since 2008.",
+    "subtitle": "Dedicated to lifting Orphans and Vulnerable Children (OVCs) in the Kyaka II Refugee Settlement through sustainable programs.",
+    "primaryBtn": "Join the Hope Family",
+    "secondaryBtn": "Discover Our Story",
+    "image": "/src/assets/images/hero.webp"
+  },
+  "purpose": {
+    "badge": "Our Purpose",
+    "title": "Educate and raise the leaders of tomorrow through innovative and sustainable development.",
+    "paragraphs": [
+      "Our work in the Kyaka II refugee settlement is diverse and our impact is widespread. Operating within South Western Uganda where over 1.5 million refugees seek safety, Kyaka II hosts over 130,000 individuals—77% of whom are vulnerable women and children fleeing internal conflict in the Democratic Republic of the Congo.",
+      "Angels Care works alongside the Ugandan government, UNHCR initiatives, and global partners like Kings Temple Missionary Society (KTMS) to bring relief, education, and social care to refugees seeking a stable future. Our vision is to equip the children of today to be the leaders of tomorrow."
+    ],
+    "linkText": "Explore Our Full Vision",
+    "image": "/src/assets/images/kids.webp"
+  },
+  "metrics": {
+    "badge": "Organization Metrics",
+    "title": "Our Measured Impact",
+    "subtitle": "Transforming raw tracking statistics into clear channels of localized progress.",
+    "cards": [
+      {
+        "category": "Education Scale",
+        "value": "1,000+",
+        "label": "Active Students",
+        "description": "Enrolled in our nursery and elementary tracks spanning from Kindergarten to Primary 7 classes."
+      },
+      {
+        "category": "Demographics",
+        "value": "80% / 20%",
+        "label": "Refugee vs Local Host",
+        "description": "Serving conflict survivors alongside the local host colony families in high-unity settings."
+      },
+      {
+        "category": "Vulnerable Safeguarding",
+        "value": "130",
+        "label": "Sponsored Orphans",
+        "description": "Receiving total protection shelter, balanced nutrition, clothing, education fees, and full medical coverage."
+      },
+      {
+        "category": "Healthcare Crisis Response",
+        "value": "2,800+",
+        "label": "Daily Medical Needs",
+        "description": "ACMC serves as one of only three clinics answering healthcare needs for an overwhelmed settlement population."
+      }
+    ]
+  },
+  "pillars": {
+    "school": {
+      "badge": "OUR EDUCATION STRACETGY",
+      "title": "Angels Care School: Nurturing the Leaders of Tomorrow",
+      "paragraphs": [
+        "Operating inside the heart of the Kyaka II refugee settlement and host community, our nursery and primary schools provide a sanctuary of learning for over 1,000 active students from Kindergarten through Primary 7. Fleeing severe instability in the DRC, these children find not only safety but an elite academic track.",
+        "Despite facing profound resource limitations and accommodating an average of 120 eager children per classroom, our dedicated faculty inspires excellence—resulting in our students achieving the top scores in nationwide educational evaluations within the entire settlement region."
+      ],
+      "btnText": "Explore Our School Curriculum & Needs",
+      "image": "/src/assets/images/school/2.webp",
+      "rankBadgeTitle": "Settlement Rank",
+      "rankBadgeValue": "#1 Score Nationwide"
+    },
+    "medical": {
+      "badge": "CRITICAL HEALTHCARE RESPONSE",
+      "title": "Angels Care Medical Centre: 24/7 Life-Saving Care",
+      "paragraphs": [
+        "A visionary project five years in the making, the Angels Care Medical Centre (ACMC) stands as a vital beacon of health, operating round-the-clock to manage critical emergencies. Positioned as one of only three operational medical facilities servicing a swelling refugee population of over 130,000 individuals, ACMC answers up to 2,800 urgent healthcare requests daily.",
+        "To ensure true humanitarian relief, our medical treatments are fully subsidized—priced 40% lower than standard private clinics—while extending 100% free comprehensive healthcare to every student enrolled in Angels Care School."
+      ],
+      "btnText": "View Clinic Infrastructure & Medical Services",
+      "image": "/src/assets/images/107050000_579153106133552_4669114132287895332_n.webp",
+      "badgeTitle": "ACMC Clinic",
+      "badgeValue": "24/7 Life-Saving Care"
+    },
+    "orphanage": {
+      "badge": "CHILD SAFEGUARDING & FAMILY INFRASTRUCTURE",
+      "title": "Angels Care Orphanage: A Sanctuary of Pure Compassion",
+      "paragraphs": [
+        "No child should ever face the trauma of displacement in isolation. The Angels Care Orphanage program acts as a loving shield for 130 fully sponsored orphans, providing complete security, nutrition, clothing, medical care, and permanent educational support.",
+        "Our model is deeply community-driven: while 15 highly vulnerable orphans reside directly within the warm family household of Pastor Godfrey, our robust sponsorship network allows us to integrate 115 orphans into vetted, loving foster care homes safely distributed across the Kyaka II refugee community."
+      ],
+      "btnText": "Sponsor a Refugee Child Today",
+      "image": "/src/assets/images/Image38-2sized.webp",
+      "badgeTitle": "Active Guardians",
+      "badgeValue": "130 Children Sponsored"
+    }
+  },
+  "sustainability": {
+    "badge": "Sustainability Initiatives",
+    "title": "Innovative Community Development Projects",
+    "subtitle": "Creating localized income generation and environmental tools to foster self-sustainability within the Kyaka II refugee settlement.",
+    "projects": [
+      {
+        "label": "Project A",
+        "title": "Girls' Education & Menstrual Care",
+        "description": "Providing reusable sanitary napkins and personal care products to female students on campus to completely eliminate sanitary-related school dropouts and absences."
+      },
+      {
+        "label": "Project B",
+        "title": "Fuel for the Future",
+        "description": "Producing engineered bio-briquettes from community agricultural residuals to serve as deforestation alternatives, mitigation fuel, and protect women from isolation wood searches."
+      },
+      {
+        "label": "Project C",
+        "title": "Self-Sustainability Corn Milling",
+        "description": "A target campaign for a $25,000 USD Maize Milling Machine to locally grind community corn flour, slash school feeding expenses by 50%, and employ resident women."
+      }
+    ],
+    "btnText": "Explore Sustainable Projects"
+  },
+  "founder": {
+    "badge": "Founder Message",
+    "quote": "The children of today will be the leaders of tomorrow.",
+    "name": "Byaruhanga Godfrey",
+    "role": "CEO and Founder",
+    "organization": "Angels Care Uganda",
+    "youtubeUrl": "https://www.youtube.com/embed/fstkH_h4BM4"
+  },
+  "actionBanner": {
+    "badge": "Life at Angels Care",
+    "title": "Our Team in Action",
+    "description": "Empowering the 900+ active scholars of Kyaka II refugee camp daily. Through classroom schedules, outdoor assemblies, sports tournaments, and food programs, we stand unified to nurture the regional leaders of tomorrow.",
+    "btnText": "Support our School Meal Program"
+  },
+  "contact": {
+    "badge": "Get In Touch",
+    "title": "Contact Us",
+    "description": "We would love to answer any further questions you may have about Angels Care Uganda! You can reach our team at the following info:",
+    "emailLabel": "Email",
+    "emailValue": "angelscareuganda.info@gmail.com",
+    "phoneLabel": "Phone",
+    "phoneValue": "(604) 360-5868",
+    "form": {
+      "nameLabel": "Your Name",
+      "namePlaceholder": "Byaruhanga Godfrey",
+      "emailLabel": "Email Address",
+      "emailPlaceholder": "godfrey@example.com",
+      "subjectLabel": "Subject",
+      "subjectPlaceholder": "How would you like to support us?",
+      "messageLabel": "Message",
+      "messagePlaceholder": "I am interested in supporting the children...",
+      "submitBtn": "Send Message",
+      "successTitle": "Message Sent Successfully!",
+      "successText": "Thank you, {name}. We have received your inquiry regarding \"{subject}\" and our team on the ground will respond to {email} as soon as possible."
+    }
+  }
+}

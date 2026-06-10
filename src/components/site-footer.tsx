@@ -2,6 +2,14 @@ import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Facebook, Instagram, Twitter, Youtube, CheckCircle2 } from "lucide-react";
 import logo from "@/assets/angels-care-logo.webp.asset.json";
+import footerData from "@/content/footer.json";
+
+const socialIconMap = {
+  instagram: Instagram,
+  facebook: Facebook,
+  youtube: Youtube,
+  twitter: Twitter,
+};
 
 export function SiteFooter() {
   const [email, setEmail] = useState("");
@@ -25,10 +33,8 @@ export function SiteFooter() {
         <div className="border-b border-white/10 pb-10 mb-10">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
             <div className="max-w-md text-center lg:text-left">
-              <h3 className="text-xl font-bold mb-2">Stay Connected</h3>
-              <p className="text-white/70 text-sm">
-                Sign up with your email address to receive monthly news, hope stories, and updates.
-              </p>
+              <h3 className="text-xl font-bold mb-2">{footerData.newsletterTitle}</h3>
+              <p className="text-white/70 text-sm">{footerData.newsletterSubtext}</p>
             </div>
             <div className="w-full max-w-md">
               {isSubscribed ? (
@@ -51,7 +57,7 @@ export function SiteFooter() {
                     type="submit"
                     className="bg-[#1cbee7] hover:bg-[#15a2c6] text-white rounded-full px-6 py-3 text-xs uppercase tracking-wider font-bold transition duration-200 shrink-0 w-full sm:w-auto"
                   >
-                    Subscribe
+                    {footerData.newsletterButtonText}
                   </button>
                 </form>
               )}
@@ -60,58 +66,40 @@ export function SiteFooter() {
         </div>
 
         <div className="grid md:grid-cols-12 gap-10">
-          <div className="md:col-span-5">
+          <div className="md:col-span-4 lg:col-span-5">
             <div className="inline-block">
               <img src={logo.url} alt="Angels Care Uganda" className="h-10 w-auto" />
             </div>
-            <p className="mt-5 text-white/70 max-w-sm">
-              Bringing hope, education and care to refugee children in the Kyaka II settlement since
-              2008.
-            </p>
+            <p className="mt-5 text-white/70 max-w-sm">{footerData.aboutText}</p>
             <div className="mt-6 flex gap-2">
-              {[Instagram, Facebook, Youtube, Twitter].map((I, k) => (
-                <a
-                  key={k}
-                  href="#"
-                  className="h-10 w-10 grid place-items-center rounded-full bg-white/10 hover:bg-coral transition"
-                >
-                  <I className="h-4 w-4" />
-                </a>
-              ))}
+              {footerData.socials.map((social) => {
+                const IconComponent = socialIconMap[social.type as keyof typeof socialIconMap];
+                if (!IconComponent) return null;
+                return (
+                  <a
+                    key={social.type}
+                    href={social.url}
+                    className="h-10 w-10 grid place-items-center rounded-full bg-white/10 hover:bg-coral transition"
+                  >
+                    <IconComponent className="h-4 w-4" />
+                  </a>
+                );
+              })}
             </div>
           </div>
 
-          <FooterCol
-            title="About"
-            links={[
-              { label: "Our Vision", to: "/about/our-vision" },
-              { label: "Kyaka II", to: "/about/kyaka-ii" },
-              { label: "Our Team", to: "/about/our-team" },
-            ]}
-          />
-          <FooterCol
-            title="Projects"
-            links={[
-              { label: "Angels Care School", to: "/projects/school" },
-              { label: "Medical Centre", to: "/projects/medical-centre" },
-              { label: "Orphanage", to: "/projects/orphanage" },
-              { label: "Hope Projects", to: "/projects/hope-projects" },
-            ]}
-          />
-          <FooterCol
-            title="Community"
-            links={[
-              { label: "Hope Stories", to: "/hope-stories" },
-              { label: "Hope Family", to: "/hope-family" },
-            ]}
-          />
+          <div className="md:col-span-8 lg:col-span-7 grid grid-cols-3 gap-4">
+            {footerData.columns.map((col) => (
+              <FooterCol key={col.title} title={col.title} links={col.links} />
+            ))}
+          </div>
         </div>
 
         <div className="mt-12 pt-6 border-t border-white/10 flex flex-col md:flex-row gap-4 items-center justify-between text-sm text-white/60">
           <p className="text-center md:text-left">
             © {new Date().getFullYear()} Angels Care Uganda. All rights reserved. Powered by{" "}
-            <a href="https://morellis.us/" target="_blank">
-              Morellis
+            <a href={footerData.poweredByUrl} target="_blank" rel="noopener noreferrer">
+              {footerData.poweredByText}
             </a>
           </p>
           <div className="flex gap-6">
@@ -130,7 +118,7 @@ export function SiteFooter() {
 
 function FooterCol({ title, links }: { title: string; links: { label: string; to: string }[] }) {
   return (
-    <div className="md:col-span-2">
+    <div>
       <h4 className="text-sm text-white/50 uppercase tracking-widest font-medium">{title}</h4>
       <ul className="mt-4 space-y-2 text-sm">
         {links.map((l) => (

@@ -1,0 +1,113 @@
+{
+  "hero": {
+    "badge": "100% Care & Restoration Pipeline",
+    "title": "Angels Care Orphanage",
+    "subtitle": "Where refugee children find family, healing, and a place to belong.",
+    "quote": "“At Angels Care, we ensure that every child experiences the safety and love of a family environment, escaping the trauma of isolation.”",
+    "primaryBtn": "See Dual Care Model",
+    "secondaryBtn": "Sponsorship Breakdown"
+  },
+  "financials": {
+    "badge": "Donor transparency",
+    "title": "Where Your $90 Monthly Sponsorship Goes",
+    "description": "Every single dollar donated is carefully split on-site by Pastor Godfrey across structural care domains to preserve child health, learning, nutrition, and psychological security:",
+    "breakdown": [
+      {
+        "name": "Safe Housing & Shelter",
+        "amount": "$22 CAN",
+        "percentage": 24,
+        "description": "Direct protection from seasonal winds, secure compound housing, structural repairs, and mosquito nets."
+      },
+      {
+        "name": "Nutritious Daily Feeding",
+        "amount": "$28 CAN",
+        "percentage": 31,
+        "description": "Three hot meals daily covering essential vitamins, crop harvests, and storage security for food supply."
+      },
+      {
+        "name": "Full Schooling & Uniforms",
+        "amount": "$18 CAN",
+        "percentage": 20,
+        "description": "Enrollment at Angels Care School, uniform clothing, learning books, pencil kits, and teacher backing."
+      },
+      {
+        "name": "Clean Clothing & Essentials",
+        "amount": "$12 CAN",
+        "percentage": 13,
+        "description": "Shoes, regional clothing changes for warm weather, bedding, basic sanitary packs, and wash supplies."
+      },
+      {
+        "name": "Basic Medical Care & Clinic Access",
+        "amount": "$10 CAN",
+        "percentage": 12,
+        "description": "Immediate diagnostic access to Angels Care Medical Centre, routine vaccination checkups, and triage treatments."
+      }
+    ]
+  },
+  "dualModel": {
+    "badge": "Community-Driven Care System",
+    "title": "Our Dual Care Model Explained",
+    "description": "True healing happens in a welcoming family setup, never within an industrial institution. We use a dual foster system designed to maximize emotional support, social integration, and local stability:",
+    "houseOfGodfrey": {
+      "id": "house-of-godfrey",
+      "badge": "Household Living Sector",
+      "title": "The Pastor Godfrey Family Household",
+      "subtitle": "15 Highly Vulnerable Orphans Co-residing",
+      "description": "15 children experiencing acute trauma, single-digit pre-K ages, or profound physical vulnerabilities reside directly within the active caring family household of Pastor Godfrey and his wife. Under vigilant family care, they receive deep focus, trauma-informed guidance, nutrition, and daily prayers.",
+      "footer": "Family-based home setting for kids in critical need."
+    },
+    "communityFoster": {
+      "id": "community-foster",
+      "badge": "Community Integration Sector",
+      "title": "Community Foster Family Care Home Care",
+      "subtitle": "115 Rescued Children Placed in Local Foster Care Homes",
+      "description": "115 orphans and vulnerable children are integrated into audited, loving foster families residing across the nine zones of the Kyaka II Refugee Settlement. We back these families with standard monthly grain flour, absolute medical coverage at our clinic, school fees, and home-care visits. This keeps our children deeply connected to local peers, national neighbors, and traditional community life safely.",
+      "footer": "Vetted, mentored, and supported foster home networks."
+    }
+  },
+  "tiers": {
+    "badge": "Dedicated Care Tiers",
+    "title": "Select Sponsoring Options",
+    "description": "Join our Hope Family and sponsor children directly. Select from two simple sponsorship categories supporting individual kids or core orphanage operations:",
+    "childTier": {
+      "id": "child",
+      "title": "Child Sponsorship",
+      "cost": "$90 CAN / Month",
+      "bullets": [
+        "100% full-person coverage for one rescued orphan child.",
+        "Covers complete food, medical testing, apparel, and books.",
+        "Receive regular photo cards and written student letters."
+      ],
+      "btnText": "Sponsor an Orphan Today"
+    },
+    "homeTier": {
+      "id": "home",
+      "title": "Home Operational Grant",
+      "cost": "$150 CAN / Month",
+      "bullets": [
+        "Support structural operations of the Pastor Godfrey household.",
+        "Funds facility repair campaigns, water filtration units, and bulk grain purchases.",
+        "Help support emergency operations when new orphans are rescued in Kyaka II."
+      ],
+      "btnText": "Secure Home Operational Grant"
+    }
+  },
+  "faq": {
+    "badge": "Sponsor FAQs",
+    "title": "Common Questions from Supporters",
+    "questions": [
+      {
+        "q": "How do my monthly contributions reach the field?",
+        "a": "All financial sponsorships are collected and routed by Hopetohope.org (our Canadian liaisons) directly to the camp bank accounts managed by Pastor Godfrey. 100% of designated sponsorships reach Kyaka II operations, with no administrative cuts."
+      },
+      {
+        "q": "Can I write to my sponsored child?",
+        "a": "Absolutely! We encourage continuous letter exchanges. Our Canadian coordinators assist in translating, scanning, and distributing letters between sponsors and children twice a year."
+      },
+      {
+        "q": "Are my donations tax-deductible?",
+        "a": "Yes. Hopetohope.org issues official Canadian tax receipts for all qualifying donations and child sponsorship records annually."
+      }
+    ]
+  }
+}

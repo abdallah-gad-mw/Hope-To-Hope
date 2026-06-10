@@ -18,6 +18,9 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
 
+const RootShellContext = React.createContext(false);
+const RootComponentContext = React.createContext(false);
+
 function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -130,16 +133,24 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: ReactNode }) {
+  const isNested = React.useContext(RootShellContext);
+
+  if (isNested) {
+    return <>{children}</>;
+  }
+
   return (
-    <html lang="en">
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        {children}
-        <Scripts />
-      </body>
-    </html>
+    <RootShellContext.Provider value={true}>
+      <html lang="en">
+        <head>
+          <HeadContent />
+        </head>
+        <body>
+          {children}
+          <Scripts />
+        </body>
+      </html>
+    </RootShellContext.Provider>
   );
 }
 
@@ -261,6 +272,7 @@ function AnimatedOutlet() {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const router = useRouter();
+  const isNested = React.useContext(RootComponentContext);
 
   useEffect(() => {
     /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -345,13 +357,19 @@ function RootComponent() {
     /* eslint-enable @typescript-eslint/no-explicit-any */
   }, [router]);
 
+  if (isNested) {
+    return <AnimatedOutlet />;
+  }
+
   return (
-    <QueryClientProvider client={queryClient}>
-      <SiteNav />
-      <main className="relative flex-grow flex flex-col overflow-x-hidden min-h-screen">
-        <AnimatedOutlet />
-      </main>
-      <SiteFooter />
-    </QueryClientProvider>
+    <RootComponentContext.Provider value={true}>
+      <QueryClientProvider client={queryClient}>
+        <SiteNav />
+        <main className="relative flex-grow flex flex-col overflow-x-hidden min-h-screen">
+          <AnimatedOutlet />
+        </main>
+        <SiteFooter />
+      </QueryClientProvider>
+    </RootComponentContext.Provider>
   );
 }

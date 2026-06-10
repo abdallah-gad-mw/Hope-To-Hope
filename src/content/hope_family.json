@@ -1,0 +1,54 @@
+{
+  "hero": {
+    "badge": "Monthly Giving Community",
+    "title": "Join the Hope Family!",
+    "subtitle": "A community of dedicated giving with transparent, transformative results.",
+    "btnText": "Join the Hope Family"
+  },
+  "accordion": {
+    "title": "Why join the Hope Family?",
+    "subtitle": "Discover how your sustained commitment builds long-term impact on the ground.",
+    "items": [
+      {
+        "title": "Transparency",
+        "content": "All members of the Hope Family receive monthly updates from our team on the ground via our newsletter. We are accountable to you, letting you know exactly where those funds were directed."
+      },
+      {
+        "title": "Education",
+        "content": "All members of the Hope Family also receive educational newsletters. We want you to be informed about what we are doing, why, and why it matters. For example, you’ll learn about the importance of girls’ education, refugee education, and the impact of dedicated health care workers."
+      },
+      {
+        "title": "Hope",
+        "content": "Our world needs hope. All members of the Hope Family receive hope stories of lives being changed and impacted. We are your source of good news, and we’ll always remind you that you are a part of something impactful."
+      }
+    ]
+  },
+  "benefits": {
+    "title": "Why give monthly?",
+    "cards": [
+      {
+        "tag": "Sustainability",
+        "title": "Key to Long-Term Impact",
+        "description": "Monthly giving is key to long-term impact. By knowing that we have a recurring base of donations, we can cover our monthly costs and take on long-term projects that require support."
+      },
+      {
+        "tag": "Partnership",
+        "title": "Spread Out Your Giving",
+        "description": "Monthly giving helps you as well! You can spread your giving beyond a year-end donation, helping you to be a part of something for the long-run and staying informed as to the effects of your donation."
+      }
+    ],
+    "btnText": "Support Monthly Giving"
+  },
+  "donation": {
+    "badge": "Start Today",
+    "title": "Ready to Make an Impact?",
+    "description": "To join the Hope Family, simply use the DonorBox checkout to the right of your screen. You will automatically be signed up for our monthly newsletters and will receive a year-end tax receipt from KTMS.",
+    "infoText": "Your monthly connection provides healthcare, education, and safe shelter in Kyaka II.",
+    "quote": "“I know that what I give is having a profound and direct impact on lives that truly need support. Lives have been torn apart by war, and many have nothing. By giving what I can monthly, I know I am a part of last change.”",
+    "quoteAuthor": "— A member of the Hope Family",
+    "widget": {
+      "url": "https://donorbox.org/embed/the-hope-family-1?a=b",
+      "title": "DonorBox Donation Form"
+    }
+  }
+}

@@ -26,6 +26,7 @@ import {
   PlusCircle,
   Sparkles,
 } from "lucide-react";
+import medicalData from "@/content/projects_medical.json";
 
 export const Route = createFileRoute("/projects/medical-centre")({
   head: () => ({
@@ -49,191 +50,77 @@ export const Route = createFileRoute("/projects/medical-centre")({
   component: MedicalCentrePage,
 });
 
-// Structural Typings
-interface CrisisMetricCard {
-  id: string;
-  metric: string;
-  title: string;
-  subtext: string;
-  badge: string;
-  icon: React.ReactNode;
-}
-
-interface ImpactBenefitCard {
-  id: string;
-  title: string;
-  subtext: string;
-  value: string;
-  accentClass: string;
-  bgGradient: string;
-  icon: React.ReactNode;
-}
-
-interface ServiceCard {
-  id: string;
-  title: string;
-  description: string;
-  icon: React.ReactNode;
-  category: "Primary Care" | "Maternal & Child" | "Specialized" | "Support";
-}
-
 function MedicalCentrePage() {
+  const d = medicalData;
   const [showStatusTooltip, setShowStatusTooltip] = useState(false);
-  const [activeTab, setActiveTab] = useState<
-    "all" | "Primary Care" | "Maternal & Child" | "Specialized" | "Support"
-  >("all");
+  const [activeTab, setActiveTab] = useState<string>("all");
 
-  // Warning metrics for Crisis Dashboard
-  const crisisMetrics: CrisisMetricCard[] = [
-    {
-      id: "population",
-      metric: "140,000+ People",
-      title: "Overcoming Isolation",
-      subtext:
-        "Total population packed in Kyaka II settlement and the surrounding vulnerable host communities of Kyegegwa.",
-      badge: "Settlement Scope",
-      icon: <Users className="h-5 w-5 text-coral" />,
-    },
-    {
-      id: "healthcentres",
-      metric: "1 Main Centre Only",
-      title: "Extremely Strained Ingress",
-      subtext:
-        "Supported by only 5 satellite outposts. Understaffed, distant, and deeply overwhelmed by numbers.",
-      badge: "Severe Shortage",
-      icon: <ShieldAlert className="h-5 w-5 text-amber-500" />,
-    },
-    {
-      id: "daily-patients",
-      metric: "2,800 patients daily",
-      title: "The Sick Rate Breakdown",
-      subtext:
-        "Over 2% of the local population requires immediate medical attention daily. Medical demand far outweighs supply.",
-      badge: "Crisis Demand",
-      icon: <Flame className="h-5 w-5 text-coral animate-pulse" />,
-    },
-  ];
+  const getCrisisIcon = (id: string) => {
+    switch (id) {
+      case "population":
+        return <Users className="h-5 w-5 text-coral" />;
+      case "healthcentres":
+        return <ShieldAlert className="h-5 w-5 text-amber-500" />;
+      case "daily-patients":
+        return <Flame className="h-5 w-5 text-coral animate-pulse" />;
+      default:
+        return <Activity className="h-5 w-5 text-coral" />;
+    }
+  };
 
-  // Community Benefits
-  const benefitCards: ImpactBenefitCard[] = [
-    {
-      id: "benefit-cost",
-      title: "Subsidized Relief",
-      value: "40% Less Cost",
-      subtext:
-        "Pricing is subsidized to be at least 40% less than local private clinics to ensure accessibility for every family.",
-      accentClass: "border-coral text-coral bg-coral/5",
-      bgGradient: "from-coral/5 to-transparent border-t-2 border-coral",
-      icon: <HeartHandshake className="h-6 w-6 text-coral" />,
-    },
-    {
-      id: "benefit-students",
-      title: "Angels Care Pipeline",
-      value: "100% Free For Students",
-      subtext:
-        "All children and students inside Angels Care School receive free checkups, treatments, and immediate emergency care.",
-      accentClass: "border-sky text-sky bg-sky/5",
-      bgGradient: "from-sky/5 to-transparent border-t-2 border-sky",
-      icon: <Baby className="h-6 w-6 text-sky" />,
-    },
-    {
-      id: "benefit-prevention",
-      title: "Empowering Households",
-      value: "Prevention & Education",
-      subtext:
-        "Regular outreach programs on hygiene, disease prevention, and family planning build community immunity.",
-      accentClass: "border-indigo-500 text-indigo-500 bg-indigo-50",
-      bgGradient: "from-indigo-500/5 to-transparent border-t-2 border-indigo-500",
-      icon: <CheckCircle2 className="h-6 w-6 text-indigo-500" />,
-    },
-  ];
+  const getBenefitIcon = (id: string) => {
+    switch (id) {
+      case "benefit-cost":
+        return <HeartHandshake className="h-6 w-6 text-coral" />;
+      case "benefit-students":
+        return <Baby className="h-6 w-6 text-sky" />;
+      case "benefit-prevention":
+        return <CheckCircle2 className="h-6 w-6 text-indigo-500" />;
+      default:
+        return <Heart className="h-6 w-6 text-coral" />;
+    }
+  };
 
-  // Full medical services (10 Services)
-  const servicesData: ServiceCard[] = [
-    {
-      id: "srv-inout",
-      title: "In-patients & Out-patients",
-      description:
-        "Day-to-day dynamic management of ailments, physical rehabilitation, and critical short-stay hospitalization for recovery.",
-      category: "Primary Care",
-      icon: <BedDouble className="h-6 w-6 text-coral" />,
-    },
-    {
-      id: "srv-family",
-      title: "Family Planning",
-      description:
-        "Subsidized counseling sessions, contraception choices, and structural support plans customized to empower young mothers.",
-      category: "Support",
-      icon: <HeartHandshake className="h-6 w-6 text-sky" />,
-    },
-    {
-      id: "srv-antenatal",
-      title: "Antenatal & Postnatal Care",
-      description:
-        "Comprehensive medical pathways and checkups checking structural indices before pregnancy and in the recovery phase.",
-      category: "Maternal & Child",
-      icon: <Baby className="h-6 w-6 text-indigo-500" />,
-    },
-    {
-      id: "srv-maternity",
-      title: "Maternity & Delivery Services",
-      description:
-        "Warm, sterile, 24/7 delivery room equipped with emergency care indicators. Monitored delivery by trained clinical midwives.",
-      category: "Maternal & Child",
-      icon: <Sparkles className="h-6 w-6 text-coral" />,
-    },
-    {
-      id: "srv-child",
-      title: "Child Health & Immunizations",
-      description:
-        "Sustained immunization drives protecting vulnerable infants against rotavirus, measles, polio, and critical respiratory infections.",
-      category: "Maternal & Child",
-      icon: <Syringe className="h-6 w-6 text-sky" />,
-    },
-    {
-      id: "srv-surgery",
-      title: "Minor Surgeries",
-      description:
-        "Suturing of trauma injuries, soft tissue incisions, cyst extractions, and localized infection drainage handled under precise safety.",
-      category: "Specialized",
-      icon: <Activity className="h-6 w-6 text-indigo-500" />,
-    },
-    {
-      id: "srv-labs",
-      title: "Laboratories",
-      description:
-        "Fast-turnaround microscopic tests for malaria, typhoid, tuberculosis markers, and comprehensive basic blood panels.",
-      category: "Specialized",
-      icon: <FlaskConical className="h-6 w-6 text-coral" />,
-    },
-    {
-      id: "srv-sti",
-      title: "STI Prevention, Care & HIV Treatment",
-      description:
-        "Sensitized retrovirus care including safe testing, counseling pipelines, and daily antiretroviral therapeutic treatments.",
-      category: "Specialized",
-      icon: <ShieldCheck className="h-6 w-6 text-sky" />,
-    },
-    {
-      id: "srv-counsel",
-      title: "Psychosocial Support & Counselling",
-      description:
-        "Trauma healing therapies for families and orphans addressing displacement anxiety, survivor distress, and prior conflict wounds.",
-      category: "Support",
-      icon: <MessageSquare className="h-6 w-6 text-indigo-500" />,
-    },
-    {
-      id: "srv-ultrasound",
-      title: "Ultrasound Services",
-      description:
-        "Empowering mid-term mother insights. Non-invasive scan visualization to confirm healthy fetal position and detect complications early.",
-      category: "Maternal & Child",
-      icon: <Stethoscope className="h-6 w-6 text-coral" />,
-    },
-  ];
+  const getBenefitGradient = (id: string) => {
+    switch (id) {
+      case "benefit-cost":
+        return "from-coral/5 to-transparent border-t-2 border-coral";
+      case "benefit-students":
+        return "from-sky/5 to-transparent border-t-2 border-sky";
+      case "benefit-prevention":
+        return "from-indigo-500/5 to-transparent border-t-2 border-indigo-500";
+      default:
+        return "from-soft to-transparent border-t-2 border-border";
+    }
+  };
+
+  const getServiceIcon = (id: string) => {
+    switch (id) {
+      case "service-outpatient":
+        return <BedDouble className="h-6 w-6 text-coral" />;
+      case "service-maternal":
+        return <Sparkles className="h-6 w-6 text-coral" />;
+      case "service-pediatric":
+        return <Syringe className="h-6 w-6 text-sky" />;
+      case "service-malaria":
+        return <Activity className="h-6 w-6 text-indigo-500" />;
+      case "service-pharma":
+        return <HeartHandshake className="h-6 w-6 text-sky" />;
+      case "service-lab":
+        return <FlaskConical className="h-6 w-6 text-coral" />;
+      case "service-nutrition":
+        return <Baby className="h-6 w-6 text-indigo-500" />;
+      case "service-dental":
+        return <Stethoscope className="h-6 w-6 text-coral" />;
+      default:
+        return <HeartPulse className="h-6 w-6 text-coral" />;
+    }
+  };
 
   const filteredServices =
-    activeTab === "all" ? servicesData : servicesData.filter((s) => s.category === activeTab);
+    activeTab === "all"
+      ? d.services.cards
+      : d.services.cards.filter((s) => s.category === activeTab);
 
   return (
     <div
@@ -259,7 +146,7 @@ function MedicalCentrePage() {
                   onMouseLeave={() => setShowStatusTooltip(false)}
                 >
                   <Clock className="h-4 w-4 animate-spin-slow text-sky" />
-                  <span>Licensed Clinical Hub — 24 Hours Open</span>
+                  <span>{d.hero.isLive}</span>
                   <Info className="h-3.5 w-3.5 opacity-80" />
                 </div>
 
@@ -291,7 +178,7 @@ function MedicalCentrePage() {
               </h1>
 
               <h2 className="mt-4 text-sky font-semibold tracking-wide text-lg sm:text-xl md:text-2xl uppercase">
-                Meeting the medical needs of the refugee community. Open 24 Hours.
+                {d.hero.subtitle}
               </h2>
 
               {/* Elegant Vision Block using custom fonts */}
@@ -321,7 +208,7 @@ function MedicalCentrePage() {
                   href="#services-grid"
                   className="px-6 py-3 rounded-full border border-border bg-white hover:bg-soft text-ink text-xs uppercase tracking-wider font-bold transition duration-200"
                 >
-                  Explore Services
+                  {d.hero.secondaryBtn}
                 </a>
               </div>
             </div>
@@ -364,11 +251,11 @@ function MedicalCentrePage() {
             <div className="lg:col-span-6 flex flex-col justify-center">
               <div className="max-w-xl">
                 <span className="text-xs uppercase tracking-[0.25em] text-sky font-bold bg-sky/5 px-4 py-1.5 rounded-full border border-sky/10 mb-4 inline-block">
-                  Sickness Crisis Context
+                  {d.crisis.badge}
                 </span>
 
                 <h3 className="text-3xl sm:text-4xl text-ink font-bold tracking-tight leading-tight">
-                  A Dream Five Years in the Making
+                  {d.crisis.title}
                 </h3>
 
                 <div className="mt-6 text-muted-foreground space-y-5 text-sm sm:text-base leading-relaxed text-left text-balance">
@@ -404,7 +291,7 @@ function MedicalCentrePage() {
             {/* Right Column: Sickness Crisis Dashboard - Stats Grid */}
             <div className="lg:col-span-6 flex flex-col justify-center">
               <div className="mb-6">
-                <h4 className="text-lg font-bold text-ink">
+                <h4 className="text-lg font-bold text-ink font-sans">
                   Kyaka II Settlement Healthcare Deficit
                 </h4>
                 <p className="text-xs text-muted-foreground">
@@ -413,14 +300,14 @@ function MedicalCentrePage() {
               </div>
 
               <div className="space-y-6">
-                {crisisMetrics.map((card) => (
+                {d.crisis.metrics.map((card) => (
                   <div
                     key={card.id}
                     className="p-6 rounded-2xl bg-gradient-to-r from-red-500/5 via-coral/5 to-transparent border border-coral/10 hover:border-coral/20 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between transition-all duration-300 hover:shadow-sm"
                   >
                     <div className="flex items-center gap-4">
                       <div className="p-3 bg-white rounded-xl shadow-sm border border-coral/10 flex-shrink-0">
-                        {card.icon}
+                        {getCrisisIcon(card.id)}
                       </div>
 
                       <div>
@@ -438,7 +325,7 @@ function MedicalCentrePage() {
 
                     <div className="text-left sm:text-right flex-shrink-0 pl-[52px] sm:pl-0">
                       <span className="block text-2xl font-extrabold text-coral/90 tracking-tight leading-none">
-                        {card.metric}
+                        {card.value}
                       </span>
                     </div>
                   </div>
@@ -455,27 +342,26 @@ function MedicalCentrePage() {
           {/* Header Block */}
           <div className="max-w-3xl mx-auto text-center mb-16">
             <span className="text-xs uppercase tracking-[0.25em] text-coral font-bold bg-coral/5 px-4 py-1.5 rounded-full border border-coral/10 mb-4 inline-block">
-              Direct Community Benefits
+              {d.benefits.badge}
             </span>
             <h3 className="text-3xl sm:text-4xl text-ink font-bold tracking-tight">
-              Community Impact Framework
+              {d.benefits.title}
             </h3>
             <p className="mt-4 text-muted-foreground text-sm sm:text-base leading-relaxed text-balance">
-              Our mission is to provide quality, accessible, and affordable health care services to
-              both the refugee and host communities through localized relief.
+              {d.benefits.description}
             </p>
           </div>
 
           {/* 3 Horizontal Modern Interaction Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {benefitCards.map((benefit) => (
+            {d.benefits.cards.map((benefit) => (
               <div
                 key={benefit.id}
-                className={`rounded-2xl p-8 bg-white border border-border shadow-sm flex flex-col justify-between transition-all duration-300 hover:shadow-md hover:-translate-y-1 ${benefit.bgGradient}`}
+                className={`rounded-2xl p-8 bg-white border border-border shadow-sm flex flex-col justify-between transition-all duration-300 hover:shadow-md hover:-translate-y-1 ${getBenefitGradient(benefit.id)}`}
               >
                 <div>
                   <div className="flex items-center justify-between mb-6">
-                    <div className="p-3 bg-slate-50 rounded-xl">{benefit.icon}</div>
+                    <div className="p-3 bg-slate-50 rounded-xl">{getBenefitIcon(benefit.id)}</div>
                     <span className="text-[10px] uppercase font-bold tracking-widest text-[#2f3e46]">
                       Benefit Card
                     </span>
@@ -507,34 +393,31 @@ function MedicalCentrePage() {
           {/* Header Block and Subtitles */}
           <div className="max-w-3xl mb-12 text-left">
             <span className="text-xs uppercase tracking-[0.25em] text-sky font-bold bg-sky/5 px-4 py-1.5 rounded-full border border-sky/10 mb-4 inline-block">
-              Dynamic Medical Roster
+              {d.services.badge}
             </span>
             <h3 className="text-3xl sm:text-4xl text-ink font-bold tracking-tight">
-              Our Medical Services
+              {d.services.title}
             </h3>
             <p className="mt-3 text-muted-foreground text-sm sm:text-base text-balance max-w-xl">
-              Equipped to handle a wide range of medical concerns 24 hours a day, 7 days a week.
-              Select categories below to filter our medical capabilities.
+              {d.services.description}
             </p>
           </div>
 
           {/* Service filter tabs */}
           <div className="flex flex-wrap gap-2 mb-8 select-none">
-            {(["all", "Primary Care", "Maternal & Child", "Specialized", "Support"] as const).map(
-              (catName) => (
-                <button
-                  key={catName}
-                  onClick={() => setActiveTab(catName)}
-                  className={`px-4 py-2 text-xs uppercase tracking-wider font-bold rounded-full border transition duration-200 cursor-pointer ${
-                    activeTab === catName
-                      ? "bg-ink text-white border-ink"
-                      : "bg-slate-50 text-slate-500 border-border hover:bg-slate-100"
-                  }`}
-                >
-                  {catName === "all" ? "All Services (10)" : catName}
-                </button>
-              ),
-            )}
+            {d.services.categories.map((cat) => (
+              <button
+                key={cat.id}
+                onClick={() => setActiveTab(cat.id)}
+                className={`px-4 py-2 text-xs uppercase tracking-wider font-bold rounded-full border transition duration-200 cursor-pointer ${
+                  activeTab === cat.id
+                    ? "bg-ink text-white border-ink"
+                    : "bg-slate-50 text-slate-500 border-border hover:bg-slate-100"
+                }`}
+              >
+                {cat.label}
+              </button>
+            ))}
           </div>
 
           {/* Grid Layout for services */}
@@ -551,9 +434,9 @@ function MedicalCentrePage() {
                   className="rounded-2xl p-6 bg-white border border-border flex flex-col justify-between group hover:border-sky/30 hover:shadow-soft transition-all duration-300 min-h-[220px]"
                 >
                   <div>
-                    {/* Icon section with ambient backgrounds changing based on hover */}
+                    {/* Icon section with ambient backgrounds on hover */}
                     <div className="p-3 bg-slate-50 rounded-xl max-w-fit mb-4 group-hover:bg-sky/5 transition-colors duration-300">
-                      {srv.icon}
+                      {getServiceIcon(srv.id)}
                     </div>
 
                     <h4 className="text-base font-bold text-ink group-hover:text-sky transition-colors mb-2">
@@ -591,16 +474,15 @@ function MedicalCentrePage() {
 
             <div className="max-w-2xl mx-auto flex flex-col items-center">
               <span className="text-[11px] uppercase tracking-[0.25em] font-extrabold text-coral bg-coral/5 border border-coral/15 px-4 py-1.5 rounded-full mb-6 leading-none">
-                Support our 24/7 lifeline
+                {d.campaign.badge}
               </span>
 
               <h2 className="text-3xl sm:text-4xl text-ink font-bold tracking-tight leading-none mb-4 text-balance">
-                Support Our 24/7 Lifeline Clinic
+                {d.campaign.title}
               </h2>
 
               <p className="text-muted-foreground text-sm sm:text-base leading-relaxed text-balance mb-10 max-w-xl">
-                Your contribution directly funds life-saving medical supplies, emergency treatments,
-                and subvention for vulnerable refugees.
+                {d.campaign.intro}
               </p>
 
               {/* Action Buttons styled precisely according to brand constraints */}
@@ -612,7 +494,7 @@ function MedicalCentrePage() {
                   rel="noopener noreferrer"
                   className="bg-[#f05153] hover:bg-[#d63d3f] text-white rounded-full px-8 py-4 text-xs uppercase tracking-wider font-bold transition duration-200 text-center shadow-lg hover:shadow-[#f05153]/35 flex items-center justify-center gap-2 group cursor-pointer"
                 >
-                  <span>Fund Medical Supplies</span>
+                  <span>{d.hero.primaryBtn}</span>
                   <ArrowRight className="h-4 w-4 transform group-hover:translate-x-1 transition-transform" />
                 </a>
 

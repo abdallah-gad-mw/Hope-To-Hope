@@ -1,0 +1,40 @@
+{
+  "newsletterTitle": "Stay Connected",
+  "newsletterSubtext": "Sign up with your email address to receive monthly news, hope stories, and updates.",
+  "newsletterButtonText": "Subscribe",
+  "aboutText": "Bringing hope, education and care to refugee children in the Kyaka II settlement since 2008.",
+  "poweredByText": "Morellis",
+  "poweredByUrl": "https://morellis.us/",
+  "socials": [
+    { "type": "instagram", "url": "#" },
+    { "type": "facebook", "url": "#" },
+    { "type": "youtube", "url": "#" },
+    { "type": "twitter", "url": "#" }
+  ],
+  "columns": [
+    {
+      "title": "About",
+      "links": [
+        { "label": "Our Vision", "to": "/about/our-vision" },
+        { "label": "Kyaka II", "to": "/about/kyaka-ii" },
+        { "label": "Our Team", "to": "/about/our-team" }
+      ]
+    },
+    {
+      "title": "Projects",
+      "links": [
+        { "label": "Angels Care School", "to": "/projects/school" },
+        { "label": "Medical Centre", "to": "/projects/medical-centre" },
+        { "label": "Orphanage", "to": "/projects/orphanage" },
+        { "label": "Hope Projects", "to": "/projects/hope-projects" }
+      ]
+    },
+    {
+      "title": "Community",
+      "links": [
+        { "label": "Hope Stories", "to": "/hope-stories" },
+        { "label": "Hope Family", "to": "/hope-family" }
+      ]
+    }
+  ]
+}

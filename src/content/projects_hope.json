@@ -1,0 +1,91 @@
+{
+  "hero": {
+    "badge": "Active Sustainability Pipelines",
+    "title": "Hope Projects",
+    "subtitle": "Innovative and sustainable solutions built for years to come, enabling us to expand our reach and impact.",
+    "intro": "At Angels Care Uganda, we strive to not only educate and care for our children and community, but to implement innovative and sustainable development projects that benefit the entire Kyaka II refugee community. The needs of our community are central to the very heart of our projects.",
+    "primaryBtn": "Explore Support Needs",
+    "secondaryBtn": "Featured: Maize milling"
+  },
+  "hopeProjects": [
+    {
+      "id": "girls-education",
+      "title": "Girls' Education & Menstrual Care",
+      "tag": "Social Impact & Inclusion",
+      "problem": "Every month, refugee girls miss a full week of school due to a lack of menstrual products, causing poor academic performance and subsequent school dropouts.",
+      "solution": "Our Girls’ Education & Menstrual Care Project provides female students with reusable sanitary napkins so they can continue to attend school continuously. This durable solution keeps girls safely in classrooms and directly narrows the gap between boys' and girls’ education.",
+      "accentBadge": "Durable Reusable Solution",
+      "imageUrl": "https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      "id": "fuel-future",
+      "title": "Fuel for the Future",
+      "tag": "Eco-Sustainability & Climate",
+      "problem": "Deforestation in Uganda is rapidly increasing due to both refugees and host communities gathering natural firewood needed for cooking food.",
+      "solution": "This sustainability initiative produces bio-briquettes engineered directly from agricultural residues. These clean bio-briquettes mitigate deforestation, protect the local ecosystem, and keep refugee women completely out of the danger of searching for isolated wood, providing a safe, sustainable fuel source.",
+      "accentBadge": "Eco-Friendly Biomass Residues",
+      "imageUrl": "https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?auto=format&fit=crop&w=800&q=80"
+    }
+  ],
+  "millingCampaign": {
+    "badge": "Strategic Campaign Feature",
+    "title": "Self-Sustainability: Maize Milling Machine",
+    "subtitle": "Targeting School Meal Self-Funding & Women’s Local Cooperative Employment",
+    "description": "Angels Care Uganda is raising a $25,000 USD fund to construct on-site maize milling facilities in Kyaka II. This project acts as a major economic, nutrition, and staffing trigger for our community.",
+    "points": [
+      {
+        "title": "Slash School Feeding Costs by 50%",
+        "description": "We currently buy corn flour on expensive public markets in Kyegegwa. Milling locally grown corn eliminates middle-man fees."
+      },
+      {
+        "title": "Local Refugee Women Employment",
+        "description": "We will employ 12 local widowed single mothers to handle processing, packaging, and commercial sales."
+      },
+      {
+        "title": "Generate Funding to Protect the Orphans",
+        "description": "All profits made by milling surrounding public farmers' maize bags are funneled directly to keep our 130 orphans sponsored."
+      }
+    ],
+    "funding": {
+      "funded": 14250,
+      "target": 25000,
+      "currency": "USD",
+      "text": "Raised to Date of Campaign Goal"
+    },
+    "sidebar": {
+      "title": "Support our Maize Milling Campaign!",
+      "subtext": "This milling project is an investment in ultimate self-sustainability, allowing Angels Care to provide nutrition and support independently.",
+      "points": [
+        "100% of maize campaign donations go directly into purchasing on-site milling machinery.",
+        "Your support creates dignified local employment for displaced single mothers."
+      ],
+      "btnText": "Empower Self-Sustainability Now"
+    },
+    "milestones": [
+      {
+        "label": "Phase 1: Civil Foundation & Shed Structure",
+        "allocated": "$5,000 USD",
+        "achievement": "Securing concrete structure, protection fences, and water pipelines.",
+        "progressPercent": 100,
+        "unlocked": true,
+        "notes": "Fully funded and cleared. Construction of the dry milling room footprint is underway inside Kyaka II."
+      },
+      {
+        "label": "Phase 2: Machinery Procurement & Electrical Setup",
+        "allocated": "$15,000 USD",
+        "achievement": "Acquiring electric grinding mills, separators, and packaging units.",
+        "progressPercent": 62,
+        "unlocked": true,
+        "notes": "Currently raising core funding. These high-grade diesel-powered heavy milling rigs will bypass rural power grids."
+      },
+      {
+        "label": "Phase 3: Logistics, Sacks & Local Employment Startup",
+        "allocated": "$5,000 USD",
+        "achievement": "Hiring local refugee women, purchasing sacks, and inventory setup.",
+        "progressPercent": 0,
+        "unlocked": false,
+        "notes": "Awaiting final equipment setup to secure employment contracts for 12 local widowed and vulnerable single mothers."
+      }
+    ]
+  }
+}

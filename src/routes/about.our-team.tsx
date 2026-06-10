@@ -22,6 +22,7 @@ import {
   MessageSquare,
   Globe,
 } from "lucide-react";
+import aboutTeamData from "@/content/about_team.json";
 
 export const Route = createFileRoute("/about/our-team")({
   head: () => ({
@@ -38,7 +39,7 @@ export const Route = createFileRoute("/about/our-team")({
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2&family=Google+Sans+Text:wght@400;500;700&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Google+Sans+Text:wght@400;500;700&display=swap",
       },
     ],
   }),
@@ -50,7 +51,7 @@ interface TeamMember {
   id: string;
   name: string;
   role: string;
-  category: "teaching" | "support" | "liaison";
+  category: string;
   initials: string;
   grad?: string; // Teacher qualification or helper tag
   avatarBg: string; // Gradient color indicator
@@ -58,6 +59,7 @@ interface TeamMember {
 }
 
 function OurTeamPage() {
+  const d = aboutTeamData;
   const [activeTab, setActiveTab] = useState<"all" | "teaching" | "support" | "liaison">("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedStaff, setSelectedStaff] = useState<TeamMember | null>(null);
@@ -89,202 +91,19 @@ function OurTeamPage() {
   );
 
   const handleHeroImageError = () => {
-    // In case local file isn't uploaded yet, load robust Unsplash non-profit education equivalent
     setHeroImageSrc(
       "https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=1200&q=80",
     );
   };
 
   const handleGalleryImageError = () => {
-    // Elegant fallback for team & kids in community or assembly
     setGalleryImageSrc(
       "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1200&q=80",
     );
   };
 
-  // Directory Staff list
-  const staffMembers: TeamMember[] = [
-    // Teachers
-    {
-      id: "alinda-george",
-      name: "Alinda George",
-      role: "Head Teacher",
-      category: "teaching",
-      initials: "AG",
-      grad: "Bachelor of Education (MUK)",
-      avatarBg: "from-sky/80 to-sky",
-      bio: "Leads school administration and curriculum planning. George ensures academic standards are maintained and matches child support with high quality learning.",
-    },
-    {
-      id: "bamwesigye-daniel",
-      name: "Bamwesigye Daniel",
-      role: "Deputy Head Teacher",
-      category: "teaching",
-      initials: "BD",
-      grad: "Diploma in Primary Education",
-      avatarBg: "from-coral/30 to-coral/10",
-      bio: "Coordinates academic timetables, co-curricular sports, and general safety policies for our 900+ registered students.",
-    },
-    {
-      id: "nagasha-eden",
-      name: "Nagasha Eden",
-      role: "Classroom Teacher",
-      category: "teaching",
-      initials: "NE",
-      grad: "Early Childhood Teacher",
-      avatarBg: "from-sky/30 to-coral/10",
-    },
-    {
-      id: "kansiime-mwajabu",
-      name: "Kansiime Mwajabu",
-      role: "Classroom Teacher",
-      category: "teaching",
-      initials: "KM",
-      grad: "Primary Education Grade III Cert",
-      avatarBg: "from-coral/20 to-sky/20",
-    },
-    {
-      id: "angabire-mary-gorret",
-      name: "Angabire Mary Gorret",
-      role: "Classroom Teacher",
-      category: "teaching",
-      initials: "AM",
-      grad: "Grade III Teaching Certificate",
-      avatarBg: "from-sky/40 to-sky/20",
-    },
-    {
-      id: "twesigomwe-jonathan",
-      name: "Twesigomwe Jonathan",
-      role: "Classroom Teacher",
-      category: "teaching",
-      initials: "TJ",
-      grad: "Primary Specialist Teacher",
-      avatarBg: "from-coral/40 to-coral/10",
-    },
-    {
-      id: "nzamurambaho-george",
-      name: "Nzamurambaho George",
-      role: "Classroom Teacher",
-      category: "teaching",
-      initials: "NG",
-      grad: "Science & Math Specialist",
-      avatarBg: "from-sky/50 to-coral/25",
-    },
-    {
-      id: "ninsiima-catheline",
-      name: "Ninsiima Catheline",
-      role: "Classroom Teacher",
-      category: "teaching",
-      initials: "NC",
-      grad: "Languages Teacher",
-      avatarBg: "from-coral/35 to-coral/15",
-    },
-    {
-      id: "nkarubo-mary",
-      name: "Nkarubo Mary",
-      role: "Classroom Teacher",
-      category: "teaching",
-      initials: "NM",
-      grad: "Lower Primary Specialist",
-      avatarBg: "from-sky/30 to-coral/20",
-    },
-    {
-      id: "tuhaise-balongo",
-      name: "Tuhaise Balongo",
-      role: "Classroom Teacher",
-      category: "teaching",
-      initials: "TB",
-      grad: "Grade III Educator",
-      avatarBg: "from-coral/30 to-sky/30",
-    },
-    {
-      id: "baguma-maria",
-      name: "Baguma Maria",
-      role: "Classroom Teacher",
-      category: "teaching",
-      initials: "BM",
-      grad: "Primary Methods Cert",
-      avatarBg: "from-sky/35 to-sky/15",
-    },
-    {
-      id: "kabugho-rehema",
-      name: "Kabugho Rehema",
-      role: "Classroom Teacher",
-      category: "teaching",
-      initials: "KR",
-      grad: "Language Arts",
-      avatarBg: "from-coral/25 to-coral/10",
-    },
-    {
-      id: "jafoyombe-paul",
-      name: "Jafoyombe Paul",
-      role: "Classroom Teacher",
-      category: "teaching",
-      initials: "JP",
-      grad: "Primary Grade III Cert",
-      avatarBg: "from-sky/40 to-sky/10",
-    },
-
-    // Support Staff
-    {
-      id: "turyamureba-vanansio",
-      name: "Turyamureba Vanansio",
-      role: "Security Guard",
-      category: "support",
-      initials: "TV",
-      grad: "Campus Safety & Field Security",
-      avatarBg: "from-ink/10 to-ink/30",
-    },
-    {
-      id: "vuguziga-emmanuel",
-      name: "Vuguziga Emmanuel",
-      role: "Lead Cook",
-      category: "support",
-      initials: "VE",
-      grad: "Nutrition & Mess Coordinator",
-      avatarBg: "from-coral/20 to-coral/10",
-    },
-    {
-      id: "turyaheebwa-atanazio",
-      name: "Turyaheebwa Atanazio",
-      role: "Cook",
-      category: "support",
-      initials: "TA",
-      grad: "Meal Prep Specialist",
-      avatarBg: "from-sky/20 to-sky/10",
-    },
-    {
-      id: "twongirwe-saliva",
-      name: "Twongirwe Saliva",
-      role: "Cook",
-      category: "support",
-      initials: "TS",
-      grad: "Meal Prep Specialist",
-      avatarBg: "from-coral/15 to-sky/15",
-    },
-
-    // International Liaison (Hopetohope.org Contacts)
-    {
-      id: "robert-tarnowski",
-      name: "Robert Tarnowski",
-      role: "Canadian Liaison & Coordinator",
-      category: "liaison",
-      initials: "RT",
-      grad: "Hopetohope.org Partnership Director",
-      avatarBg: "from-sky/50 to-sky",
-      bio: "Manages donor transparency, reporting metrics, and international support funds crossing Canada and USA to the Field operations in Kyaka II Refugee Settlement.",
-    },
-    {
-      id: "tatum-bergen",
-      name: "Tatum Bergen",
-      role: "Canadian Support Partners Liaison",
-      category: "liaison",
-      initials: "TB",
-      grad: "Hopetohope.org Support Liaison",
-      avatarBg: "from-coral/40 to-coral",
-      bio: "Coordinates sponsor outreach, children messaging systems, community fundraising projects, and field reporting updates.",
-    },
-  ];
+  // Directory Staff list loaded from JSON
+  const staffMembers: TeamMember[] = d.directory.staffList;
 
   // Filters staff by Tab selection & search input
   const filteredStaff = staffMembers.filter((staff) => {
@@ -310,33 +129,35 @@ function OurTeamPage() {
             <div className="lg:col-span-7 flex flex-col items-start reveal">
               <span className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-coral font-bold bg-coral/5 px-3 py-1 rounded-full border border-coral/10 mb-5">
                 <Users className="h-3 w-3 text-coral animate-pulse" />
-                Staff Members & Coordinators
+                {d.hero.badge}
               </span>
               <h1 className="text-4xl sm:text-5xl md:text-6xl text-ink leading-[1.05] tracking-tight font-semibold text-balance">
                 Meet Our <span className="text-coral">Dedicated</span> Team
               </h1>
               <p className="mt-6 text-muted-foreground text-lg md:text-xl leading-relaxed max-w-2xl text-balance">
-                &ldquo;Dedicated staff with a heart to serve the children and community.&rdquo;
+                {d.hero.subtitle}
               </p>
-              <p className="mt-4 text-muted-foreground/90 text-sm md:text-base leading-relaxed max-w-xl">
-                At Angels Care Uganda, our local educators, admin leaders, and supportive caretakers
-                work tirelessly in Kyaka II Refugee Settlement. We provide educational foundations,
-                security, health initiatives, and compassionate mentorship to empower 900+ active
-                students daily.
-              </p>
+              {d.hero.paragraphs.map((p, idx) => (
+                <p
+                  key={idx}
+                  className="mt-4 text-muted-foreground/90 text-sm md:text-base leading-relaxed max-w-xl"
+                >
+                  {p}
+                </p>
+              ))}
 
               <div className="mt-8 flex flex-wrap gap-4">
                 <a
                   href="#directory"
                   className="btn-coral rounded-full px-6 py-3 text-sm font-semibold inline-flex items-center gap-2 shadow"
                 >
-                  Explore Directory <ChevronRight className="h-4 w-4" />
+                  {d.hero.primaryBtn} <ChevronRight className="h-4 w-4" />
                 </a>
                 <a
                   href="#leadership"
                   className="px-6 py-3 rounded-full border border-border bg-white hover:bg-soft text-ink text-sm font-semibold transition"
                 >
-                  Our Leadership
+                  {d.hero.secondaryBtn}
                 </a>
               </div>
             </div>
@@ -387,14 +208,13 @@ function OurTeamPage() {
         <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
           <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-16">
             <span className="text-xs uppercase tracking-[0.25em] text-sky font-bold bg-sky/5 px-3 py-1 rounded-full border border-sky/10 mb-4">
-              Governing Bodies & Management
+              {d.leadership.badge}
             </span>
             <h2 className="text-3xl sm:text-4xl text-ink font-semibold tracking-tight">
-              Senior Leadership & Field Directors
+              {d.leadership.title}
             </h2>
             <p className="mt-4 text-muted-foreground leading-relaxed text-balance">
-              Driven by conviction, experience, and local expertise. Our leadership steers the
-              vision, finances, operations, and academic excellence of Angels Care.
+              {d.leadership.description}
             </p>
           </div>
 
@@ -407,7 +227,7 @@ function OurTeamPage() {
 
                 {/* Highlight banner indicator */}
                 <div className="absolute top-6 right-6 flex items-center gap-1.5 bg-coral text-white text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-full shadow-sm">
-                  <Sparkles className="h-3 w-3" /> Founder & ED
+                  <Sparkles className="h-3 w-3" /> {d.leadership.founder.status}
                 </div>
 
                 {/* Prominent monogram avatar */}
@@ -422,29 +242,25 @@ function OurTeamPage() {
 
                 <div className="mt-6 flex-grow flex flex-col justify-between">
                   <div>
-                    <h3 className="text-2xl text-ink font-semibold">Byaruhunga Godfrey</h3>
+                    <h3 className="text-2xl text-ink font-semibold">{d.leadership.founder.name}</h3>
                     <p className="text-sm font-medium text-coral mt-1 uppercase tracking-wider">
-                      Executive Director & Founder
+                      {d.leadership.founder.role}
                     </p>
                     <p className="mt-4 text-muted-foreground text-sm leading-relaxed">
-                      Godfrey founded Angels Care Uganda in 2008 inside Kyaka II Refugee Settlement
-                      with a bold goal: guaranteeing education, medical access, and shelter to
-                      children fleeing regional conflicts. Under his stewardship, the school evolved
-                      from basic temporary straw shelters to a fully active, certifiable educational
-                      campus hosting 900+ scholars.
+                      {d.leadership.founder.description}
                     </p>
                   </div>
                   <div className="mt-6 pt-6 border-t border-border flex items-center justify-between">
                     <span className="text-xs text-muted-foreground/80 font-mono">
-                      Status: Founder & ED
+                      Status: {d.leadership.founder.status}
                     </span>
                     <a
-                      href="https://www.theforgottenintl.org"
+                      href={d.leadership.founder.linkUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-xs font-semibold text-coral inline-flex items-center gap-1 hover:underline"
                     >
-                      Field Liaison <ExternalLink className="h-3 w-3" />
+                      {d.leadership.founder.linkText} <ExternalLink className="h-3 w-3" />
                     </a>
                   </div>
                 </div>
@@ -453,110 +269,46 @@ function OurTeamPage() {
 
             {/* Other Leaders Grid */}
             <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {/* Alinda George */}
-              <div className="rounded-3xl bg-white p-6 border border-border/80 card-hover flex flex-col justify-between group">
-                <div className="flex gap-4 items-start">
-                  <div className="h-14 w-14 rounded-2xl bg-sky/10 text-ink font-display text-xl flex items-center justify-center font-semibold border border-sky/25">
-                    AG
-                  </div>
-                  <div>
-                    <h3 className="text-lg text-ink font-semibold group-hover:text-coral transition-colors">
-                      Alinda George
-                    </h3>
-                    <p className="text-xs font-medium text-muted-foreground/80">Head Teacher</p>
-                  </div>
-                </div>
-                <p className="mt-4 text-muted-foreground text-xs leading-relaxed">
-                  Leads core primary school operations, academic curriculum design, and
-                  instructional planning across standard subjects. Focuses on local staff
-                  development.
-                </p>
-                <div className="mt-6 pt-4 border-t border-border/50 flex justify-between items-center text-[10px]">
-                  <span className="text-muted-foreground/80 bg-soft px-2.5 py-1 rounded-md border border-border/30">
-                    Teaching Category
-                  </span>
-                  <span className="font-semibold text-sky">Academic Head</span>
-                </div>
-              </div>
-
-              {/* Bamwesigye Daniel */}
-              <div className="rounded-3xl bg-white p-6 border border-border/80 card-hover flex flex-col justify-between group">
-                <div className="flex gap-4 items-start">
-                  <div className="h-14 w-14 rounded-2xl bg-sky/10 text-ink font-display text-xl flex items-center justify-center font-semibold border border-sky/25">
-                    BD
-                  </div>
-                  <div>
-                    <h3 className="text-lg text-ink font-semibold group-hover:text-coral transition-colors">
-                      Bamwesigye Daniel
-                    </h3>
-                    <p className="text-xs font-medium text-muted-foreground/80">
-                      Deputy Head Teacher
+              {d.leadership.leaders.map((leader) => {
+                const initials = leader.name
+                  .split(" ")
+                  .map((w) => w[0])
+                  .join("");
+                const isOdd = leader.id === "alinda-george" || leader.id === "bamwesigye-daniel";
+                return (
+                  <div
+                    key={leader.id}
+                    className="rounded-3xl bg-white p-6 border border-border/80 card-hover flex flex-col justify-between group"
+                  >
+                    <div className="flex gap-4 items-start">
+                      <div
+                        className={`h-14 w-14 rounded-2xl ${isOdd ? "bg-sky/10 border-sky/25" : "bg-coral/5 border-coral/10"} text-ink font-display text-xl flex items-center justify-center font-semibold border`}
+                      >
+                        {initials}
+                      </div>
+                      <div>
+                        <h3 className="text-lg text-ink font-semibold group-hover:text-coral transition-colors">
+                          {leader.name}
+                        </h3>
+                        <p className="text-xs font-medium text-muted-foreground/80">
+                          {leader.role}
+                        </p>
+                      </div>
+                    </div>
+                    <p className="mt-4 text-muted-foreground text-xs leading-relaxed">
+                      {leader.description}
                     </p>
+                    <div className="mt-6 pt-4 border-t border-border/50 flex justify-between items-center text-[10px]">
+                      <span className="text-muted-foreground/80 bg-soft px-2.5 py-1 rounded-md border border-border/30">
+                        {leader.category}
+                      </span>
+                      <span className={`font-semibold ${isOdd ? "text-sky" : "text-coral"}`}>
+                        {leader.subrole}
+                      </span>
+                    </div>
                   </div>
-                </div>
-                <p className="mt-4 text-muted-foreground text-xs leading-relaxed">
-                  Oversees student affairs, classroom activities, disciplinary affairs, and field
-                  events for safe settlement learning. Coordinates teaching schedules.
-                </p>
-                <div className="mt-6 pt-4 border-t border-border/50 flex justify-between items-center text-[10px]">
-                  <span className="text-muted-foreground/80 bg-soft px-2.5 py-1 rounded-md border border-border/30">
-                    Teaching Category
-                  </span>
-                  <span className="font-semibold text-sky">Co-Management</span>
-                </div>
-              </div>
-
-              {/* Sangwa Willy */}
-              <div className="rounded-3xl bg-white p-6 border border-border/80 card-hover flex flex-col justify-between group">
-                <div className="flex gap-4 items-start">
-                  <div className="h-14 w-14 rounded-2xl bg-coral/5 text-ink font-display text-xl flex items-center justify-center font-semibold border border-coral/10">
-                    SW
-                  </div>
-                  <div>
-                    <h3 className="text-lg text-ink font-semibold group-hover:text-coral transition-colors">
-                      Sangwa Willy
-                    </h3>
-                    <p className="text-xs font-medium text-muted-foreground/80">School Bursar</p>
-                  </div>
-                </div>
-                <p className="mt-4 text-muted-foreground text-xs leading-relaxed">
-                  Controls budget allocations, tracks donor funding transfers, manages vendor
-                  agreements, and coordinates field project financial sheets.
-                </p>
-                <div className="mt-6 pt-4 border-t border-border/50 flex justify-between items-center text-[10px]">
-                  <span className="text-muted-foreground/80 bg-soft px-2.5 py-1 rounded-md border border-border/30">
-                    Finance Category
-                  </span>
-                  <span className="font-semibold text-coral">Finance Lead</span>
-                </div>
-              </div>
-
-              {/* Dusengeyezu Auginia */}
-              <div className="rounded-3xl bg-white p-6 border border-border/80 card-hover flex flex-col justify-between group">
-                <div className="flex gap-4 items-start">
-                  <div className="h-14 w-14 rounded-2xl bg-coral/5 text-ink font-display text-xl flex items-center justify-center font-semibold border border-coral/10">
-                    DA
-                  </div>
-                  <div>
-                    <h3 className="text-lg text-ink font-semibold group-hover:text-coral transition-colors">
-                      Dusengeyezu Auginia
-                    </h3>
-                    <p className="text-xs font-medium text-muted-foreground/80">
-                      Secretary & Admin Assistant
-                    </p>
-                  </div>
-                </div>
-                <p className="mt-4 text-muted-foreground text-xs leading-relaxed">
-                  Coordinates file databases, handles child registration forms, student rosters, and
-                  logs reports matching international liaisons.
-                </p>
-                <div className="mt-6 pt-4 border-t border-border/50 flex justify-between items-center text-[10px]">
-                  <span className="text-muted-foreground/80 bg-soft px-2.5 py-1 rounded-md border border-border/30">
-                    Administration Category
-                  </span>
-                  <span className="font-semibold text-coral">Administration</span>
-                </div>
-              </div>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -580,15 +332,13 @@ function OurTeamPage() {
 
             <div className="relative z-10 md:w-3/5 text-left">
               <span className="inline-flex items-center gap-1.5 bg-sky/20 border border-sky/30 text-sky text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-full mb-4">
-                <School className="h-3 w-3" /> Life at Angels Care
+                <School className="h-3 w-3" /> {d.actionBanner.badge}
               </span>
               <h3 className="text-3xl md:text-4xl font-semibold tracking-tight leading-none text-white">
-                Our Team in Action
+                {d.actionBanner.title}
               </h3>
               <p className="mt-3 text-sm md:text-base text-gray-300 leading-relaxed">
-                Empowering the 900+ active scholars of Kyaka II refugee camp daily. Through
-                classroom schedules, outdoor assemblies, sports tournaments, and food programs, we
-                stand unified to nurture the regional leaders of tomorrow.
+                {d.actionBanner.description}
               </p>
             </div>
 
@@ -599,7 +349,7 @@ function OurTeamPage() {
                 rel="noopener noreferrer"
                 className="btn-coral rounded-full px-6 py-3.5 text-xs uppercase tracking-wider font-bold text-center inline-flex items-center justify-center gap-2 hover:shadow-coral"
               >
-                Support our School Meal Program <Heart className="h-4 w-4 fill-white" />
+                {d.actionBanner.btnText} <Heart className="h-4 w-4 fill-white" />
               </a>
             </div>
           </div>
@@ -613,14 +363,13 @@ function OurTeamPage() {
           <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-12">
             <div className="max-w-2xl">
               <span className="text-xs uppercase tracking-[0.25em] text-coral font-bold bg-coral/5 px-3 py-1 rounded-full border border-coral/10 mb-3 inline-block">
-                Interactive Directory
+                {d.directory.badge}
               </span>
               <h2 className="text-3xl md:text-4xl text-ink font-semibold tracking-tight">
-                Our Dedicated Professionals
+                {d.directory.title}
               </h2>
               <p className="mt-3 text-muted-foreground text-sm md:text-base">
-                Click tabs to filter our teaching staff, campus support crew, and international
-                liaison partners. Use the input field to find staff by name or role.
+                {d.directory.description}
               </p>
             </div>
 
@@ -631,7 +380,7 @@ function OurTeamPage() {
               </div>
               <input
                 type="text"
-                placeholder="Search staff by name/qualification..."
+                placeholder={d.directory.searchPlaceholder}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full bg-white text-ink border border-border pl-10 pr-4 py-3 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-coral/40 focus:border-coral transition"
@@ -736,7 +485,9 @@ function OurTeamPage() {
                   </div>
 
                   <div className="mt-5 pt-3.5 border-t border-border/50 flex items-center justify-between text-[11px]">
-                    <span className="text-muted-foreground/80 font-medium">Kyaka II Mission</span>
+                    <span className="text-muted-foreground/80 font-medium font-mono">
+                      Kyaka II Mission
+                    </span>
                     {(staff.bio || staff.grad) && (
                       <span className="text-coral hover:underline font-semibold flex items-center">
                         Read Bio <ChevronRight className="h-3 w-3" />
@@ -751,12 +502,8 @@ function OurTeamPage() {
             {filteredStaff.length === 0 && (
               <div className="col-span-full py-16 text-center text-muted-foreground">
                 <Users className="h-10 w-10 text-muted-foreground/40 mx-auto mb-4" />
-                <p className="text-base font-semibold">
-                  No team members match your filter or search query
-                </p>
-                <p className="text-xs mt-1">
-                  Try resetting the tab selection or checking your spelling.
-                </p>
+                <p className="text-base font-semibold">{d.directory.emptyState.title}</p>
+                <p className="text-xs mt-1">{d.directory.emptyState.subtext}</p>
                 <button
                   onClick={() => {
                     setActiveTab("all");
@@ -764,7 +511,7 @@ function OurTeamPage() {
                   }}
                   className="mt-4 text-xs font-semibold text-coral uppercase tracking-wider hover:underline"
                 >
-                  Reset filters
+                  {d.directory.emptyState.btnText}
                 </button>
               </div>
             )}
@@ -782,37 +529,27 @@ function OurTeamPage() {
             {/* Canadian Liaison Info Column */}
             <div>
               <span className="text-xs uppercase tracking-[0.25em] text-coral font-bold bg-coral/5 px-3 py-1 rounded-full border border-coral/10 mb-4 inline-block">
-                Canadian Support Liaison
+                {d.liaison.badge}
               </span>
               <h2 className="text-3xl sm:text-4xl text-ink font-semibold tracking-tight text-balance">
-                Hopetohope.org — Canadian Liaison Contacts
+                {d.liaison.title}
               </h2>
               <p className="mt-5 text-muted-foreground text-sm md:text-base leading-relaxed text-balance">
-                Our Canadian coordinates represent the funding and communication lifeblood of the
-                Angels Care Uganda operation. Bridging the gap between compassionate donors in
-                Canada and our immediate field needs in Uganda.
+                {d.liaison.description}
               </p>
               <p className="mt-3 text-muted-foreground/80 text-xs md:text-sm leading-relaxed">
-                Robert and Tatum support our funding audits, student sponsorship matches,
-                educational packages procurement, and local transparency logs. They ensure that
-                every dollar directly hits field budgets in Kyaka II Refugee settlement.
+                {d.liaison.subtext}
               </p>
 
               <div className="mt-8 flex flex-col gap-3">
-                <div className="flex items-start gap-3 text-sm text-muted-foreground">
-                  <div className="bg-sky/10 rounded-full p-1 border border-sky/25 text-ink mt-0.5">
-                    <CheckCircle2 className="h-4 w-4 text-ink" />
+                {d.liaison.points.map((pt, idx) => (
+                  <div key={idx} className="flex items-start gap-3 text-sm text-muted-foreground">
+                    <div className="bg-sky/10 rounded-full p-1 border border-sky/25 text-ink mt-0.5">
+                      <CheckCircle2 className="h-4 w-4 text-ink" />
+                    </div>
+                    <span>{pt}</span>
                   </div>
-                  <span>100% of designated sponsorships reach Kyaka II settlement budgets.</span>
-                </div>
-                <div className="flex items-start gap-3 text-sm text-muted-foreground">
-                  <div className="bg-sky/10 rounded-full p-1 border border-sky/25 text-ink mt-0.5">
-                    <CheckCircle2 className="h-4 w-4 text-ink" />
-                  </div>
-                  <span>
-                    Regular auditing reports and tax receipts for Canadian and Global donors.
-                  </span>
-                </div>
+                ))}
               </div>
 
               <div className="mt-8">
@@ -823,106 +560,66 @@ function OurTeamPage() {
                   }}
                   className="btn-coral rounded-full px-7 py-3 text-sm font-semibold inline-flex items-center gap-2"
                 >
-                  Partner With Us <HelpingHand className="h-4 w-4" />
+                  {d.liaison.btnText} <HelpingHand className="h-4 w-4" />
                 </button>
               </div>
             </div>
 
             {/* Canadian Partner Contact Profiles right block */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {/* Card - Robert Tarnowski */}
-              <div className="bg-soft border border-border/80 rounded-3xl p-6 shadow-sm hover:shadow hover:scale-[1.01] transition-all duration-300 flex flex-col justify-between h-80 group">
-                <div>
-                  <div className="flex items-center justify-between">
-                    <div className="h-12 w-12 rounded-xl bg-gradient-to-tr from-sky/60 to-sky text-ink font-display text-lg font-bold flex items-center justify-center border border-black/5 shadow-inner">
-                      RT
+              {staffMembers
+                .filter((s) => s.category === "liaison")
+                .map((staff) => (
+                  <div
+                    key={staff.id}
+                    className="bg-soft border border-border/80 rounded-3xl p-6 shadow-sm hover:shadow hover:scale-[1.01] transition-all duration-300 flex flex-col justify-between h-80 group"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between">
+                        <div
+                          className={`h-12 w-12 rounded-xl bg-gradient-to-tr ${staff.avatarBg} text-ink font-display text-lg font-bold flex items-center justify-center border border-black/5 shadow-inner`}
+                        >
+                          {staff.initials}
+                        </div>
+                        <span className="text-[10px] uppercase font-bold tracking-wider text-muted-foreground bg-white border border-border/50 px-2.5 py-1 rounded-full">
+                          {staff.role.includes("Director") ? "Partnership Dir" : "Support Liaison"}
+                        </span>
+                      </div>
+
+                      <div className="mt-4">
+                        <h3 className="text-xl font-semibold text-ink group-hover:text-coral transition-colors">
+                          {staff.name}
+                        </h3>
+                        <p className="text-xs text-muted-foreground font-mono mt-0.5">
+                          {staff.role}
+                        </p>
+                        <p className="mt-3 text-xs text-muted-foreground/90 leading-relaxed line-clamp-4">
+                          {staff.bio}
+                        </p>
+                      </div>
                     </div>
-                    <span className="text-[10px] uppercase font-bold tracking-wider text-muted-foreground bg-white border border-border/50 px-2.5 py-1 rounded-full">
-                      Partnership Dir
-                    </span>
-                  </div>
 
-                  <div className="mt-4">
-                    <h3 className="text-xl font-semibold text-ink group-hover:text-coral transition-colors">
-                      Robert Tarnowski
-                    </h3>
-                    <p className="text-xs text-muted-foreground font-mono mt-0.5">
-                      Canadian Liaison & Coordinator
-                    </p>
-                    <p className="mt-3 text-xs text-muted-foreground/90 leading-relaxed line-clamp-4">
-                      Robert manages reporting metrics, sponsor communication funnels, and works
-                      alongside key donors to maintain building projects and meal programs at our
-                      Uganda school campus.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="pt-4 border-t border-border/50 flex justify-between items-center">
-                  <a
-                    href="mailto:rob@hopetohope.org"
-                    className="text-xs font-semibold text-coral inline-flex items-center gap-1 hover:underline"
-                  >
-                    rob@hopetohope.org <Mail className="h-3.5 w-3.5" />
-                  </a>
-                  <button
-                    onClick={() => {
-                      setLiaisonSubject("Inquiry for Robert Tarnowski");
-                      setIsLiaisonContactOpen(true);
-                    }}
-                    className="text-muted-foreground hover:text-coral text-xs"
-                    title="Send inquiry"
-                  >
-                    <MessageSquare className="h-4 w-4" />
-                  </button>
-                </div>
-              </div>
-
-              {/* Card - Tatum Bergen */}
-              <div className="bg-soft border border-border/80 rounded-3xl p-6 shadow-sm hover:shadow hover:scale-[1.01] transition-all duration-300 flex flex-col justify-between h-80 group">
-                <div>
-                  <div className="flex items-center justify-between">
-                    <div className="h-12 w-12 rounded-xl bg-gradient-to-tr from-coral/40 to-coral text-white font-display text-lg font-bold flex items-center justify-center border border-black/5 shadow-inner">
-                      TB
+                    <div className="pt-4 border-t border-border/50 flex justify-between items-center">
+                      <a
+                        href={`mailto:${staff.id === "robert-tarnowski" ? "rob" : "tatum"}@hopetohope.org`}
+                        className="text-xs font-semibold text-coral inline-flex items-center gap-1 hover:underline"
+                      >
+                        {staff.id === "robert-tarnowski" ? "rob" : "tatum"}@hopetohope.org{" "}
+                        <Mail className="h-3.5 w-3.5" />
+                      </a>
+                      <button
+                        onClick={() => {
+                          setLiaisonSubject(`Inquiry for ${staff.name}`);
+                          setIsLiaisonContactOpen(true);
+                        }}
+                        className="text-muted-foreground hover:text-coral text-xs"
+                        title="Send inquiry"
+                      >
+                        <MessageSquare className="h-4 w-4" />
+                      </button>
                     </div>
-                    <span className="text-[10px] uppercase font-bold tracking-wider text-muted-foreground bg-white border border-border/50 px-2.5 py-1 rounded-full">
-                      Support Liaison
-                    </span>
                   </div>
-
-                  <div className="mt-4">
-                    <h3 className="text-xl font-semibold text-ink group-hover:text-coral transition-colors">
-                      Tatum Bergen
-                    </h3>
-                    <p className="text-xs text-muted-foreground font-mono mt-0.5">
-                      Support Partners Liaison
-                    </p>
-                    <p className="mt-3 text-xs text-muted-foreground/90 leading-relaxed line-clamp-4">
-                      Tatum maps outreach programs, handles sponsor letters packages, coordinates
-                      children updates logs and shares visual reports from the Uganda field
-                      coordinators.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="pt-4 border-t border-border/50 flex justify-between items-center">
-                  <a
-                    href="mailto:tatum@hopetohope.org"
-                    className="text-xs font-semibold text-coral inline-flex items-center gap-1 hover:underline"
-                  >
-                    tatum@hopetohope.org <Mail className="h-3.5 w-3.5" />
-                  </a>
-                  <button
-                    onClick={() => {
-                      setLiaisonSubject("Inquiry for Tatum Bergen");
-                      setIsLiaisonContactOpen(true);
-                    }}
-                    className="text-muted-foreground hover:text-coral text-xs"
-                    title="Send inquiry"
-                  >
-                    <MessageSquare className="h-4 w-4" />
-                  </button>
-                </div>
-              </div>
+                ))}
             </div>
           </div>
         </div>
@@ -999,7 +696,7 @@ function OurTeamPage() {
                       </h4>
                       <p className="text-sm text-muted-foreground/90 leading-relaxed text-balance">
                         {selectedStaff.bio ||
-                          `${selectedStaff.name} works active hours supporting educational, nutritional or shelter initiatives inside Kyaka II Refuge settlement. Dedicated with a commitment to build stable opportunities for vulnerable children.`}
+                          `${selectedStaff.name} works active hours supporting educational, nutritional or shelter initiatives inside Kyaka II Refugee settlement. Dedicated with a commitment to build stable opportunities for vulnerable children.`}
                       </p>
                     </div>
                   </div>
@@ -1083,7 +780,7 @@ function OurTeamPage() {
                   >
                     <div>
                       <label className="block text-xs uppercase tracking-wider font-bold text-coral mb-1">
-                        Canadian Liaison Subject
+                        {d.liaison.dialog.subjectLabel}
                       </label>
                       <input
                         type="text"
@@ -1097,7 +794,7 @@ function OurTeamPage() {
                     <div className="grid grid-cols-2 gap-4">
                       <div>
                         <label className="block text-xs uppercase tracking-wider font-bold text-coral mb-1">
-                          Your Name
+                          {d.liaison.dialog.nameLabel}
                         </label>
                         <input
                           type="text"
@@ -1108,7 +805,7 @@ function OurTeamPage() {
                       </div>
                       <div>
                         <label className="block text-xs uppercase tracking-wider font-bold text-coral mb-1">
-                          Your Email
+                          {d.liaison.dialog.emailLabel}
                         </label>
                         <input
                           type="email"
@@ -1121,7 +818,7 @@ function OurTeamPage() {
 
                     <div>
                       <label className="block text-xs uppercase tracking-wider font-bold text-coral mb-1">
-                        Message / Partnership Intention
+                        {d.liaison.dialog.messageLabel}
                       </label>
                       <textarea
                         required
@@ -1151,7 +848,7 @@ function OurTeamPage() {
                         type="submit"
                         className="btn-coral rounded-full px-6 py-2.5 text-xs font-semibold inline-flex items-center gap-1.5 shadow"
                       >
-                        Send Secure Message <Mail className="h-3.5 w-3.5" />
+                        {d.liaison.dialog.submitBtn} <Mail className="h-3.5 w-3.5" />
                       </button>
                     </div>
                   </form>

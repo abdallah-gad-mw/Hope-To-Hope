@@ -1,0 +1,94 @@
+{
+  "hero": {
+    "badge": "Angels Care Academic Strategy",
+    "title": "Angels Care School",
+    "subheading": "Educating refugee children in Kyaka II to be the leaders of tomorrow.",
+    "intro": "Despite severe resource constraints and an average of 120 eager students per class, our nursery and primary schools achieve the highest nationwide exam performance across the entire refugee settlement region.",
+    "primaryBtn": "Sponsor a Teacher"
+  },
+  "metrics": {
+    "students": {
+      "value": "1,000+",
+      "label": "Active Refugee Scholars",
+      "detail": "Receiving free or heavily subsidized academic tuition, uniforms, learning materials, and diagnostic health checkups."
+    },
+    "ratio": {
+      "value": "120:1",
+      "label": "Average Class Ratio",
+      "detail": "Demonstrating the extreme crowding and the profound dedication of our local teachers instructing large cohorts daily."
+    },
+    "rank": {
+      "value": "Rank #1",
+      "label": "Exams Performance",
+      "detail": "Leading the settlement district in regional and national primary school assessment metrics for successive terms."
+    }
+  },
+  "subjects": [
+    { "id": "english", "name": "English & Communication Literacy" },
+    { "id": "math", "name": "Mathematics & Logical Reasoning" },
+    { "id": "science", "name": "Science, Hygiene & Environmental Studies" },
+    { "id": "social", "name": "Social Studies & Community Integration" },
+    { "id": "nursery", "name": "Early Childhood Play-Based Nursery Program" }
+  ],
+  "needs": {
+    "badge": "Pressing Needs & Sponsorship Priorities",
+    "title": "Current Operational Resource Demands",
+    "description": "Angels Care operates entirely through small individual sponsorships and partner grants. Here are our most immediate operational funding targets:",
+    "items": [
+      {
+        "id": "teacher-salary",
+        "title": "Teacher Salary Sponsorship",
+        "cost": "$100 CAN / month",
+        "description": "Fund the complete monthly living stipend of a registered Ugandan primary teacher on campus.",
+        "pills": ["15 Teachers Needed", "Critical Action"]
+      },
+      {
+        "id": "porridge",
+        "title": "Porridge Feeding Fund",
+        "cost": "$15 CAN / child / month",
+        "description": "Provide hot, vitamin-fortified maize porridge at daily morning assemblies as critical nutrition.",
+        "pills": ["High Nutrition", "Continuous Target"]
+      },
+      {
+        "id": "posho-beans",
+        "title": "Posho & Beans Meal Support",
+        "cost": "$25 CAN / child / month",
+        "description": "Guarantee warm daily lunches of posho (maize meal) and beans to prevent acute classroom malnutrition.",
+        "pills": ["Bulk Purchasing", "900+ Children Co-funding"]
+      },
+      {
+        "id": "uniform",
+        "title": "School Uniform & Footwear",
+        "cost": "$25 CAN / student",
+        "description": "Provide a complete standard navy-blue school uniform, replacement shirt, and protective leather shoes.",
+        "pills": ["One-time Purchase", "Child Dignity"]
+      },
+      {
+        "id": "books",
+        "title": "Ex-Books & Learning Material",
+        "cost": "$10 CAN / student pack",
+        "description": "Purchase a comprehensive set of exercise ledger papers, pencils, slate boards, rubber erasers, and ruler kits.",
+        "pills": ["Academic Essentials", "Quarterly Distribution"]
+      }
+    ]
+  },
+  "curriculum": {
+    "badge": "Academic Rigor",
+    "title": "Cultivating Deep Intellectual Growth",
+    "description": "We strictly adhere to the standardized primary education curriculum prescribed by the Ugandan Ministry of Education and Sports, supplemented with peace-building and trauma recovery circles designed for conflict survivors.",
+    "list": [
+      "Lower Primary Standard Literacy & Phonics",
+      "Primary Leaving Examinations (PLE) Target Tutoring",
+      "Multilingual Refugee Speech Circle (English, French, Swahili)",
+      "Youth Creative Performing Arts, Sports & Choir Assemblies"
+    ]
+  },
+  "advocacy": {
+    "badge": "Advocacy Message",
+    "title": "Eliminating Girls’ Absenteeism Series",
+    "description": "An essential element of our education model focuses on Girls’ Education and Hygiene care: supplying sanitary kits, safety lockers, separate privacy washing quarters, and reusable menstrual shields.",
+    "quote": "“When we equip our female scholars with proper hygiene supplies, they remain in the classroom, breaking the poverty loop.”",
+    "primaryBtn": "Donate to Feeding Programs",
+    "secondaryBtn": "Sponsor Menstrual Care"
+  }
+}

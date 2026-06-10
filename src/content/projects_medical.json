@@ -1,0 +1,147 @@
+{
+  "hero": {
+    "badge": "Infrastructure & Essential Care Projects",
+    "title": "Angels Care Medical Centre",
+    "subtitle": "Providing critical round-the-clock emergency, maternal, and pediatric health-care responses inside the Kyaka II Refugee Settlement.",
+    "isLive": "ACMC Clinic Operating 24/7 Live",
+    "primaryBtn": "Donate Medical Equipment",
+    "secondaryBtn": "Explore Clinical Services"
+  },
+  "crisis": {
+    "badge": "Clinical Demand & Crisis Scope",
+    "title": "A Strained Ingress Landscape",
+    "subtitle": "We address complex health indicators amidst heavy seasonal malaria outbreaks, trauma management, and pediatric dehydration.",
+    "metrics": [
+      {
+        "id": "population",
+        "value": "140,000+ People",
+        "title": "Overcoming Isolation",
+        "subtext": "Total population packed in Kyaka II settlement and the surrounding vulnerable host communities of Kyegegwa.",
+        "badge": "Settlement Scope"
+      },
+      {
+        "id": "healthcentres",
+        "value": "1 Main Centre Only",
+        "title": "Extremely Strained Ingress",
+        "subtext": "Supported by only 5 satellite outposts. Understaffed, distant, and deeply overwhelmed by numbers.",
+        "badge": "Severe Shortage"
+      },
+      {
+        "id": "daily-patients",
+        "value": "2,800 patients daily",
+        "title": "The Sick Rate Breakdown",
+        "subtext": "Over 2% of the local population requires immediate medical attention daily. Medical demand far outweighs supply.",
+        "badge": "Crisis Demand"
+      }
+    ]
+  },
+  "benefits": {
+    "badge": "Subsidized Relief System",
+    "title": "Dignified Health and Compassion",
+    "description": "Our health centre runs on an inclusive care model. We treat health value as a fundamental human right, not a business asset.",
+    "cards": [
+      {
+        "id": "benefit-cost",
+        "title": "Subsidized Relief",
+        "value": "40% Less Cost",
+        "subtext": "Pricing is subsidized to be at least 40% less than local private clinics to ensure accessibility for every family."
+      },
+      {
+        "id": "benefit-students",
+        "title": "Angels Care Pipeline",
+        "value": "100% Free For Students",
+        "subtext": "All children and students inside Angels Care School receive free checkups, treatments, and immediate emergency care."
+      },
+      {
+        "id": "benefit-prevention",
+        "title": "Empowering Households",
+        "value": "Prevention & Education",
+        "subtext": "Regular outreach programs on hygiene, disease prevention, and family planning build community immunity."
+      }
+    ]
+  },
+  "services": {
+    "badge": "Clinical Departments & Capacity",
+    "title": "Comprehensive Healthcare Services",
+    "description": "Click the tags below to filter clinic capabilities across specific medical domains and diagnostic fields.",
+    "categories": [
+      { "id": "all", "label": "All Services" },
+      { "id": "Primary Care", "label": "Primary Care" },
+      { "id": "Maternal & Child", "label": "Maternal & Child" },
+      { "id": "Specialized", "label": "Specialized" },
+      { "id": "Support", "label": "Support Services" }
+    ],
+    "cards": [
+      {
+        "id": "service-outpatient",
+        "title": "24/7 Emergency Outpatient Care",
+        "description": "Continuous, round-the-clock emergency reception handling trauma triage, deep lacerations, fractures, and severe infections.",
+        "category": "Primary Care"
+      },
+      {
+        "id": "service-maternal",
+        "title": "Maternal Birthing Suites & Midwives",
+        "description": "Fully staffed obstetric wing with certified midwives overseeing deliveries, pre-natal care, and post-partum recovery beds.",
+        "category": "Maternal & Child"
+      },
+      {
+        "id": "service-pediatric",
+        "title": "Pediatric Ward & Immunization",
+        "description": "Dedicated children's treatment ward addressing acute respiratory tracts, dehydration, and standard vaccination schedules.",
+        "category": "Maternal & Child"
+      },
+      {
+        "id": "service-malaria",
+        "title": "Malaria Diagnostic & Therapy",
+        "description": "Dedicated screening services and rapid clinical response therapy, combating the region's top source of childhood mortality.",
+        "category": "Primary Care"
+      },
+      {
+        "id": "service-pharma",
+        "title": "Fully Stocked Pharmacy",
+        "description": "In-house licensed dispensary supplying subsidized essential antibiotics, IV bags, pain relief, and maternal vitamins.",
+        "category": "Support"
+      },
+      {
+        "id": "service-lab",
+        "title": "Laboratory & Diagnostic Testing",
+        "description": "Rapid hematology laboratories performing slide microscopy, urine tests, HIV/TB tests, and custom diagnostics.",
+        "category": "Support"
+      },
+      {
+        "id": "service-nutrition",
+        "title": "Nutritional Therapy Unit",
+        "description": "Outpatient program serving severely malnourished infants with therapeutic peanut pastes (RUTF) and high-density milks.",
+        "category": "Specialized"
+      },
+      {
+        "id": "service-dental",
+        "title": "Basic Dental & Oral Health",
+        "description": "Basic dental hygiene education, treatment, and pain extraction services led by visiting dental professionals.",
+        "category": "Specialized"
+      }
+    ]
+  },
+  "campaign": {
+    "badge": "Target Campaign 2026/2027",
+    "title": "ACMC Infrastructure Upgrades",
+    "target": "$40,000 CAN Goal",
+    "intro": "While our operations are robust, we require target funding to construct specialized isolation units and acquire surgical-grade diagnostics:",
+    "equipments": [
+      { "label": "Birthing Suites & Delivery Care Beds ($5,000 CAN)", "isDone": true },
+      { "label": "High-Spec Laboratory Microscope & Centrifuges ($3,500 CAN)", "isDone": true },
+      { "label": "Backup Clinic Diesel Generator (Solar Hybrid) ($8,000 CAN)", "isDone": false },
+      { "label": "Maternal Ultrasound Machine (Target Goal: $12,000 CAN)", "isDone": false },
+      { "label": "Basic Clinic Ambulance 4x4 Transit (Target: $21,500 CAN)", "isDone": false }
+    ],
+    "sidebar": {
+      "title": "Sponsor Clinic Equipment Today!",
+      "text": "Your designated donation supports Pastor Godfrey and our licensed clinical staff in procuring essential diagnostics and basic pharmaceuticals for refugees.",
+      "points": [
+        "40% subsidization ensures medical accessibility.",
+        "100% free healthcare for 900+ scholars."
+      ],
+      "btnText": "Secure Clinic Sponsorship"
+    }
+  }
+}

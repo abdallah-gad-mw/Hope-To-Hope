@@ -18,17 +18,17 @@ import {
   GraduationCap,
   Sparkles,
 } from "lucide-react";
+import aboutKyakaData from "@/content/about_kyaka.json";
 
 const DONATE_URL = "https://www.theforgottenintl.org/donate/";
 
 export const Route = createFileRoute("/about/kyaka-ii")({
   head: () => ({
     meta: [
-      { title: "Kyaka II Refugee Settlement — Angels Care Uganda" },
+      { title: aboutKyakaData.metaTitle },
       {
         name: "description",
-        content:
-          "Understand the context of our mission inside Kyaka II Refugee Settlement. Supporting over 130,000 vulnerable individuals.",
+        content: aboutKyakaData.metaDescription,
       },
     ],
     links: [
@@ -46,6 +46,7 @@ export const Route = createFileRoute("/about/kyaka-ii")({
 function KyakaIISettlementPage() {
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const d = aboutKyakaData;
 
   useEffect(() => {
     setMounted(true);
@@ -75,14 +76,13 @@ function KyakaIISettlementPage() {
             <div className="lg:col-span-7 flex flex-col items-start">
               <span className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-coral font-bold bg-coral/5 px-3 py-1 rounded-full border border-coral/10 mb-5">
                 <MapPin className="h-3 w-3 animate-bounce text-coral" />
-                Uganda Conflict & Settlement Context
+                {d.hero.badge}
               </span>
               <h1 className="text-4xl sm:text-5xl md:text-6xl text-ink leading-[1.05] tracking-tight font-semibold text-balance">
                 Kyaka II Refugee <span className="text-sky">Settlement</span>
               </h1>
               <p className="mt-6 text-muted-foreground text-lg md:text-xl leading-relaxed max-w-2xl text-balance">
-                The context of our mission. Where resilience meets the urgent need for hope,
-                education, safety, and sustainable development.
+                {d.hero.subtitle}
               </p>
 
               <div className="mt-8 flex flex-wrap gap-4">
@@ -96,7 +96,7 @@ function KyakaIISettlementPage() {
                   href="#history"
                   className="px-6 py-3 rounded-full border border-border bg-white hover:bg-soft text-ink text-sm font-semibold transition"
                 >
-                  Our Regional History
+                  {d.hero.secondaryBtn}
                 </a>
               </div>
             </div>
@@ -107,7 +107,7 @@ function KyakaIISettlementPage() {
               <div className="relative rounded-[32px] overflow-hidden border border-border bg-white p-3 shadow-soft group">
                 <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-soft">
                   <img
-                    src="/src/assets/images/Image8.webp"
+                    src={d.hero.imageUrl}
                     alt="Aerial overview of the Kyaka II refugee settlement camp showing shelters"
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
@@ -135,10 +135,10 @@ function KyakaIISettlementPage() {
           {/* Section subtitle summary heading */}
           <div className="text-center max-w-2xl mx-auto mb-12">
             <span className="text-xs uppercase tracking-widest text-sky font-bold">
-              The Big Picture
+              {d.refugeeStats.sectionBadge}
             </span>
             <h2 className="text-2xl sm:text-3xl font-semibold text-ink mt-2">
-              Displacement Scale in Uganda & Kyaka
+              {d.refugeeStats.sectionTitle}
             </h2>
           </div>
 
@@ -148,16 +148,15 @@ function KyakaIISettlementPage() {
               <div className="absolute -right-12 -top-12 h-32 w-32 rounded-full bg-border/50 pointer-events-none" />
               <div>
                 <span className="text-muted-foreground font-semibold text-xs uppercase tracking-wider block mb-2">
-                  Nationwide Influx
+                  {d.refugeeStats.cardPrimary.badge}
                 </span>
                 <span className="text-5xl md:text-6xl font-black text-ink tracking-tight block font-display">
-                  1.5 Million+
+                  {d.refugeeStats.cardPrimary.value}
                 </span>
                 <span className="h-1 w-12 bg-coral rounded mt-4 block" />
               </div>
               <p className="text-sm md:text-base text-muted-foreground mt-6 leading-relaxed">
-                Refugees seeking safety and asylum across Uganda nationwide, making it the largest
-                refugee-hosting nation in all of Africa.
+                {d.refugeeStats.cardPrimary.description}
               </p>
             </div>
 
@@ -166,16 +165,15 @@ function KyakaIISettlementPage() {
               <div className="absolute -right-12 -top-12 h-32 w-32 rounded-full bg-sky/20 pointer-events-none" />
               <div>
                 <span className="text-sky font-bold text-xs uppercase tracking-wider block mb-2">
-                  Local Camp Density
+                  {d.refugeeStats.cardSecondary.badge}
                 </span>
                 <span className="text-5xl md:text-6xl font-black text-ink tracking-tight block font-display">
-                  130,000
+                  {d.refugeeStats.cardSecondary.value}
                 </span>
                 <span className="h-1 w-12 bg-sky rounded mt-4 block" />
               </div>
               <p className="text-sm md:text-base text-ink font-medium mt-6 leading-relaxed">
-                Vulnerable individuals hosted inside Kyaka II Settlement. Integrating refugee
-                families with the surrounding Ugandan nationals.
+                {d.refugeeStats.cardSecondary.description}
               </p>
             </div>
           </div>
@@ -191,11 +189,10 @@ function KyakaIISettlementPage() {
               <Sparkles className="h-3 w-3" /> Settlement Framework
             </span>
             <h2 className="mt-4 text-3xl sm:text-4xl md:text-5xl text-ink font-semibold tracking-tight leading-[1.1]">
-              History, Zone & Scale
+              {d.history.sectionTitle}
             </h2>
             <p className="mt-4 text-muted-foreground text-base md:text-lg">
-              Kyaka II represents a vast landscape housing several generations of displaced
-              populations under sustainable developmental integration.
+              {d.history.sectionSubtitle}
             </p>
           </div>
 
@@ -209,19 +206,15 @@ function KyakaIISettlementPage() {
                   <Calendar className="h-3.5 w-3.5" /> Historical Timeline
                 </span>
                 <h3 className="text-2xl md:text-3xl font-semibold text-ink tracking-tight font-display">
-                  Origin & Scale
+                  {d.history.originCard.title}
                 </h3>
                 <p className="mt-4 text-sm md:text-base text-muted-foreground leading-relaxed text-balance">
-                  Located in South Western Uganda, the Government of Uganda created the Kyaka I
-                  Settlement in 1984 to address the heavy influx of Rwandan refugees fleeing
-                  conflict. In 2005, Kyaka I was merged with Kyaka II.
+                  {d.history.originCard.p1}
                 </p>
-                <p className="mt-4 text-sm md:text-base text-muted-foreground leading-relaxed text-balance">
-                  Today, the total settlement encompasses{" "}
-                  <span className="text-ink font-bold">nine administrative zones</span>, stretching
-                  across a vast land area of approximately{" "}
-                  <span className="text-ink font-bold">81.5 km²</span>.
-                </p>
+                <p
+                  className="mt-4 text-sm md:text-base text-muted-foreground leading-relaxed text-balance"
+                  dangerouslySetInnerHTML={{ __html: d.history.originCard.p2 }}
+                />
               </div>
               <div className="mt-8 border-t border-border pt-6 flex items-center gap-4 text-xs font-semibold text-sky">
                 <MapPin className="h-4 w-4" /> Comprehensive Zonal Regional Planning
@@ -236,18 +229,13 @@ function KyakaIISettlementPage() {
                   <AlertCircle className="h-3.5 w-3.5" /> Humanitarian Crisis
                 </span>
                 <h3 className="text-2xl md:text-3xl font-semibold text-ink tracking-tight font-display">
-                  The Congo Crisis
+                  {d.history.congoCard.title}
                 </h3>
                 <p className="mt-4 text-sm md:text-base text-muted-foreground leading-relaxed">
-                  In December of 2017, the settlement faced a massive humanitarian refugee influx,
-                  as thousands and thousands of families crossed the border fleeing intense ethnic
-                  violence and political conflicts inside the Democratic Republic of the Congo
-                  (DRC).
+                  {d.history.congoCard.p1}
                 </p>
                 <p className="mt-4 text-sm md:text-base text-muted-foreground leading-relaxed">
-                  Today, the grand majority of the refugee population hosted inside Kyaka II is of
-                  Congolese nationality, a number that continues to grow with ongoing rebel activity
-                  across the border.
+                  {d.history.congoCard.p2}
                 </p>
               </div>
               <div className="mt-8 border-t border-border pt-6 flex items-center gap-2 text-xs font-semibold text-coral/90">
@@ -262,15 +250,13 @@ function KyakaIISettlementPage() {
                 {/* Text explanation */}
                 <div className="md:col-span-5 flex flex-col justify-center">
                   <span className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-sky font-bold mb-4">
-                    Verified UNHCR Data
+                    {d.history.unhcrCard.tag}
                   </span>
                   <h3 className="text-2xl md:text-3xl font-semibold text-ink font-display">
-                    Uganda Refugee Statistics
+                    {d.history.unhcrCard.title}
                   </h3>
                   <p className="mt-3 text-sm md:text-base text-muted-foreground leading-relaxed">
-                    Review the official UNHCR statistical profile dashboard map for the Kyaka II
-                    Refugee Settlement. This certified data outlines country of origin breakdown,
-                    age brackets, occupation segments, and vulnerability indexes.
+                    {d.history.unhcrCard.description}
                   </p>
 
                   <button
@@ -288,8 +274,8 @@ function KyakaIISettlementPage() {
                     className="relative rounded-2xl overflow-hidden border border-border bg-soft group cursor-zoom-in group shadow-md"
                   >
                     <img
-                      src="/src/assets/images/Kyaka+II+Settlement+Profile_31Jan2022+(1).webp"
-                      alt="UNHCR Kyaka II settlement statistical profile map from January 2022"
+                      src={d.history.unhcrCard.mapImageUrl}
+                      alt="UNHCR Kyaka II settlement statistical profile map"
                       className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-[1.02]"
                     />
                     <div className="absolute inset-0 bg-ink/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
@@ -316,17 +302,15 @@ function KyakaIISettlementPage() {
           </span>
 
           <h2 className="text-6xl sm:text-7xl md:text-8xl font-black text-coral font-display tracking-tight leading-none">
-            77%
+            {d.demographics.ratioBadge}
           </h2>
 
           <h3 className="mt-4 text-2xl sm:text-3xl md:text-4xl text-ink font-semibold tracking-tight text-balance max-w-2xl font-display leading-snug">
-            of Kyaka II’s refugee population are Women and Children.
+            {d.demographics.ratioTitle}
           </h3>
 
           <p className="mt-6 text-muted-foreground text-base sm:text-lg md:text-xl leading-relaxed max-w-3xl text-balance">
-            Investing in early primary education, youth vocational empowerment, and women's
-            specialized health-care clinics is not just an initiative—it is paramount to easing the
-            heavy, daily burdens refugees in Kyaka II face every single day.
+            {d.demographics.description}
           </p>
 
           <span className="h-1 w-16 bg-coral/40 rounded mt-8" />
@@ -347,13 +331,10 @@ function KyakaIISettlementPage() {
                 <span className="text-coral">Angels Care Medical Clinic</span>
               </h2>
 
-              <p className="mt-6 text-muted-foreground text-base md:text-lg leading-relaxed">
-                Within the massive landscape of the settlement, the{" "}
-                <span className="text-ink font-bold">Angels Care Medical Clinic</span> stands
-                proudly as one of only three medical clinics serving this entire population of
-                130,000. It is in this exact context of Kyaka II that Angels Care Uganda works day
-                and night to bring hope to refugees.
-              </p>
+              <p
+                className="mt-6 text-muted-foreground text-base md:text-lg leading-relaxed"
+                dangerouslySetInnerHTML={{ __html: d.response.description }}
+              />
 
               {/* Glassmorphism Highlight container */}
               <div className="mt-8 relative rounded-3xl p-6 md:p-8 bg-soft border border-sky/20 overflow-hidden shadow-sm">
@@ -362,8 +343,7 @@ function KyakaIISettlementPage() {
                   Our Mission Command
                 </h4>
                 <p className="text-ink font-medium text-base sm:text-lg italic leading-relaxed text-balance">
-                  “By meeting core educational, medical, and social needs, our mission is to bring
-                  immediate relief and long-term sustainable development to this community in need.”
+                  {d.response.missionQuote}
                 </p>
               </div>
 
@@ -394,7 +374,7 @@ function KyakaIISettlementPage() {
                 {/* Primary Image */}
                 <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-2xl border border-border/50 group">
                   <img
-                    src="/src/assets/images/kids.webp"
+                    src={d.response.imageUrlPrimary}
                     alt="Happy children at Angels Care school smiling"
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
@@ -404,7 +384,7 @@ function KyakaIISettlementPage() {
                 {/* Secondary Offset Image */}
                 <div className="absolute -bottom-8 -right-6 md:-right-8 w-1/2 aspect-square rounded-2xl overflow-hidden border-4 border-white shadow-2xl group hidden sm:block">
                   <img
-                    src="/src/assets/images/school/2.webp"
+                    src={d.response.imageUrlSecondary}
                     alt="Active learning session"
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
@@ -439,7 +419,7 @@ function KyakaIISettlementPage() {
                 {/* Top Bar controls */}
                 <div className="w-full max-w-6xl flex justify-between items-center text-white mb-4">
                   <div className="flex items-center gap-2 text-xs uppercase tracking-widest text-sky font-bold">
-                    <Users className="h-4 w-4" /> UNHCR January 2022 Statistics Profile
+                    <Users className="h-4 w-4" /> {d.history.unhcrCard.lightboxBadge}
                   </div>
                   <button
                     onClick={(e) => {
@@ -462,16 +442,15 @@ function KyakaIISettlementPage() {
                   onClick={(e) => e.stopPropagation()}
                 >
                   <img
-                    src="/src/assets/images/Kyaka+II+Settlement+Profile_31Jan2022+(1).webp"
-                    alt="Detailed UNHCR Refugee Statistics map from OPM Progress version 4"
+                    src={d.history.unhcrCard.mapImageUrl}
+                    alt="Detailed UNHCR Refugee Statistics map"
                     className="w-full h-auto object-contain max-h-[80vh]"
                   />
                 </motion.div>
 
                 {/* Bottom Credit Caption */}
                 <div className="text-center text-white/60 text-xs mt-4 italic max-w-xl leading-relaxed">
-                  *Source: United Nations High Commissioner for Refugees (UNHCR) & Office of the
-                  Prime Minister (OPM) ProGreq version 4.
+                  {d.history.unhcrCard.lightboxCredit}
                 </div>
               </motion.div>
             )}
