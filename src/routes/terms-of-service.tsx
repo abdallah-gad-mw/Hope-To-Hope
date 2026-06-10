@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@/lib/router";
 import { FileText, ArrowLeft } from "lucide-react";
 import legalContent from "@/content/legal.json";
 

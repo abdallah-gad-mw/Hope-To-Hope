@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from "@/lib/router";
 import { useState } from "react";
 import { ChevronDown, ChevronUp, Heart, Sparkles, Quote } from "lucide-react";
 import hopeFamilyData from "@/content/hope_family.json";

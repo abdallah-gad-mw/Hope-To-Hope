@@ -1,7 +1,8 @@
-import { Link, useLocation } from "@tanstack/react-router";
+import { Link, useLocation } from "@/lib/router";
 import { useEffect, useState } from "react";
 import { ChevronDown, Heart, Menu, X } from "lucide-react";
 import logo from "@/assets/angels-care-logo.webp.asset.json";
+import navConfig from "@/content/navigation.json";
 
 type NavItem = {
   label: string;
@@ -9,32 +10,9 @@ type NavItem = {
   children?: { label: string; to: string }[];
 };
 
-export const NAV: NavItem[] = [
-  { label: "Home", to: "/" },
-  {
-    label: "About",
-    to: "/about",
-    children: [
-      { label: "Our Vision", to: "/about/our-vision" },
-      { label: "Kyaka II", to: "/about/kyaka-ii" },
-      { label: "Our Team", to: "/about/our-team" },
-    ],
-  },
-  {
-    label: "Projects",
-    to: "/projects",
-    children: [
-      { label: "Angels Care School", to: "/projects/school" },
-      { label: "Medical Centre", to: "/projects/medical-centre" },
-      { label: "Angels Care Orphanage", to: "/projects/orphanage" },
-      { label: "Hope Projects", to: "/projects/hope-projects" },
-    ],
-  },
-  { label: "Hope Stories", to: "/hope-stories" },
-  { label: "Hope Family", to: "/hope-family" },
-];
+export const NAV: NavItem[] = navConfig.navItems;
 
-const DONATE_URL = "https://www.theforgottenintl.org/donate/";
+const DONATE_URL = navConfig.donateUrl;
 
 export function SiteNav() {
   const [open, setOpen] = useState(false);

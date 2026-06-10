@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@/lib/router";
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import {

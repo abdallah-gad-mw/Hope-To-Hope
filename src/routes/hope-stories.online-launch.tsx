@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@/lib/router";
 import { ArrowLeft, Calendar, User, Heart } from "lucide-react";
 import onlineLaunchData from "@/content/story_online_launch.json";
 

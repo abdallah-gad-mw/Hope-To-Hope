@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link } from "@/lib/router";
 import { useState } from "react";
 import { Facebook, Instagram, Twitter, Youtube, CheckCircle2 } from "lucide-react";
 import logo from "@/assets/angels-care-logo.webp.asset.json";

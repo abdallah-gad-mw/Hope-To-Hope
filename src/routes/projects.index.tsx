@@ -1,4 +1,4 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@/lib/router";
 
 export const Route = createFileRoute("/projects/")({
   beforeLoad: () => {
