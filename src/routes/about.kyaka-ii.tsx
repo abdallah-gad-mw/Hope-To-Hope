@@ -19,6 +19,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import aboutKyakaData from "@/content/about_kyaka.json";
+import { useCMSContent } from "@/hooks/useCMSContent";
 
 const DONATE_URL = "https://www.theforgottenintl.org/donate/";
 
@@ -46,7 +47,7 @@ export const Route = createFileRoute("/about/kyaka-ii")({
 function KyakaIISettlementPage() {
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const d = aboutKyakaData;
+  const d = useCMSContent("about_kyaka", aboutKyakaData);
 
   useEffect(() => {
     setMounted(true);

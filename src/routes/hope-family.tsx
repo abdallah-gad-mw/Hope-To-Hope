@@ -2,6 +2,7 @@ import { createFileRoute } from "@/lib/router";
 import { useState } from "react";
 import { ChevronDown, ChevronUp, Heart, Sparkles, Quote } from "lucide-react";
 import hopeFamilyData from "@/content/hope_family.json";
+import { useCMSContent } from "@/hooks/useCMSContent";
 
 export const Route = createFileRoute("/hope-family")({
   head: () => ({
@@ -17,7 +18,7 @@ export const Route = createFileRoute("/hope-family")({
 });
 
 function HopeFamilyPage() {
-  const d = hopeFamilyData;
+  const d = useCMSContent("hope_family", hopeFamilyData);
   const [openAccordion, setOpenAccordion] = useState<number | null>(0); // Default open first tab
 
   const toggleAccordion = (index: number) => {

@@ -23,6 +23,7 @@ import {
   Globe,
 } from "lucide-react";
 import aboutTeamData from "@/content/about_team.json";
+import { useCMSContent } from "@/hooks/useCMSContent";
 
 export const Route = createFileRoute("/about/our-team")({
   head: () => ({
@@ -59,7 +60,7 @@ interface TeamMember {
 }
 
 function OurTeamPage() {
-  const d = aboutTeamData;
+  const d = useCMSContent("about_team", aboutTeamData);
   const [activeTab, setActiveTab] = useState<"all" | "teaching" | "support" | "liaison">("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedStaff, setSelectedStaff] = useState<TeamMember | null>(null);

@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@/lib/router";
 import { ArrowLeft, Calendar, User, Heart } from "lucide-react";
 import onlineLaunchData from "@/content/story_online_launch.json";
+import { useCMSContent } from "@/hooks/useCMSContent";
 
 export const Route = createFileRoute("/hope-stories/online-launch")({
   head: () => ({
@@ -16,7 +17,7 @@ export const Route = createFileRoute("/hope-stories/online-launch")({
 });
 
 function OnlineLaunchPage() {
-  const d = onlineLaunchData;
+  const d = useCMSContent("story_online_launch", onlineLaunchData);
 
   return (
     <div className="bg-white min-h-screen pt-32 pb-24">

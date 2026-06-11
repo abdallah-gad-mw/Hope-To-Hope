@@ -21,6 +21,7 @@ import {
   Coffee,
 } from "lucide-react";
 import orphanageData from "@/content/projects_orphanage.json";
+import { useCMSContent } from "@/hooks/useCMSContent";
 
 export const Route = createFileRoute("/projects/orphanage")({
   head: () => ({
@@ -45,7 +46,7 @@ export const Route = createFileRoute("/projects/orphanage")({
 });
 
 function OrphanageProjectPage() {
-  const d = orphanageData;
+  const d = useCMSContent("projects_orphanage", orphanageData);
   const [showTooltipLeft, setShowTooltipLeft] = useState(false);
 
   const getFinancialIcon = (name: string) => {

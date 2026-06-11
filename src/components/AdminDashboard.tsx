@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState, useEffect } from "react";
 import {
   LayoutDashboard,
@@ -238,6 +239,254 @@ interface MediaAsset {
   mtime: string;
 }
 
+// Convert camelCase or snake_case to separated title case for human readability
+function formatLabel(str: string): string {
+  const result = str
+    .replace(/([A-Z])/g, " $1")
+    .replace(/[_-]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  return result.charAt(0).toUpperCase() + result.slice(1);
+}
+
+interface RenderValueProps {
+  value: any;
+  path: string;
+  label: string;
+  onValueChange: (path: string, newValue: any) => void;
+}
+
+// Recursive dynamic component to edit any depth of JSON fields
+function RenderValue({
+  value,
+  path,
+  label,
+  onValueChange,
+}: RenderValueProps) {
+  const isImageKey = label.toLowerCase().includes("image") || path.toLowerCase().includes("image") || label.toLowerCase().includes("logo");
+  const isUrlKey = label.toLowerCase().includes("url") || path.toLowerCase().includes("url") || label.toLowerCase().includes("link") || path.toLowerCase().includes("link");
+
+  if (typeof value === "string") {
+    const isLongText = value.length > 70 || value.includes("\n") || label.toLowerCase().includes("desc") || label.toLowerCase().includes("subtitle") || label.toLowerCase().includes("text") || label.toLowerCase().includes("paragraph") || label.toLowerCase().includes("lead") || label.toLowerCase().includes("quote") || label.toLowerCase().includes("msg");
+    return (
+      <div className="space-y-1.5" id={`field-${path}`}>
+        <div className="flex items-center justify-between">
+          <label className="text-xs font-semibold text-slate-300 font-sans">
+            {formatLabel(label)}
+          </label>
+          <span className="text-[9px] font-mono text-slate-500 bg-slate-900/60 px-1.5 py-0.5 rounded">
+            {path}
+          </span>
+        </div>
+        {isLongText ? (
+          <textarea
+            value={value}
+            onChange={(e) => onValueChange(path, e.target.value)}
+            rows={value.length > 200 ? 5 : 3}
+            className="w-full px-4 py-2.5 bg-[#111118]/80 border border-[#2c2c43] focus:border-[#4945ff] focus:outline-none focus:ring-1 focus:ring-[#4945ff] text-slate-200 rounded-lg text-xs font-sans leading-relaxed"
+          />
+        ) : (
+          <input
+            type="text"
+            value={value}
+            onChange={(e) => onValueChange(path, e.target.value)}
+            className="w-full px-4 py-2.5 bg-[#111118]/80 border border-[#2c2c43] focus:border-[#4945ff] focus:outline-none focus:ring-1 focus:ring-[#4945ff] text-slate-200 rounded-lg text-xs"
+          />
+        )}
+        {(isImageKey || isUrlKey) && !path.startsWith("navigation") && (
+          <p className="text-[10px] text-indigo-400 italic">
+            ℹ️ Reference path. You can upload files in the Media Library to copy their absolute URLs here.
+          </p>
+        )}
+      </div>
+    );
+  }
+
+  if (typeof value === "number") {
+    return (
+      <div className="space-y-1.5" id={`field-${path}`}>
+        <div className="flex items-center justify-between">
+          <label className="text-xs font-semibold text-slate-300">
+            {formatLabel(label)}
+          </label>
+          <span className="text-[9px] font-mono text-slate-500 bg-slate-900/60 px-1.5 py-0.5 rounded">
+            {path}
+          </span>
+        </div>
+        <input
+          type="number"
+          value={value}
+          onChange={(e) => onValueChange(path, parseFloat(e.target.value) || 0)}
+          className="w-full px-4 py-2.5 bg-[#111118]/80 border border-[#2c2c43] focus:border-[#4945ff] focus:outline-none focus:ring-1 focus:ring-[#4945ff] text-slate-200 rounded-lg text-xs"
+        />
+      </div>
+    );
+  }
+
+  if (typeof value === "boolean") {
+    return (
+      <div className="flex items-center justify-between py-2 border-b border-[#212134]/40" id={`field-${path}`}>
+        <div className="flex flex-col">
+          <label className="text-xs font-semibold text-slate-300">
+            {formatLabel(label)}
+          </label>
+          <span className="text-[9px] font-mono text-slate-500">
+            {path}
+          </span>
+        </div>
+        <input
+          type="checkbox"
+          checked={value}
+          onChange={(e) => onValueChange(path, e.target.checked)}
+          className="h-4 w-4 bg-[#111118]/80 border border-[#2c2c43] text-[#4945ff] focus:ring-[#4945ff] rounded"
+        />
+      </div>
+    );
+  }
+
+  if (Array.isArray(value)) {
+    const isPrimitiveArray = value.length === 0 || typeof value[0] === "string" || typeof value[0] === "number";
+
+    if (isPrimitiveArray) {
+      return (
+        <div className="space-y-3 bg-[#181826]/30 border border-[#212134]/70 p-4 rounded-xl" id={`field-${path}`}>
+          <div className="flex items-center justify-between">
+            <label className="text-xs font-bold text-[#b682ff] uppercase tracking-wider font-mono">
+              {formatLabel(label)} List
+            </label>
+            <span className="text-[9px] font-mono text-slate-500">
+              {path} (List Array)
+            </span>
+          </div>
+          <div className="space-y-2">
+            {value.map((item: any, idx: number) => (
+              <div key={idx} className="flex gap-2 items-start">
+                <textarea
+                  value={item}
+                  onChange={(e) => {
+                    const copy = [...value];
+                    copy[idx] = e.target.value;
+                    onValueChange(path, copy);
+                  }}
+                  rows={2}
+                  className="flex-grow px-4 py-2 bg-[#111118]/80 border border-[#2c2c43] focus:border-[#4945ff] text-slate-200 rounded-lg text-xs"
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    const copy = value.filter((_, i) => i !== idx);
+                    onValueChange(path, copy);
+                  }}
+                  className="p-2 bg-red-950/20 hover:bg-red-950/40 text-red-400 rounded-lg border border-red-900/30 transition-colors mt-1"
+                >
+                  <Plus className="w-4 h-4 rotate-45 text-red-400" />
+                </button>
+              </div>
+            ))}
+          </div>
+          <button
+            type="button"
+            onClick={() => {
+              onValueChange(path, [...value, ""]);
+            }}
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-[#212134] hover:bg-[#2c2c43] text-slate-300 rounded-lg text-[10px] font-semibold transition-colors"
+          >
+            <Plus className="w-3.5 h-3.5 text-[#4945ff]" /> Add {formatLabel(label)} Box Block
+          </button>
+        </div>
+      );
+    } else {
+      // Collection of rich items / objects (e.g., stats, navigation nodes, rows)
+      return (
+        <div className="space-y-4 bg-[#181826]/20 border border-[#212134]/50 p-4 rounded-xl" id={`field-${path}`}>
+          <div className="flex items-center justify-between">
+            <h4 className="text-xs font-bold text-[#a362ff] uppercase tracking-wider font-mono">
+              {formatLabel(label)} List Group ({value.length} nodes)
+            </h4>
+            <span className="text-[9px] font-mono text-slate-500 bg-slate-900/40 px-2 py-0.5 rounded">{path}</span>
+          </div>
+
+          <div className="space-y-4">
+            {value.map((item: any, idx: number) => (
+              <div key={idx} className="bg-[#111118]/50 border border-[#2c2c43] p-4.5 rounded-xl space-y-4 relative shadow-sm">
+                <div className="flex justify-between items-center border-b border-[#212134]/40 pb-2">
+                  <span className="text-[10px] font-semibold text-[#8a7eff] tracking-wider font-mono">
+                    INDEX MATCH ITEM #{idx + 1}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const copy = value.filter((_, i) => i !== idx);
+                      onValueChange(path, copy);
+                    }}
+                    className="p-1.5 bg-red-950/20 text-red-500 hover:text-red-400 hover:bg-red-950/40 rounded border border-red-900/25 transition-all"
+                  >
+                    <Plus className="w-3.5 h-3.5 rotate-45 text-red-400" />
+                  </button>
+                </div>
+
+                <div className="space-y-4 pt-1">
+                  {Object.keys(item).map((k) => (
+                    <RenderValue
+                      key={k}
+                      value={item[k]}
+                      path={path ? `${path}.${idx}.${k}` : `${idx}.${k}`}
+                      label={k}
+                      onValueChange={onValueChange}
+                    />
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <button
+            type="button"
+            onClick={() => {
+              const template = value.length > 0 
+                ? JSON.parse(JSON.stringify(value[value.length - 1])) 
+                : { label: "New Node", to: "" };
+              onValueChange(path, [...value, template]);
+            }}
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-[#4945ff]/10 hover:bg-[#4945ff]/20 text-[#a362ff] rounded-lg text-xs font-semibold border border-[#4945ff]/30 transition-colors"
+          >
+            <Plus className="w-3.5 h-3.5" /> Append List Node
+          </button>
+        </div>
+      );
+    }
+  }
+
+  if (typeof value === "object" && value !== null) {
+    // Subsection object
+    return (
+      <div className="bg-[#181826]/30 border border-[#212134]/50 p-5 rounded-xl space-y-5" id={`field-${path}`}>
+        <div className="flex items-center justify-between border-b border-[#212134]/30 pb-2.5">
+          <h4 className="text-xs font-bold text-slate-300 uppercase tracking-widest font-mono flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#4945ff]" /> {formatLabel(label)}
+          </h4>
+          <span className="text-[9px] font-mono text-slate-500">
+            {path || "root"}
+          </span>
+        </div>
+        <div className="space-y-5">
+          {Object.keys(value).map((k) => (
+            <RenderValue
+              key={k}
+              value={value[k]}
+              path={path ? `${path}.${k}` : k}
+              label={k}
+              onValueChange={onValueChange}
+            />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  return null;
+}
+
 export function AdminDashboard() {
   const [isLogged, setIsLogged] = useState<boolean>(false);
   const [username, setUsername] = useState<string>("");
@@ -415,7 +664,7 @@ export function AdminDashboard() {
     const parts = pathStr.split(".");
     let current = obj;
     for (const part of parts) {
-      if (current[part] === undefined) return "";
+      if (current === null || current === undefined || current[part] === undefined) return "";
       current = current[part];
     }
     return current;
@@ -425,13 +674,18 @@ export function AdminDashboard() {
     const copy = JSON.parse(JSON.stringify(obj));
     const parts = pathStr.split(".");
     let current = copy;
+    
     for (let i = 0; i < parts.length - 1; i++) {
       const part = parts[i];
+      const nextPart = parts[i + 1];
+      const nextIsIndex = !isNaN(Number(nextPart));
+
       if (current[part] === undefined) {
-        current[part] = {};
+        current[part] = nextIsIndex ? [] : {};
       }
       current = current[part];
     }
+    
     current[parts[parts.length - 1]] = val;
     return copy;
   };
@@ -826,196 +1080,52 @@ export function AdminDashboard() {
 
               {/* RENDER SCHEMA DATA */}
               {!contentPayload ? (
-                <div className="flex-grow flex flex-col justify-center items-center py-20 text-slate-500 text-xs">
-                  <div className="w-8 h-8 rounded-full border-2 border-slate-700 border-t-[#4945ff] animate-spin mb-3" />
-                  Connecting nested Strapi JSON gateway...
+                <div className="flex-grow flex flex-col justify-center items-center py-16 text-slate-500 text-xs text-center border border-[#212134] rounded-2xl bg-[#181826]/20 p-8 space-y-4">
+                  {jsonError ? (
+                    <div className="space-y-4 max-w-sm">
+                      <AlertCircle className="w-10 h-10 text-red-500 mx-auto" />
+                      <h3 className="text-sm font-bold text-white">API Gateway Status</h3>
+                      <p className="text-slate-400 leading-relaxed text-[11px]">
+                        Failed to fetch initial file payload for <strong>{selectedSchema.file}</strong>.
+                        This may happen if the database credentials in your host server are still establishing. 
+                      </p>
+                      <button 
+                        onClick={() => {
+                          setJsonError(null);
+                          // trigger schema fetch reload by setting key trigger
+                          const prev = selectedSchema;
+                          setSelectedSchema({ ...prev });
+                        }}
+                        className="px-4 py-2 bg-[#4945ff] hover:bg-[#5a56ff] text-white text-xs font-bold rounded-lg transition-all active:scale-95 shadow-md shadow-[#4945ff]/20"
+                      >
+                        Retry API Connection
+                      </button>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="w-8 h-8 rounded-full border-2 border-slate-700 border-t-[#4945ff] animate-spin mb-3" />
+                      <p className="text-slate-300 font-medium">Connecting nested Strapi JSON gateway...</p>
+                      <p className="text-[10px] text-slate-500 max-w-xs leading-relaxed">Checking local physical schema and synchronization states in MySQL cluster.</p>
+                    </>
+                  )}
                 </div>
               ) : (
                 <div className="flex-grow">
                   {activeTab === "visual" ? (
-                    <div className="space-y-8 bg-[#181826]/40 border border-[#212134] p-6 md:p-8 rounded-2xl shadow-xl">
-                      {/* Group fields by section */}
-                      {Array.from(new Set(selectedSchema.fields.map((f) => f.section))).map((sectionName) => (
-                        <div key={sectionName} className="space-y-5 border-b border-[#212134] pb-8 last:border-0 last:pb-0">
-                          <h3 className="text-xs font-bold text-[#b682ff] uppercase tracking-widest font-mono flex items-center gap-1.5">
-                            <span className="w-1.5 h-1.5 rounded-full bg-[#4945ff]" /> {sectionName}
-                          </h3>
-                          <div className="grid grid-cols-1 gap-5">
-                            {selectedSchema.fields
-                              .filter((f) => f.section === sectionName)
-                              .map((field) => {
-                                const value = getNestedValue(contentPayload, field.key);
-
-                                return (
-                                  <div key={field.key} className="space-y-2">
-                                    <div className="flex items-center justify-between">
-                                      <label className="text-xs font-semibold text-slate-300">
-                                        {field.label}
-                                      </label>
-                                      <span className="text-[9px] font-mono text-slate-500">
-                                        {field.key}
-                                      </span>
-                                    </div>
-
-                                    {field.type === "text" && (
-                                      <input
-                                        type="text"
-                                        value={value}
-                                        onChange={(e) => handleFieldChange(field.key, e.target.value)}
-                                        className="w-full px-4 py-2.5 bg-[#111118]/80 border border-[#2c2c43] focus:border-[#4945ff] focus:outline-none focus:ring-1 focus:ring-[#4945ff] text-slate-200 rounded-lg text-xs"
-                                      />
-                                    )}
-
-                                    {field.type === "textarea" && (
-                                      <textarea
-                                        value={value}
-                                        onChange={(e) => handleFieldChange(field.key, e.target.value)}
-                                        rows={4}
-                                        className="w-full px-4 py-2.5 bg-[#111118]/80 border border-[#2c2c43] focus:border-[#4945ff] focus:outline-none focus:ring-1 focus:ring-[#4945ff] text-slate-200 rounded-lg text-xs font-sans leading-relaxed"
-                                      />
-                                    )}
-
-                                    {field.type === "array-text" && (
-                                      <div className="space-y-3">
-                                        {(value || []).map((p: string, idx: number) => (
-                                          <div key={idx} className="flex gap-2 items-start">
-                                            <textarea
-                                              value={p}
-                                              onChange={(e) => {
-                                                const arrCopy = [...value];
-                                                arrCopy[idx] = e.target.value;
-                                                handleFieldChange(field.key, arrCopy);
-                                              }}
-                                              rows={3}
-                                              className="flex-grow px-4 py-2.5 bg-[#111118]/80 border border-[#2c2c43] focus:border-[#4945ff] focus:outline-none text-slate-200 rounded-lg text-xs"
-                                            />
-                                            <button
-                                              onClick={() => {
-                                                const arrCopy = value.filter((_: any, i: number) => i !== idx);
-                                                handleFieldChange(field.key, arrCopy);
-                                              }}
-                                              className="p-2.5 bg-red-950/20 text-red-400 hover:text-red-300 hover:bg-red-950/50 rounded-lg border border-red-900/30 transition-colors mt-1"
-                                            >
-                                              <Trash2 className="w-4 h-4" />
-                                            </button>
-                                          </div>
-                                        ))}
-                                        <button
-                                          onClick={() => {
-                                            const arrCopy = [...(value || []), ""];
-                                            handleFieldChange(field.key, arrCopy);
-                                          }}
-                                          className="flex items-center gap-1.5 px-3 py-2 bg-[#212134] hover:bg-[#2c2c43] text-slate-300 rounded-lg text-[10px] font-semibold transition-colors"
-                                        >
-                                          <Plus className="w-3.5 h-3.5 text-[#4945ff]" /> Add Section Paragraph
-                                        </button>
-                                      </div>
-                                    )}
-
-                                    {field.type === "metrics" && (
-                                      <div className="space-y-4">
-                                        {(value || []).map((card: any, idx: number) => (
-                                          <div key={idx} className="bg-[#111118]/80 border border-[#212134] p-5 rounded-xl space-y-4 relative shadow-inner">
-                                            <button
-                                              onClick={() => {
-                                                const arrCopy = value.filter((_: any, i: number) => i !== idx);
-                                                handleFieldChange(field.key, arrCopy);
-                                              }}
-                                              className="absolute top-4 right-4 p-2 bg-red-950/20 text-red-400 hover:text-red-300 hover:bg-red-950/40 rounded-lg border border-red-900/30 transition-all hover:scale-105"
-                                            >
-                                              <Trash2 className="w-4 h-4" />
-                                            </button>
-                                            <span className="text-[10px] font-bold text-[#b682ff] uppercase tracking-wider font-mono bg-[#4945ff]/15 px-2.5 py-1 rounded border border-[#4945ff]/35">
-                                              Metric Card Index #{idx + 1}
-                                            </span>
-                                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                                              <div>
-                                                <label className="block text-[10px] text-slate-400 uppercase tracking-widest mb-1 font-semibold">
-                                                  Metric Headline
-                                                </label>
-                                                <input
-                                                  type="text"
-                                                  value={card.value || ""}
-                                                  onChange={(e) => {
-                                                    const copy = [...value];
-                                                    copy[idx] = { ...copy[idx], value: e.target.value };
-                                                    handleFieldChange(field.key, copy);
-                                                  }}
-                                                  className="w-full px-3 py-2 bg-[#181826] border border-[#2c2c43] focus:border-[#4945ff] focus:outline-none text-xs rounded text-slate-200"
-                                                />
-                                              </div>
-                                              <div>
-                                                <label className="block text-[10px] text-slate-400 uppercase tracking-widest mb-1 font-semibold">
-                                                  Highlight Category
-                                                </label>
-                                                <input
-                                                  type="text"
-                                                  value={card.category || ""}
-                                                  onChange={(e) => {
-                                                    const copy = [...value];
-                                                    copy[idx] = { ...copy[idx], category: e.target.value };
-                                                    handleFieldChange(field.key, copy);
-                                                  }}
-                                                  className="w-full px-3 py-2 bg-[#181826] border border-[#2c2c43] focus:border-[#4945ff] focus:outline-none text-xs rounded text-slate-200"
-                                                />
-                                              </div>
-                                              <div>
-                                                <label className="block text-[10px] text-slate-400 uppercase tracking-widest mb-1 font-semibold">
-                                                  Label Name
-                                                </label>
-                                                <input
-                                                  type="text"
-                                                  value={card.label || ""}
-                                                  onChange={(e) => {
-                                                    const copy = [...value];
-                                                    copy[idx] = { ...copy[idx], label: e.target.value };
-                                                    handleFieldChange(field.key, copy);
-                                                  }}
-                                                  className="w-full px-3 py-2 bg-[#181826] border border-[#2c2c43] focus:border-[#4945ff] focus:outline-none text-xs rounded text-slate-200"
-                                                />
-                                              </div>
-                                            </div>
-                                            <div>
-                                              <label className="block text-[10px] text-slate-400 uppercase tracking-widest mb-1 font-semibold">
-                                                Explanatory Summary Narrative
-                                              </label>
-                                              <textarea
-                                                value={card.description || ""}
-                                                onChange={(e) => {
-                                                  const copy = [...value];
-                                                  copy[idx] = { ...copy[idx], description: e.target.value };
-                                                  handleFieldChange(field.key, copy);
-                                                }}
-                                                rows={2}
-                                                className="w-full px-3 py-2 bg-[#181826] border border-[#2c2c43] focus:border-[#4945ff] focus:outline-none text-xs rounded text-slate-200"
-                                              />
-                                            </div>
-                                          </div>
-                                        ))}
-                                        <button
-                                          onClick={() => {
-                                            const newItem = { category: "Impact Topic", value: "0+", label: "New Metric", description: "Default details" };
-                                            const arrCopy = [...(value || []), newItem];
-                                            handleFieldChange(field.key, arrCopy);
-                                          }}
-                                          className="flex items-center gap-1.5 px-4 py-2.5 bg-[#4945ff]/10 hover:bg-[#4945ff]/20 text-[#a362ff] rounded-lg text-xs font-semibold border border-[#4945ff]/45 transition-colors"
-                                        >
-                                          <Plus className="w-3.5 h-3.5" /> Append Metric Card
-                                        </button>
-                                      </div>
-                                    )}
-
-                                    {field.description && (
-                                      <p className="text-[10px] text-slate-500 italic flex items-center gap-1">
-                                        <Info className="w-3 h-3 text-[#4945ff]" /> {field.description}
-                                      </p>
-                                    )}
-                                  </div>
-                                );
-                              })}
-                          </div>
+                    <div className="space-y-6 bg-[#181826]/40 border border-[#212134] p-5 md:p-8 rounded-2xl shadow-xl">
+                      <div className="bg-[#4945ff]/10 border border-[#4945ff]/20 p-4 rounded-xl text-[11px] text-slate-300 leading-relaxed flex items-center gap-2">
+                        <Info className="w-4 h-4 text-[#a362ff] shrink-0" />
+                        <div>
+                          <span className="font-semibold text-white">Dynamic Field Modifiers:</span> Autodetected and loaded <strong>{Object.keys(contentPayload).length} schemas nodes</strong>. Edit fields visually below.
                         </div>
-                      ))}
+                      </div>
+                      
+                      <RenderValue
+                        value={contentPayload}
+                        path=""
+                        label={selectedSchema.name}
+                        onValueChange={handleFieldChange}
+                      />
                     </div>
                   ) : (
                     <div className="space-y-4">

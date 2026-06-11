@@ -13,6 +13,7 @@ import {
   Coins,
 } from "lucide-react";
 import projectsHopeData from "@/content/projects_hope.json";
+import { useCMSContent } from "@/hooks/useCMSContent";
 
 export const Route = createFileRoute("/projects/hope-projects")({
   head: () => ({
@@ -48,7 +49,7 @@ interface ProjectCardDetails {
 }
 
 function HopeProjectsPage() {
-  const d = projectsHopeData;
+  const d = useCMSContent("projects_hope", projectsHopeData);
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
   const [activeMilestoneIndex, setActiveMilestoneIndex] = useState<number>(1);
 

@@ -2,7 +2,8 @@ import { Link, useLocation } from "@/lib/router";
 import { useEffect, useState } from "react";
 import { ChevronDown, Heart, Menu, X } from "lucide-react";
 import logo from "@/assets/angels-care-logo.webp.asset.json";
-import navConfig from "@/content/navigation.json";
+import navConfigBackup from "@/content/navigation.json";
+import { useCMSContent } from "@/hooks/useCMSContent";
 
 type NavItem = {
   label: string;
@@ -10,11 +11,11 @@ type NavItem = {
   children?: { label: string; to: string }[];
 };
 
-export const NAV: NavItem[] = navConfig.navItems;
-
-const DONATE_URL = navConfig.donateUrl;
-
 export function SiteNav() {
+  const navConfig = useCMSContent("navigation", navConfigBackup);
+  const NAV: NavItem[] = navConfig.navItems;
+  const DONATE_URL = navConfig.donateUrl;
+
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [openGroup, setOpenGroup] = useState<string | null>(null);

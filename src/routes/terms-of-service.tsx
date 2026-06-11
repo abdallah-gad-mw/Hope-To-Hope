@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@/lib/router";
 import { FileText, ArrowLeft } from "lucide-react";
 import legalContent from "@/content/legal.json";
+import { useCMSContent } from "@/hooks/useCMSContent";
 
 export const Route = createFileRoute("/terms-of-service")({
   head: () => ({
@@ -16,7 +17,8 @@ export const Route = createFileRoute("/terms-of-service")({
 });
 
 function TermsOfServicePage() {
-  const data = legalContent.termsOfService;
+  const legalData = useCMSContent("legal", legalContent);
+  const data = legalData.termsOfService;
   return (
     <div className="bg-soft min-h-screen pt-32 pb-24">
       <div className="max-w-3xl mx-auto px-6 md:px-12 lg:px-16 bg-white rounded-3xl border border-border p-8 md:p-12 shadow-soft reveal">

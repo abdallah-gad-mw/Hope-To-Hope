@@ -27,6 +27,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import medicalData from "@/content/projects_medical.json";
+import { useCMSContent } from "@/hooks/useCMSContent";
 
 export const Route = createFileRoute("/projects/medical-centre")({
   head: () => ({
@@ -51,7 +52,7 @@ export const Route = createFileRoute("/projects/medical-centre")({
 });
 
 function MedicalCentrePage() {
-  const d = medicalData;
+  const d = useCMSContent("projects_medical", medicalData);
   const [showStatusTooltip, setShowStatusTooltip] = useState(false);
   const [activeTab, setActiveTab] = useState<string>("all");
 

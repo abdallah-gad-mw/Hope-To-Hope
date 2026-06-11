@@ -15,6 +15,7 @@ import {
   Briefcase,
 } from "lucide-react";
 import aboutVisionData from "@/content/about_vision.json";
+import { useCMSContent } from "@/hooks/useCMSContent";
 
 const DONATE_URL = "https://www.theforgottenintl.org/donate/";
 
@@ -63,7 +64,7 @@ const itemVariants = {
 };
 
 function OurVisionPage() {
-  const d = aboutVisionData;
+  const d = useCMSContent("about_vision", aboutVisionData);
   return (
     <div className="bg-background min-h-screen text-foreground overflow-x-hidden">
       {/* 1. Page Hero Banner Section */}

@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@/lib/router";
 import { BookOpen, Calendar, User, ArrowRight } from "lucide-react";
 import hopeStoriesData from "@/content/hope_stories.json";
+import { useCMSContent } from "@/hooks/useCMSContent";
 
 export const Route = createFileRoute("/hope-stories/")({
   head: () => ({
@@ -16,7 +17,7 @@ export const Route = createFileRoute("/hope-stories/")({
 });
 
 function HopeStoriesArchivePage() {
-  const d = hopeStoriesData;
+  const d = useCMSContent("hope_stories", hopeStoriesData);
 
   return (
     <div className="bg-soft min-h-screen pt-32 pb-24">

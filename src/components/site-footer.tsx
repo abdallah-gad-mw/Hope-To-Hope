@@ -2,7 +2,8 @@ import { Link } from "@/lib/router";
 import { useState } from "react";
 import { Facebook, Instagram, Twitter, Youtube, CheckCircle2 } from "lucide-react";
 import logo from "@/assets/angels-care-logo.webp.asset.json";
-import footerData from "@/content/footer.json";
+import footerDataBackup from "@/content/footer.json";
+import { useCMSContent } from "@/hooks/useCMSContent";
 
 const socialIconMap = {
   instagram: Instagram,
@@ -12,6 +13,7 @@ const socialIconMap = {
 };
 
 export function SiteFooter() {
+  const footerData = useCMSContent("footer", footerDataBackup);
   const [email, setEmail] = useState("");
   const [isSubscribed, setIsSubscribed] = useState(false);
 
