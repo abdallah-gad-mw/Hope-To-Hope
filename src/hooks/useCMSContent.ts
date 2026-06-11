@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 
 /**
- * Custom React hook to retrieve content dynamically from our Express CMS server.
- * Automatically falls back to statically imported local JSON file structure if connection loses 
- * or during server restart.
+ * Custom React hook to retrieve content dynamically from our Express CMS server
+ * or an external production Strapi v5 headless backend if configured.
  * 
  * @param filename Name of content file (without .json extension)
  * @param staticBackup The local statically compiled JSON backup
@@ -14,14 +13,29 @@ export function useCMSContent<T>(filename: string, staticBackup: T): T {
 
   useEffect(() => {
     let active = true;
-    fetch(`/api/content/${filename}`)
+    
+    // Check if an external Strapi API is configured through the environment variables
+    const strapiUrl = import.meta.env.VITE_STRAPI_API_URL;
+    const targetUrl = strapiUrl 
+      ? `${strapiUrl}/api/${filename.replace("_", "-")}?populate=*`
+      : `/api/content/${filename}`;
+
+    fetch(targetUrl)
       .then((res) => {
-        if (!res.ok) throw new Error("Status code indicates failure");
+        if (!res.ok) throw new Error("API retrieval failed");
         return res.json();
       })
-      .then((data) => {
-        if (active) {
-          setContent(data);
+      .then((resBody) => {
+        if (!active) return;
+
+        // In Strapi v5, the payload returns fields directly under data: { id, data: { ... } }
+        if (strapiUrl && resBody && resBody.data) {
+          // Flatten standard Strapi structure if nested under attributes/data
+          const fields = resBody.data.attributes || resBody.data;
+          setContent(fields as T);
+        } else {
+          // Standard local Express API payload
+          setContent(resBody as T);
         }
       })
       .catch(() => {
