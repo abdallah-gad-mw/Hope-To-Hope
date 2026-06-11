@@ -2,10 +2,22 @@ import express from "express";
 import path from "path";
 import fs from "fs";
 import { createServer as createViteServer } from "vite";
+import {
+  initDatabase,
+  loadContent,
+  saveContent,
+  listMedia,
+  uploadMedia,
+  getMediaContent,
+  deleteMedia,
+} from "./src/lib/mysql";
 
 async function startServer() {
   const app = express();
   const PORT = 3000;
+
+  // Initialize MySQL pool
+  await initDatabase();
 
   // Body parser configurations
   app.use(express.json({ limit: "50mb" }));
@@ -19,26 +31,48 @@ async function startServer() {
     fs.mkdirSync(uploadsDir, { recursive: true });
   }
 
-  // API to list uploaded assets under Media Library
-  app.get("/api/media", (req, res) => {
+  // API to serve uploaded assets from DB if they don't exist on disk
+  app.get("/uploads/:filename", async (req, res, next) => {
     try {
-      if (!fs.existsSync(uploadsDir)) {
-        return res.json([]);
+      const { filename } = req.params;
+      const physicalPath = path.join(uploadsDir, filename);
+      if (fs.existsSync(physicalPath)) {
+        return next();
       }
-      const files = fs.readdirSync(uploadsDir).map((filename) => {
-        const filePath = path.join(uploadsDir, filename);
-        const stats = fs.statSync(filePath);
-        const ext = path.extname(filename).toLowerCase().replace(".", "");
-        return {
-          name: filename,
-          url: `/uploads/${filename}`,
-          size: stats.size,
-          mtime: stats.mtime,
-          format: ["jpg", "jpeg", "png", "webp", "gif", "svg"].includes(ext) ? "image" : "file",
-        };
-      });
-      // Sort newest first
-      files.sort((a, b) => b.mtime.getTime() - a.mtime.getTime());
+
+      // Fallback: load from database
+      const media = await getMediaContent(filename);
+      if (media) {
+        let contentType = "application/octet-stream";
+        if (filename.endsWith(".jpg") || filename.endsWith(".jpeg")) contentType = "image/jpeg";
+        else if (filename.endsWith(".png")) contentType = "image/png";
+        else if (filename.endsWith(".gif")) contentType = "image/gif";
+        else if (filename.endsWith(".webp")) contentType = "image/webp";
+        else if (filename.endsWith(".svg")) contentType = "image/svg+xml";
+
+        const matches = media.base64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
+        let buffer: Buffer;
+        if (matches && matches.length === 3) {
+          buffer = Buffer.from(matches[2], "base64");
+          contentType = matches[1];
+        } else {
+          buffer = Buffer.from(media.base64, "base64");
+        }
+
+        res.setHeader("Content-Type", contentType);
+        res.setHeader("Cache-Control", "public, max-age=31536000");
+        return res.send(buffer);
+      }
+      return res.status(404).send("File not found");
+    } catch {
+      return res.status(500).send("Error serving file");
+    }
+  });
+
+  // API to list uploaded assets under Media Library
+  app.get("/api/media", async (req, res) => {
+    try {
+      const files = await listMedia(uploadsDir);
       return res.json(files);
     } catch (e: any) {
       return res.status(500).json({ error: e.message || "Failed reading media storage" });
@@ -46,7 +80,7 @@ async function startServer() {
   });
 
   // API to upload media file (base64)
-  app.post("/api/media/upload", (req, res) => {
+  app.post("/api/media/upload", async (req, res) => {
     try {
       const { name, base64 } = req.body;
       if (!name || !base64) {
@@ -60,25 +94,17 @@ async function startServer() {
       
       // Prevent duplicates from overwriting by appending a unique timestamp
       const uniqueName = `${baseName}_${Date.now()}${ext}`;
-      const filePath = path.join(uploadsDir, uniqueName);
+      const url = `/uploads/${uniqueName}`;
+      
+      const cleanExt = ext.replace(".", "");
+      const format = ["jpg", "jpeg", "png", "webp", "gif", "svg"].includes(cleanExt) ? "image" : "file";
+      const size = Math.floor(base64.length * 0.75);
 
-      // Extract raw base64 data matching standard data URI regex schemas
-      const matches = base64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
-      let buffer: Buffer;
-
-      if (matches && matches.length === 3) {
-        buffer = Buffer.from(matches[2], "base64");
-      } else {
-        buffer = Buffer.from(base64, "base64");
-      }
-
-      fs.writeFileSync(filePath, buffer);
+      const saved = await uploadMedia(uniqueName, url, size, format, base64, uploadsDir);
 
       return res.json({
         success: true,
-        name: uniqueName,
-        url: `/uploads/${uniqueName}`,
-        size: buffer.length,
+        ...saved,
       });
     } catch (e: any) {
       return res.status(500).json({ error: e.message || "Upload process failed" });
@@ -86,19 +112,18 @@ async function startServer() {
   });
 
   // API to delete media record
-  app.delete("/api/media/:filename", (req, res) => {
+  app.delete("/api/media/:filename", async (req, res) => {
     try {
       const { filename } = req.params;
       if (filename.includes("..") || filename.includes("/")) {
         return res.status(400).json({ error: "Invalid path reference" });
       }
 
-      const filePath = path.join(uploadsDir, filename);
-      if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath);
+      const purged = await deleteMedia(filename, uploadsDir);
+      if (purged) {
         return res.json({ success: true, message: "Asset successfully purged" });
       } else {
-        return res.status(404).json({ error: "Target asset not found in storage directory" });
+        return res.status(404).json({ error: "Target asset not found in database or storage" });
       }
     } catch (e: any) {
       return res.status(500).json({ error: e.message || "Failed purging target layout asset" });
@@ -106,20 +131,15 @@ async function startServer() {
   });
 
   // API to retrieve single content node
-  app.get("/api/content/:filename", (req, res) => {
+  app.get("/api/content/:filename", async (req, res) => {
     try {
       const { filename } = req.params;
       if (filename.includes("..") || filename.includes("/")) {
         return res.status(400).json({ error: "Access denied" });
       }
 
-      const filePath = path.join(contentDir, `${filename}.json`);
-      if (fs.existsSync(filePath)) {
-        const raw = fs.readFileSync(filePath, "utf-8");
-        return res.json(JSON.parse(raw));
-      } else {
-        return res.status(404).json({ error: `File not found: ${filename}` });
-      }
+      const content = await loadContent(filename, contentDir);
+      return res.json(content);
     } catch (e: any) {
       return res.status(500).json({ error: e.message || "Failed reading content node" });
     }
@@ -128,32 +148,43 @@ async function startServer() {
   // API to list registered files schema
   app.get("/api/content-schemas", (req, res) => {
     try {
-      if (!fs.existsSync(contentDir)) {
-        return res.json([]);
+      const defaultSchemas = [
+        "home",
+        "about_kyaka",
+        "about_team",
+        "about_vision",
+        "hope_family",
+        "projects_school",
+        "projects_medical",
+        "projects_orphanage",
+        "projects_hope",
+        "navigation",
+        "footer",
+        "legal",
+        "hope_stories",
+        "story_online_launch",
+      ];
+      if (fs.existsSync(contentDir)) {
+        const files = fs.readdirSync(contentDir)
+          .filter(f => f.endsWith(".json") && f !== "package.json")
+          .map(f => f.replace(".json", ""));
+        return res.json(files.length > 0 ? files : defaultSchemas);
       }
-      const files = fs.readdirSync(contentDir)
-        .filter(f => f.endsWith(".json") && f !== "package.json")
-        .map(f => f.replace(".json", ""));
-      return res.json(files);
+      return res.json(defaultSchemas);
     } catch (e: any) {
       return res.status(500).json({ error: e.message });
     }
   });
 
   // API to update content node
-  app.post("/api/content/:filename", (req, res) => {
+  app.post("/api/content/:filename", async (req, res) => {
     try {
       const { filename } = req.params;
       if (filename.includes("..") || filename.includes("/")) {
         return res.status(400).json({ error: "Access denied" });
       }
 
-      const filePath = path.join(contentDir, `${filename}.json`);
-      
-      // Overwrite the JSON file locally
-      const bodyString = JSON.stringify(req.body, null, 2);
-      fs.writeFileSync(filePath, bodyString, "utf-8");
-
+      await saveContent(filename, req.body, contentDir);
       return res.json({ success: true, file: filename });
     } catch (e: any) {
       return res.status(500).json({ error: e.message || "Failed writing content node" });
