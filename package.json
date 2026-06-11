@@ -4,13 +4,15 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "dev": "tsx server.js",
-    "build": "vite build && node -e \"const fs = require('fs'); fs.mkdirSync('dist/content', { recursive: true }); fs.readdirSync('src/content').forEach(f => fs.copyFileSync('src/content/' + f, 'dist/content/' + f))\" && esbuild server.js --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs",
+    "dev": "tsx server.ts",
+    "build": "vite build && esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs",
     "start": "node dist/server.cjs",
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "lint": "eslint .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "tina:dev": "tinacms dev",
+    "tina:build": "tinacms build"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
@@ -42,6 +44,7 @@
     "@radix-ui/react-tooltip": "^1.2.8",
     "@tailwindcss/vite": "^4.2.1",
     "@tanstack/react-query": "^5.83.0",
+    "@tinacms/cli": "^2.4.4",
     "@types/express": "^5.0.6",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -63,6 +66,7 @@
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.5.0",
     "tailwindcss": "^4.2.1",
+    "tinacms": "^3.9.1",
     "tsx": "^4.22.4",
     "tw-animate-css": "^1.3.4",
     "vaul": "^1.1.2",

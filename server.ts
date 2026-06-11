@@ -1,4 +1,3 @@
-/* eslint-disable */
 import express from "express";
 import path from "path";
 import fs from "fs";
@@ -11,7 +10,7 @@ import {
   uploadMedia,
   getMediaContent,
   deleteMedia,
-} from "./src/lib/mysql.ts";
+} from "./src/lib/mysql";
 
 async function startServer() {
   const app = express();
@@ -24,22 +23,7 @@ async function startServer() {
   app.use(express.json({ limit: "50mb" }));
   app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 
-  // Dynamically configure local content directory (source or compiled build folder)
-  let contentDir = path.join(process.cwd(), "src", "content");
-  if (!fs.existsSync(contentDir)) {
-    contentDir = path.join(process.cwd(), "dist", "content");
-  }
-  if (!fs.existsSync(contentDir)) {
-    try {
-      // CommonJS dynamic path check for bundled server
-      contentDir = path.join(__dirname, "content");
-    } catch (err) {
-      // Ignored if __dirname is not defined in pure ES module environments
-    }
-  }
-  
-  console.log(`System schema directory initialized at: ${contentDir}`);
-
+  const contentDir = path.join(process.cwd(), "src", "content");
   const uploadsDir = path.join(process.cwd(), "public", "uploads");
 
   // Create uploads directory if it does not exist
@@ -67,7 +51,7 @@ async function startServer() {
         else if (filename.endsWith(".svg")) contentType = "image/svg+xml";
 
         const matches = media.base64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
-        let buffer;
+        let buffer: Buffer;
         if (matches && matches.length === 3) {
           buffer = Buffer.from(matches[2], "base64");
           contentType = matches[1];
@@ -80,7 +64,7 @@ async function startServer() {
         return res.send(buffer);
       }
       return res.status(404).send("File not found");
-    } catch (e) {
+    } catch {
       return res.status(500).send("Error serving file");
     }
   });
@@ -90,7 +74,7 @@ async function startServer() {
     try {
       const files = await listMedia(uploadsDir);
       return res.json(files);
-    } catch (e) {
+    } catch (e: any) {
       return res.status(500).json({ error: e.message || "Failed reading media storage" });
     }
   });
@@ -122,7 +106,7 @@ async function startServer() {
         success: true,
         ...saved,
       });
-    } catch (e) {
+    } catch (e: any) {
       return res.status(500).json({ error: e.message || "Upload process failed" });
     }
   });
@@ -141,7 +125,7 @@ async function startServer() {
       } else {
         return res.status(404).json({ error: "Target asset not found in database or storage" });
       }
-    } catch (e) {
+    } catch (e: any) {
       return res.status(500).json({ error: e.message || "Failed purging target layout asset" });
     }
   });
@@ -156,7 +140,7 @@ async function startServer() {
 
       const content = await loadContent(filename, contentDir);
       return res.json(content);
-    } catch (e) {
+    } catch (e: any) {
       return res.status(500).json({ error: e.message || "Failed reading content node" });
     }
   });
@@ -187,7 +171,7 @@ async function startServer() {
         return res.json(files.length > 0 ? files : defaultSchemas);
       }
       return res.json(defaultSchemas);
-    } catch (e) {
+    } catch (e: any) {
       return res.status(500).json({ error: e.message });
     }
   });
@@ -202,7 +186,7 @@ async function startServer() {
 
       await saveContent(filename, req.body, contentDir);
       return res.json({ success: true, file: filename });
-    } catch (e) {
+    } catch (e: any) {
       return res.status(500).json({ error: e.message || "Failed writing content node" });
     }
   });
