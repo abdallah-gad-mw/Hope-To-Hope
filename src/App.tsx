@@ -4,11 +4,16 @@ import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
 import { routesConfig } from "@/routes-config";
 import { AnimatePresence, motion } from "motion/react";
+import { AdminDashboard } from "@/components/AdminDashboard";
 
 const queryClient = new QueryClient();
 
 function AppContent() {
   const { pathname } = useLocation();
+
+  if (pathname.startsWith("/admin")) {
+    return <AdminDashboard />;
+  }
 
   return (
     <div className="flex flex-col min-h-screen bg-background font-sans">

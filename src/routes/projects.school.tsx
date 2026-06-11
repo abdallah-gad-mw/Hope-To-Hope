@@ -22,6 +22,7 @@ import {
   Globe,
 } from "lucide-react";
 import schoolData from "@/content/projects_school.json";
+import { useCMSContent } from "@/hooks/useCMSContent";
 
 export const Route = createFileRoute("/projects/school")({
   head: () => ({
@@ -50,7 +51,7 @@ interface GalleryImage {
 }
 
 function SchoolProjectPage() {
-  const d = schoolData;
+  const d = useCMSContent("projects_school", schoolData);
   const [showBadgeTooltip, setShowBadgeTooltip] = useState(false);
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
   const [mounted, setMounted] = useState(false);

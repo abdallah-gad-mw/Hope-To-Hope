@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { motion } from "motion/react";
 import homeData from "@/content/home.json";
+import { useCMSContent } from "@/hooks/useCMSContent";
 
 const DONATE_URL = "https://www.theforgottenintl.org/donate/";
 
@@ -46,7 +47,7 @@ export const Route = createFileRoute("/")({
 function IndexPage() {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [formData, setFormData] = useState({ name: "", email: "", subject: "", message: "" });
-  const d = homeData;
+  const d = useCMSContent("home", homeData);
 
   const handleContactSubmit = (e: React.FormEvent) => {
     e.preventDefault();
