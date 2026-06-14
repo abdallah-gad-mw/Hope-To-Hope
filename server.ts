@@ -16,8 +16,10 @@ async function startServer() {
   const app = express();
   const PORT = 3000;
 
-  // Initialize MySQL pool
-  await initDatabase();
+  // Initialize MySQL pool asynchronously so it does not block the Express startup loop
+  initDatabase().catch((err) => {
+    console.error("Delayed MySQL pool connection error:", err);
+  });
 
   // Body parser configurations
   app.use(express.json({ limit: "50mb" }));
@@ -201,7 +203,7 @@ async function startServer() {
   } else {
     const distPath = path.join(process.cwd(), "dist");
     app.use(express.static(distPath));
-    app.get("*", (req, res) => {
+    app.get("*all", (req, res) => {
       res.sendFile(path.join(distPath, "index.html"));
     });
   }

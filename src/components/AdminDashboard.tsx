@@ -532,6 +532,10 @@ export function AdminDashboard() {
     fetch(`/api/content/${selectedSchema.file}`)
       .then((res) => {
         if (!res.ok) throw new Error("File lookup failed.");
+        const contentType = res.headers.get("content-type") || "";
+        if (!contentType.includes("application/json")) {
+          throw new Error("Expected JSON payload but got: " + contentType);
+        }
         return res.json();
       })
       .then((data) => {
@@ -544,14 +548,21 @@ export function AdminDashboard() {
         console.error(err);
         setContentPayload(null);
         setJsonText("");
-        setJsonError("Failed to fetch initial file payload from the API server");
+        setJsonError(`Failed to fetch initial file payload from the API server: ${err.message || err}`);
       });
   }, [selectedSchema, isLogged, navigationTab]);
 
   // Fetch files in Media Library
   const fetchMedia = () => {
     fetch("/api/media")
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error("Media catalog lookup failed.");
+        const contentType = res.headers.get("content-type") || "";
+        if (!contentType.includes("application/json")) {
+          throw new Error("Expected JSON payload but got: " + contentType);
+        }
+        return res.json();
+      })
       .then((data) => setMediaList(data))
       .catch((err) => console.error("Could not load media storage", err));
   };
