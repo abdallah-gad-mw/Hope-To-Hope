@@ -14,7 +14,7 @@ import {
 
 async function startServer() {
   const app = express();
-  const PORT = 3000;
+  const PORT = process.env.PORT || 3000;
 
   // Initialize MySQL pool asynchronously so it does not block the Express startup loop
   initDatabase().catch((err) => {
@@ -208,20 +208,34 @@ async function startServer() {
     } catch (e) {
       console.warn("Vite loader failed (possibly inside pruned production environments). Falling back to static assets:", e.message);
       app.use(express.static(distPath));
-      app.get("*", (req, res) => {
-        res.sendFile(path.join(distPath, "index.html"));
+      app.use((req, res, next) => {
+        if (req.method === "GET" && !req.path.startsWith("/api") && !req.path.startsWith("/uploads")) {
+          return res.sendFile(path.join(distPath, "index.html"));
+        }
+        next();
       });
     }
   } else {
     app.use(express.static(distPath));
-    app.get("*", (req, res) => {
-      res.sendFile(path.join(distPath, "index.html"));
+    app.use((req, res, next) => {
+      if (req.method === "GET" && !req.path.startsWith("/api") && !req.path.startsWith("/uploads")) {
+        return res.sendFile(path.join(distPath, "index.html"));
+      }
+      next();
     });
   }
 
-  app.listen(PORT, "0.0.0.0", () => {
-    console.log(`CMS Full-Stack Server listening on port ${PORT}`);
-  });
+  if (process.env.PORT) {
+    // Shared hosting/cPanel Phusion Passenger environments: let them automatically bind the socket or port
+    app.listen(PORT, () => {
+      console.log(`CMS Full-Stack Server listening on production port ${PORT}`);
+    });
+  } else {
+    // Local development/AI Studio container environment
+    app.listen(PORT, "0.0.0.0", () => {
+      console.log(`CMS Full-Stack Server listening on local interface port ${PORT}`);
+    });
+  }
 }
 
 startServer();
