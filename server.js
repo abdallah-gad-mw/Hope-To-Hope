@@ -16,6 +16,22 @@ async function startServer() {
   const app = express();
   const PORT = process.env.PORT || 3000;
 
+  const contentDir = path.join(process.cwd(), "src", "content");
+  const uploadsDir = path.join(process.cwd(), "public", "uploads");
+  const distPath = path.join(process.cwd(), "dist");
+
+  // Auto-Compile frontend assets if missing in the environment
+  if (!fs.existsSync(path.join(distPath, "index.html"))) {
+    console.log("React production build (dist) not found. Attempting to compile the frontend programmatically...");
+    try {
+      const { execSync } = await import("child_process");
+      execSync("npm run build", { stdio: "inherit" });
+      console.log("Programmatic frontend compilation succeeded!");
+    } catch (buildErr) {
+      console.error("Delayed or blocked compilation. Please ensure 'NPM Install' was executed first in your Hostinger dashboard:", buildErr.message);
+    }
+  }
+
   // Initialize MySQL pool asynchronously so it does not block the Express startup loop
   initDatabase().catch((err) => {
     console.error("Delayed MySQL pool connection error:", err);
@@ -24,9 +40,6 @@ async function startServer() {
   // Body parser configurations
   app.use(express.json({ limit: "50mb" }));
   app.use(express.urlencoded({ extended: true, limit: "50mb" }));
-
-  const contentDir = path.join(process.cwd(), "src", "content");
-  const uploadsDir = path.join(process.cwd(), "public", "uploads");
 
   // Create uploads directory if it does not exist
   if (!fs.existsSync(uploadsDir)) {
@@ -194,7 +207,6 @@ async function startServer() {
   });
 
   // Vite middleware setup or stable file serving
-  const distPath = path.join(process.cwd(), "dist");
   const useStatic = process.env.NODE_ENV === "production" || fs.existsSync(path.join(distPath, "index.html"));
 
   if (!useStatic) {
