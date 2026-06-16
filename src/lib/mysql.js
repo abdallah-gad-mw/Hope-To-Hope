@@ -3,7 +3,7 @@ import mysql from "mysql2/promise";
 import fs from "fs";
 import path from "path";
 
-// MySQL configuration with the user's provided credentials as default values
+// MySQL configuration with default values
 const dbConfig = {
   host: process.env.DATABASE_HOST || "193.203.168.164",
   port: parseInt(process.env.DATABASE_PORT || "3306", 10),
@@ -14,7 +14,7 @@ const dbConfig = {
   connectionLimit: 5,
 };
 
-let pool: mysql.Pool | null = null;
+let pool = null;
 let dbEnabled = false;
 
 export async function initDatabase() {
@@ -49,7 +49,7 @@ export async function initDatabase() {
     `);
 
     console.log("MySQL database CMS structures verified successfully!");
-  } catch (err: any) {
+  } catch (err) {
     console.error("MySQL Database connection failure or query error:", err.message);
     console.log("Falling back gracefully to local physical files.");
     dbEnabled = false;
@@ -57,16 +57,16 @@ export async function initDatabase() {
   }
 }
 
-export function isDbActive(): boolean {
+export function isDbActive() {
   return dbEnabled && pool !== null;
 }
 
 /**
  * Loads content from database. If missing from DB, falls back to reading local file and seeds DB.
  */
-export async function loadContent(filename: string, contentDir: string): Promise<any> {
+export async function loadContent(filename, contentDir) {
   const localPath = path.join(contentDir, `${filename}.json`);
-  let localData: any = null;
+  let localData = null;
 
   try {
     if (fs.existsSync(localPath)) {
@@ -82,7 +82,7 @@ export async function loadContent(filename: string, contentDir: string): Promise
   }
 
   try {
-    const [rows]: [any[], any] = await pool.query(
+    const [rows] = await pool.query(
       "SELECT content FROM cms_contents WHERE filename = ?",
       [filename]
     );
@@ -98,7 +98,7 @@ export async function loadContent(filename: string, contentDir: string): Promise
     }
 
     throw new Error(`Content node ${filename} not found in DB or filesystem`);
-  } catch (err: any) {
+  } catch (err) {
     console.error(`Database error loading content ${filename}, using disk:`, err.message);
     if (localData) return localData;
     throw err;
@@ -108,7 +108,7 @@ export async function loadContent(filename: string, contentDir: string): Promise
 /**
  * Saves content to database and attempts local filesystem write
  */
-export async function saveContent(filename: string, content: any, contentDir: string): Promise<void> {
+export async function saveContent(filename, content, contentDir) {
   const contentStr = JSON.stringify(content, null, 2);
 
   // 1. Try DB save
@@ -119,7 +119,7 @@ export async function saveContent(filename: string, content: any, contentDir: st
         [filename, contentStr, contentStr]
       );
       console.log(`Saved content node ${filename} inside MySQL DB`);
-    } catch (err: any) {
+    } catch (err) {
       console.error(`Failed to save content ${filename} inside MySQL DB:`, err.message);
     }
   }
@@ -131,7 +131,7 @@ export async function saveContent(filename: string, content: any, contentDir: st
     }
     const localPath = path.join(contentDir, `${filename}.json`);
     fs.writeFileSync(localPath, contentStr, "utf-8");
-  } catch (err: any) {
+  } catch (err) {
     console.warn(`Local write skipped or failed (possibly read-only env) for ${filename}:`, err.message);
   }
 }
@@ -139,14 +139,13 @@ export async function saveContent(filename: string, content: any, contentDir: st
 /**
  * Lists all uploaded media assets
  */
-export async function listMedia(uploadsDir: string): Promise<any[]> {
-  // Let's get files list. We merge files from database and physical disk.
-  const assetsMap = new Map<string, any>();
+export async function listMedia(uploadsDir) {
+  const assetsMap = new Map();
 
   // 1. Load from DB
   if (isDbActive() && pool) {
     try {
-      const [rows]: [any[], any] = await pool.query(
+      const [rows] = await pool.query(
         "SELECT name, url, size, format, mtime FROM cms_media ORDER BY mtime DESC"
       );
       
@@ -159,7 +158,7 @@ export async function listMedia(uploadsDir: string): Promise<any[]> {
           format: row.format,
         });
       }
-    } catch (err: any) {
+    } catch (err) {
       console.error("Failed to read media catalog from MySQL DB:", err.message);
     }
   }
@@ -184,7 +183,7 @@ export async function listMedia(uploadsDir: string): Promise<any[]> {
         }
       }
     }
-  } catch (err: any) {
+  } catch (err) {
     console.error("Failed to read local files in uploads directory:", err.message);
   }
 
@@ -196,7 +195,7 @@ export async function listMedia(uploadsDir: string): Promise<any[]> {
 /**
  * Uploads a media asset to database and disk
  */
-export async function uploadMedia(name: string, url: string, size: number, format: string, base64: string, uploadsDir: string): Promise<any> {
+export async function uploadMedia(name, url, size, format, base64, uploadsDir) {
   // 1. Save in MySQL DB
   if (isDbActive() && pool) {
     try {
@@ -205,7 +204,7 @@ export async function uploadMedia(name: string, url: string, size: number, forma
         [name, url, size, format, base64, url, size, format, base64]
       );
       console.log(`Saved media metadata & base64 content inside MySQL: ${name}`);
-    } catch (err: any) {
+    } catch (err) {
       console.error(`Failed to store media ${name} in MySQL DB:`, err.message);
     }
   }
@@ -219,7 +218,7 @@ export async function uploadMedia(name: string, url: string, size: number, forma
     
     // Extract base64 buffer
     const matches = base64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
-    let buffer: Buffer;
+    let buffer;
     if (matches && matches.length === 3) {
       buffer = Buffer.from(matches[2], "base64");
     } else {
@@ -227,8 +226,8 @@ export async function uploadMedia(name: string, url: string, size: number, forma
     }
 
     fs.writeFileSync(cleanImagePath, buffer);
-  } catch (err: any) {
-    console.warn(`Local uploads write skipped or failed for ${name}:`, err.message);
+  } catch (err) {
+    console.warn(`Local uploads write skipped or failed for ${name}: `, err.message);
   }
 
   return { name, url, size, format };
@@ -237,11 +236,11 @@ export async function uploadMedia(name: string, url: string, size: number, forma
 /**
  * Retrieves dynamic image content from DB by name
  */
-export async function getMediaContent(name: string): Promise<{ base64: string; format: string } | null> {
+export async function getMediaContent(name) {
   if (!isDbActive() || !pool) return null;
 
   try {
-    const [rows]: [any[], any] = await pool.query(
+    const [rows] = await pool.query(
       "SELECT base64_data, format FROM cms_media WHERE name = ?",
       [name]
     );
@@ -252,7 +251,7 @@ export async function getMediaContent(name: string): Promise<{ base64: string; f
         format: rows[0].format,
       };
     }
-  } catch (err: any) {
+  } catch (err) {
     console.error(`Failed reading media content ${name} from MySQL DB:`, err.message);
   }
   return null;
@@ -261,17 +260,17 @@ export async function getMediaContent(name: string): Promise<{ base64: string; f
 /**
  * Purges media asset
  */
-export async function deleteMedia(name: string, uploadsDir: string): Promise<boolean> {
+export async function deleteMedia(name, uploadsDir) {
   let deletedAny = false;
 
   // 1. Delete from MySQL
   if (isDbActive() && pool) {
     try {
-      const [result]: any = await pool.query("DELETE FROM cms_media WHERE name = ?", [name]);
+      const [result] = await pool.query("DELETE FROM cms_media WHERE name = ?", [name]);
       if (result && result.affectedRows > 0) {
         deletedAny = true;
       }
-    } catch (err: any) {
+    } catch (err) {
       console.error(`Failed to purge media ${name} from MySQL DB:`, err.message);
     }
   }
@@ -283,7 +282,7 @@ export async function deleteMedia(name: string, uploadsDir: string): Promise<boo
       fs.unlinkSync(filePath);
       deletedAny = true;
     }
-  } catch (err: any) {
+  } catch (err) {
     console.warn(`Filesystem media unlink failed for ${name}:`, err.message);
   }
 
