@@ -9,6 +9,7 @@ import {
   Eye,
   Menu,
   ChevronRight,
+  ChevronLeft,
   Plus,
   Trash2,
   Lock,
@@ -631,6 +632,7 @@ export function AdminDashboard() {
   const [mediaSearch, setMediaSearch] = useState<string>("");
 
   // Users administration UI state
+  const [usersTabMode, setUsersTabMode] = useState<"list" | "add" | "edit">("list");
   const [editingUser, setEditingUser] = useState<UserProfile | null>(null);
   const [userFormUsername, setUserFormUsername] = useState<string>("");
   const [userFormPassword, setUserFormPassword] = useState<string>("");
@@ -640,55 +642,90 @@ export function AdminDashboard() {
 
   // Initializing database collections
   useEffect(() => {
-    // Read accounts database
-    const storedUsers = localStorage.getItem("angels_care_users");
-    let initialUsers: UserProfile[] = [];
-    if (storedUsers) {
-      try {
-        initialUsers = JSON.parse(storedUsers);
-      } catch (e) {
-        initialUsers = [];
-      }
-    }
-
-    if (initialUsers.length === 0) {
-      initialUsers = [
-        { id: "1", username: "admin", role: "admin", password: "godfrey2026" },
-        { id: "2", username: "manager", role: "content-manager", password: "angels2026" },
-      ];
-      localStorage.setItem("angels_care_users", JSON.stringify(initialUsers));
-    }
-    setUsers(initialUsers);
-
-    // Load active auth session
-    const loggedUserJson = localStorage.getItem("angels_care_logged_user");
-    if (loggedUserJson) {
-      try {
-        const profile = JSON.parse(loggedUserJson);
-        const matched = initialUsers.find((u) => u.username.toLowerCase() === profile.username.toLowerCase());
-        if (matched) {
-          setCurrentUser(matched);
-          setIsLogged(true);
+    // Fetch users first from the real database/backend
+    fetch("/api/users")
+      .then((res) => {
+        if (!res.ok) throw new Error("Could not fetch user database");
+        return res.json();
+      })
+      .then((usersData) => {
+        setUsers(usersData);
+        
+        // Load active auth session
+        const loggedUserJson = localStorage.getItem("angels_care_logged_user");
+        if (loggedUserJson) {
+          try {
+            const profile = JSON.parse(loggedUserJson);
+            const matched = usersData.find((u: UserProfile) => u.username.toLowerCase() === profile.username.toLowerCase());
+            if (matched) {
+              setCurrentUser(matched);
+              setIsLogged(true);
+            } else {
+              localStorage.removeItem("angels_care_logged_user");
+            }
+          } catch (e) {
+            localStorage.removeItem("angels_care_logged_user");
+          }
         } else {
-          localStorage.removeItem("angels_care_logged_user");
+          const legacyAuth = localStorage.getItem("angels_care_auth");
+          if (legacyAuth === "true") {
+            const defaultAdmin = usersData.find((u: UserProfile) => u.username === "admin") || usersData[0];
+            setCurrentUser(defaultAdmin);
+            setIsLogged(true);
+          }
         }
-      } catch (e) {
-        localStorage.removeItem("angels_care_logged_user");
-      }
-    } else {
-      const legacyAuth = localStorage.getItem("angels_care_auth");
-      if (legacyAuth === "true") {
-        const defaultAdmin = initialUsers.find((u) => u.username === "admin") || initialUsers[0];
-        setCurrentUser(defaultAdmin);
-        setIsLogged(true);
-      }
-    }
+      })
+      .catch((err) => {
+        console.error("Error loading users from database table, using local storage fallback:", err);
+        const storedUsers = localStorage.getItem("angels_care_users");
+        let initialUsers: UserProfile[] = [];
+        if (storedUsers) {
+          try {
+            initialUsers = JSON.parse(storedUsers);
+          } catch (e) {
+            initialUsers = [];
+          }
+        }
+        if (initialUsers.length === 0) {
+          initialUsers = [
+            { id: "1", username: "admin", role: "admin", password: "godfrey2026" },
+            { id: "2", username: "manager", role: "content-manager", password: "angels2026" },
+          ];
+        }
+        setUsers(initialUsers);
+
+        const loggedUserJson = localStorage.getItem("angels_care_logged_user");
+        if (loggedUserJson) {
+          try {
+            const profile = JSON.parse(loggedUserJson);
+            const matched = initialUsers.find((u: UserProfile) => u.username.toLowerCase() === profile.username.toLowerCase());
+            if (matched) {
+              setCurrentUser(matched);
+              setIsLogged(true);
+            }
+          } catch (e) {}
+        }
+      });
   }, []);
 
   // Sync users database helper
   const saveUsersToDB = (updatedList: UserProfile[]) => {
     setUsers(updatedList);
     localStorage.setItem("angels_care_users", JSON.stringify(updatedList));
+    
+    // Sync to MySQL / File database backend securely
+    fetch("/api/users", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updatedList),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("User database synchronization failure");
+        console.log("Users catalog updated securely in database.");
+      })
+      .catch((err) => {
+        console.error("Failed syncing users in database backend:", err);
+      });
   };
 
   // Fetch schema parameters
@@ -901,6 +938,7 @@ export function AdminDashboard() {
     setUserFormPassword("");
     setUserFormRole("content-manager");
     setUserFormError(null);
+    setUsersTabMode("add");
   };
 
   const handleOpenEditUser = (profile: UserProfile) => {
@@ -909,6 +947,7 @@ export function AdminDashboard() {
     setUserFormPassword(profile.password || "");
     setUserFormRole(profile.role);
     setUserFormError(null);
+    setUsersTabMode("edit");
   };
 
   const handleSaveUser = (e: React.FormEvent) => {
@@ -987,6 +1026,7 @@ export function AdminDashboard() {
     setUserFormUsername("");
     setUserFormPassword("");
     setUserFormRole("content-manager");
+    setUsersTabMode("list");
     setTimeout(() => setUserSuccessMessage(null), 4000);
   };
 
@@ -1515,202 +1555,218 @@ export function AdminDashboard() {
             {/* TAB 3: USERS ADMINISTRATION VIEW (Requirement 9) */}
             {navigationTab === "users" && currentUser?.role === "admin" && (
               <div className="space-y-6">
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-200 pb-4">
-                  <div>
-                    <h2 className="text-xl font-bold text-slate-850 text-slate-900 tracking-tight">
-                      Portal Operators & Accounts (CRUD)
-                    </h2>
-                    <p className="text-xs text-slate-500">
-                      View active portal sessions, manage operator access properties, or add new staff.
-                    </p>
-                  </div>
-
-                  <button
-                    onClick={handleOpenAddUser}
-                    className="px-4 py-2 bg-coral hover:bg-coral/95 text-white text-xs font-bold rounded-full flex items-center gap-1.5 shadow-sm transition-all cursor-pointer"
-                  >
-                    <UserPlus className="w-4 h-4" /> Add New Operator
-                  </button>
-                </div>
-
-                {/* CRUD messages */}
-                {userSuccessMessage && (
-                  <div className="flex items-center gap-2.5 p-4 rounded-xl border border-emerald-200 bg-emerald-50 text-emerald-850 text-xs shadow-sm">
-                    <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
-                    <span>{userSuccessMessage}</span>
-                  </div>
-                )}
-
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-                  {/* List of active users */}
-                  <div className="lg:col-span-2 space-y-4">
-                    <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
-                      <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
-                        <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider font-mono">
-                          Active Operators Accounts ({users.length})
-                        </h3>
-                      </div>
-
-                      <div className="divide-y divide-slate-100">
-                        {users.map((profile) => (
-                          <div key={profile.id} className="p-4 sm:p-5 flex items-center justify-between hover:bg-slate-50/50 transition-colors">
-                            <div className="flex items-center gap-3">
-                              <div className="w-10 h-10 rounded-full bg-slate-100 border border-slate-150 flex items-center justify-center text-slate-600 font-bold text-sm">
-                                {profile.username.slice(0, 2).toUpperCase()}
-                              </div>
-                              <div>
-                                <div className="text-xs font-bold text-slate-800 flex items-center gap-2">
-                                  <span>{profile.username}</span>
-                                  {currentUser?.id === profile.id && (
-                                    <span className="text-[9px] bg-slate-100 text-slate-500 px-1 py-0.2 rounded font-medium">
-                                      Your Profile
-                                    </span>
-                                  )}
-                                </div>
-                                <span className={`text-[9px] font-bold px-1.5 py-0.2 rounded font-mono uppercase mt-1 inline-block ${
-                                  profile.role === "admin"
-                                    ? "bg-coral/10 text-coral border border-coral/10"
-                                    : "bg-teal-50 text-teal-700 border border-teal-100"
-                                }`}>
-                                  {profile.role === "admin" ? "System Admin" : "Content Manager"}
-                                </span>
-                              </div>
-                            </div>
-
-                            <div className="flex items-center gap-2">
-                              {/* Edit triggers */}
-                              <button
-                                onClick={() => handleOpenEditUser(profile)}
-                                className="px-3 py-1.5 bg-slate-50 border border-slate-200 hover:bg-slate-100 text-slate-700 text-xs font-bold rounded-lg transition-colors cursor-pointer"
-                              >
-                                Edit Profile
-                              </button>
-
-                              {/* Delete triggers (disabled on current user) */}
-                              <button
-                                onClick={() => handleDeleteUser(profile)}
-                                disabled={currentUser?.id === profile.id}
-                                className={`p-2 rounded-lg border transition-colors ${
-                                  currentUser?.id === profile.id
-                                    ? "bg-slate-50 border-slate-100 text-slate-300 cursor-not-allowed"
-                                    : "bg-red-50 border-red-200 hover:bg-red-100 text-red-650 text-red-600 cursor-pointer"
-                                }`}
-                                title={currentUser?.id === profile.id ? "Cannot delete yourself" : "Delete profile"}
-                              >
-                                <Trash2 className="w-3.5 h-3.5" />
-                              </button>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Form for Add/Edit users */}
-                  <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm space-y-4">
-                    <div className="border-b border-slate-100 pb-3">
-                      <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider font-mono flex items-center gap-1.5">
-                        <ShieldCheck className="w-4 h-4 text-coral" />{" "}
-                        {editingUser ? "Configure Operator Profile" : "Register Operator Module"}
-                      </h3>
-                      <p className="text-[10px] text-slate-400 mt-1">
-                        {editingUser
-                          ? `Updating credentials for user "${editingUser.username}"`
-                          : "Provide credentials below to register a portal manager"}
-                      </p>
-                    </div>
-
-                    <form onSubmit={handleSaveUser} className="space-y-4">
-                      {userFormError && (
-                        <div className="p-3 bg-red-50 border border-red-200 text-red-600 text-xs rounded-lg flex items-start gap-1.5 leading-relaxed">
-                          <AlertCircle className="w-4 h-4 shrink-0 text-red-505 mt-0.5" />
-                          <span>{userFormError}</span>
-                        </div>
-                      )}
-
+                {usersTabMode === "list" ? (
+                  <>
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-200 pb-4">
                       <div>
-                        <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">
-                          Account Username
-                        </label>
-                        <input
-                          type="text"
-                          value={userFormUsername}
-                          onChange={(e) => setUserFormUsername(e.target.value)}
-                          placeholder="e.g. joshua"
-                          required
-                          className="w-full px-3.5 py-2.5 bg-white border border-slate-200 focus:border-coral focus:ring-1 focus:ring-coral text-slate-800 outline-none text-xs rounded-lg transition-colors"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">
-                          CMS Access Password
-                        </label>
-                        <input
-                          type="password"
-                          value={userFormPassword}
-                          onChange={(e) => setUserFormPassword(e.target.value)}
-                          placeholder="••••••••••••"
-                          required
-                          className="w-full px-3.5 py-2.5 bg-white border border-slate-200 focus:border-coral focus:ring-1 focus:ring-coral text-slate-800 outline-none text-xs rounded-lg transition-colors"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5 font-semibold">
-                          System Role Level
-                        </label>
-                        <div className="grid grid-cols-2 gap-2">
-                          <button
-                            type="button"
-                            onClick={() => setUserFormRole("content-manager")}
-                            className={`px-3 py-2 text-xs font-bold border rounded-lg transition-colors text-center cursor-pointer ${
-                              userFormRole === "content-manager"
-                                ? "bg-coral/10 border-coral text-coral"
-                                : "bg-white border-slate-200 text-slate-650 hover:bg-slate-50"
-                            }`}
-                          >
-                            Content Manager
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => setUserFormRole("admin")}
-                            className={`px-3 py-2 text-xs font-bold border rounded-lg transition-colors text-center cursor-pointer ${
-                              userFormRole === "admin"
-                                ? "bg-coral/10 border-coral text-coral"
-                                : "bg-white border-slate-200 text-slate-650 hover:bg-slate-50"
-                            }`}
-                          >
-                            Administrator
-                          </button>
-                        </div>
-                        <p className="text-[9px] text-slate-400 mt-1.5 font-medium leading-normal">
-                          {userFormRole === "admin"
-                            ? "Admins can do anything on the dashboard, modify contents, and add/edit/delete other user profiles."
-                            : "Content managers can edit site schemas page nodes and upload files, but cannot touch user permissions."}
+                        <h2 className="text-xl font-bold text-slate-850 text-slate-900 tracking-tight flex items-center gap-2">
+                          <Users className="w-5 h-5 text-coral shrink-0" />
+                          <span>Portal Operators & Accounts (CRUD)</span>
+                        </h2>
+                        <p className="text-xs text-slate-500">
+                          View active portal sessions, manage operator access properties, or add new staff.
                         </p>
                       </div>
 
-                      <div className="flex gap-2 pt-2 border-t border-slate-100">
-                        {editingUser && (
-                          <button
-                            type="button"
-                            onClick={handleOpenAddUser}
-                            className="flex-grow py-2 border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-bold rounded-lg transition-colors cursor-pointer"
-                          >
-                            Cancel
-                          </button>
-                        )}
-                        <button
-                          type="submit"
-                          className="flex-grow py-2 bg-coral hover:bg-coral/95 text-white text-xs font-bold rounded-lg shadow-sm transition-all active:scale-[0.98] cursor-pointer"
-                        >
-                          {editingUser ? "Save Operator Profile" : "Activate Operator"}
-                        </button>
+                      <button
+                        onClick={handleOpenAddUser}
+                        className="px-4 py-2 bg-coral hover:bg-coral/95 text-white text-xs font-bold rounded-full flex items-center gap-1.5 shadow-sm transition-all cursor-pointer"
+                      >
+                        <UserPlus className="w-4 h-4" /> Add New Operator
+                      </button>
+                    </div>
+
+                    {/* CRUD messages */}
+                    {userSuccessMessage && (
+                      <div className="flex items-center gap-2.5 p-4 rounded-xl border border-emerald-200 bg-emerald-50 text-emerald-850 text-xs shadow-sm">
+                        <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
+                        <span>{userSuccessMessage}</span>
                       </div>
-                    </form>
-                  </div>
-                </div>
+                    )}
+
+                    <div className="max-w-4xl space-y-4">
+                      <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+                        <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+                          <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider font-mono">
+                            Active Operators Accounts ({users.length})
+                          </h3>
+                        </div>
+
+                        <div className="divide-y divide-slate-100">
+                          {users.map((profile) => (
+                            <div key={profile.id} className="p-4 sm:p-5 flex items-center justify-between hover:bg-slate-50/50 transition-colors">
+                              <div className="flex items-center gap-3">
+                                <div className="w-10 h-10 rounded-full bg-slate-100 border border-slate-150 flex items-center justify-center text-slate-600 font-bold text-sm">
+                                  {profile.username.slice(0, 2).toUpperCase()}
+                                </div>
+                                <div>
+                                  <div className="text-xs font-bold text-slate-800 flex items-center gap-2">
+                                    <span>{profile.username}</span>
+                                    {currentUser?.id === profile.id && (
+                                      <span className="text-[9px] bg-slate-100 text-slate-500 px-1 py-0.2 rounded font-medium">
+                                        Your Profile
+                                      </span>
+                                    )}
+                                  </div>
+                                  <span className={`text-[9px] font-bold px-1.5 py-0.2 rounded font-mono uppercase mt-1 inline-block ${
+                                    profile.role === "admin"
+                                      ? "bg-coral/10 text-coral border border-coral/10"
+                                      : "bg-teal-50 text-teal-700 border border-teal-100"
+                                  }`}>
+                                    {profile.role === "admin" ? "System Admin" : "Content Manager"}
+                                  </span>
+                                </div>
+                              </div>
+
+                              <div className="flex items-center gap-2">
+                                {/* Edit triggers */}
+                                <button
+                                  onClick={() => handleOpenEditUser(profile)}
+                                  className="px-3 py-1.5 bg-slate-50 border border-slate-200 hover:bg-slate-100 text-slate-700 text-xs font-bold rounded-lg transition-colors cursor-pointer"
+                                >
+                                  Edit Profile
+                                </button>
+
+                                {/* Delete triggers (disabled on current user) */}
+                                <button
+                                  onClick={() => handleDeleteUser(profile)}
+                                  disabled={currentUser?.id === profile.id}
+                                  className={`p-2 rounded-lg border transition-colors ${
+                                    currentUser?.id === profile.id
+                                      ? "bg-slate-50 border-slate-100 text-slate-300 cursor-not-allowed"
+                                      : "bg-red-50 border-red-200 hover:bg-red-100 text-red-650 text-red-600 cursor-pointer"
+                                  }`}
+                                  title={currentUser?.id === profile.id ? "Cannot delete yourself" : "Delete profile"}
+                                >
+                                  <Trash2 className="w-3.5 h-3.5" />
+                                </button>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex items-center gap-4 border-b border-slate-200 pb-4">
+                      <button
+                        onClick={() => setUsersTabMode("list")}
+                        className="p-2 bg-white hover:bg-slate-50 border border-slate-200 text-slate-650 hover:text-slate-900 rounded-full transition-all shadow-sm cursor-pointer"
+                        title="Back to Operators List"
+                      >
+                        <ChevronLeft className="w-5 h-5 shrink-0" />
+                      </button>
+                      <div>
+                        <h2 className="text-xl font-bold text-slate-850 text-slate-900 tracking-tight">
+                          {usersTabMode === "edit" ? "Edit Operator Credentials" : "Add New System Operator"}
+                        </h2>
+                        <p className="text-xs text-slate-500 font-medium">
+                          {usersTabMode === "edit" ? `Modify user profiles settings for "${editingUser?.username}"` : "Register a new operator with credentials level"}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="max-w-xl mx-auto pt-6">
+                      <div className="bg-white border border-slate-200 rounded-2xl p-6 md:p-8 shadow-sm space-y-6">
+                        <div className="border-b border-slate-100 pb-4">
+                          <h3 className="text-sm font-bold text-slate-800 uppercase tracking-wider font-mono flex items-center gap-1.5 font-semibold">
+                            <ShieldCheck className="w-5 h-5 text-coral shrink-0" />{" "}
+                            {editingUser ? "Configure Operator Profile" : "Register Operator Module"}
+                          </h3>
+                        </div>
+
+                        <form onSubmit={handleSaveUser} className="space-y-6">
+                          {userFormError && (
+                            <div className="p-4 bg-red-50 border border-red-200 text-red-600 text-xs rounded-xl flex items-start gap-2.5 leading-relaxed">
+                              <AlertCircle className="w-4 h-4 shrink-0 text-red-500 mt-0.5" />
+                              <span>{userFormError}</span>
+                            </div>
+                          )}
+
+                          <div>
+                            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-2">
+                              Account Username
+                            </label>
+                            <input
+                              type="text"
+                              value={userFormUsername}
+                              onChange={(e) => setUserFormUsername(e.target.value)}
+                              placeholder="e.g. joshua"
+                              required
+                              className="w-full px-4 py-3 bg-white border border-slate-200 focus:border-coral focus:ring-1 focus:ring-coral text-slate-800 outline-none text-xs rounded-xl transition-colors shadow-sm"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-2">
+                              CMS Access Password
+                            </label>
+                            <input
+                              type="password"
+                              value={userFormPassword}
+                              onChange={(e) => setUserFormPassword(e.target.value)}
+                              placeholder="••••••••••••"
+                              required
+                              className="w-full px-4 py-3 bg-white border border-slate-200 focus:border-coral focus:ring-1 focus:ring-coral text-slate-800 outline-none text-xs rounded-xl transition-colors shadow-sm"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-2">
+                              System Role Level
+                            </label>
+                            <div className="grid grid-cols-2 gap-3">
+                              <button
+                                type="button"
+                                onClick={() => setUserFormRole("content-manager")}
+                                className={`px-4 py-3 text-xs font-bold border rounded-xl transition-all text-center cursor-pointer ${
+                                  userFormRole === "content-manager"
+                                    ? "bg-coral/10 border-coral text-coral shadow-sm shadow-coral/5"
+                                    : "bg-white border-slate-200 text-slate-650 hover:bg-slate-50"
+                                }`}
+                              >
+                                Content Manager
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => setUserFormRole("admin")}
+                                className={`px-4 py-3 text-xs font-bold border rounded-xl transition-all text-center cursor-pointer ${
+                                  userFormRole === "admin"
+                                    ? "bg-coral/10 border-coral text-coral shadow-sm shadow-coral/5"
+                                    : "bg-white border-slate-200 text-slate-650 hover:bg-slate-50"
+                                }`}
+                              >
+                                Administrator
+                              </button>
+                            </div>
+                            <p className="text-[11px] text-slate-400 mt-2 font-medium leading-relaxed">
+                              {userFormRole === "admin"
+                                ? "Admins can do anything on the dashboard, modify contents, and add/edit/delete other user profiles."
+                                : "Content managers can edit site schemas page nodes and upload files, but cannot touch user permissions."}
+                            </p>
+                          </div>
+
+                          <div className="flex gap-3 pt-4 border-t border-slate-100">
+                            <button
+                              type="button"
+                              onClick={() => setUsersTabMode("list")}
+                              className="flex-grow py-3 border border-slate-300 text-slate-700 text-xs font-bold rounded-xl transition-colors cursor-pointer"
+                            >
+                              Cancel
+                            </button>
+                            <button
+                              type="submit"
+                              className="flex-grow py-3 bg-coral hover:bg-coral/95 text-white text-xs font-bold rounded-xl shadow-md cursor-pointer hover:shadow-coral/10 transition-all active:scale-[0.98]"
+                            >
+                              {editingUser ? "Save Operator Profile" : "Activate Operator"}
+                            </button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
             )}
           </main>

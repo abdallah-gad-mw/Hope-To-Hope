@@ -206,6 +206,43 @@ async function startServer() {
     }
   });
 
+  // API to load users list from MySQL/disk database
+  app.get("/api/users", async (req, res) => {
+    try {
+      const defaultUsers = [
+        { id: "1", username: "admin", role: "admin", password: "godfrey2026" },
+        { id: "2", username: "manager", role: "content-manager", password: "angels2026" },
+      ];
+      try {
+        const data = await loadContent("users", contentDir);
+        if (data && Array.isArray(data) && data.length > 0) {
+          return res.json(data);
+        }
+      } catch (err) {
+        console.warn("Could not load users database, initializing with default credentials:", err.message);
+      }
+      // Seed if missing
+      await saveContent("users", defaultUsers, contentDir);
+      return res.json(defaultUsers);
+    } catch (e) {
+      return res.status(500).json({ error: e.message || "Failed reading user profile catalog database" });
+    }
+  });
+
+  // API to save user list dynamically inside database
+  app.post("/api/users", async (req, res) => {
+    try {
+      const usersList = req.body;
+      if (!Array.isArray(usersList)) {
+        return res.status(400).json({ error: "Invalid users payload list sequence" });
+      }
+      await saveContent("users", usersList, contentDir);
+      return res.json({ success: true });
+    } catch (e) {
+      return res.status(500).json({ error: e.message || "Failed writing user profile catalog database" });
+    }
+  });
+
   // Vite middleware setup or stable file serving
   const useStatic = process.env.NODE_ENV === "production" || fs.existsSync(path.join(distPath, "index.html"));
 
