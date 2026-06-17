@@ -1,21 +1,12 @@
 /* eslint-disable */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
-  LayoutDashboard,
   FileText,
   Save,
   LogOut,
-  FolderOpen,
   Image as ImageIcon,
   Key,
-  Database,
   Eye,
-  Settings,
-  Grid,
-  Sparkles,
-  CheckCircle,
-  AlertCircle,
-  FileJson,
   Menu,
   ChevronRight,
   Plus,
@@ -24,11 +15,18 @@ import {
   Upload,
   Copy,
   Info,
-  Server,
-  FileCheck2,
+  Users,
+  User,
+  ShieldCheck,
+  UserPlus,
+  X,
+  Search,
+  CheckCircle,
+  AlertCircle,
 } from "lucide-react";
+import logo from "../assets/angels-care-logo.webp.asset.json";
 
-// Security configuration
+// Security configuration configurations
 const ADMIN_USER = "admin";
 const ADMIN_PASS = "godfrey2026";
 
@@ -58,7 +56,7 @@ const CONTENT_SCHEMAS: ContentSchema[] = [
       { section: "Hero Section", label: "Subtitle Text", key: "hero.subtitle", type: "textarea" },
       { section: "Hero Section", label: "Primary Button Text", key: "hero.primaryBtn", type: "text" },
       { section: "Hero Section", label: "Secondary Button Text", key: "hero.secondaryBtn", type: "text" },
-      { section: "Hero Section", label: "Hero Banner Image Route", key: "hero.image", type: "text", description: "Upload in Media Library and paste URL here" },
+      { section: "Hero Section", label: "Hero Banner Image Route", key: "hero.image", type: "text", description: "Upload in Media Library and select the file" },
       { section: "Purpose Section", label: "Badge", key: "purpose.badge", type: "text" },
       { section: "Purpose Section", label: "Main Header", key: "purpose.title", type: "text" },
       { section: "Purpose Section", label: "Paragraphs", key: "purpose.paragraphs", type: "array-text" },
@@ -239,6 +237,13 @@ interface MediaAsset {
   mtime: string;
 }
 
+interface UserProfile {
+  id: string;
+  username: string;
+  role: "admin" | "content-manager";
+  password?: string;
+}
+
 // Convert camelCase or snake_case to separated title case for human readability
 function formatLabel(str: string): string {
   const result = str
@@ -249,6 +254,14 @@ function formatLabel(str: string): string {
   return result.charAt(0).toUpperCase() + result.slice(1);
 }
 
+interface AdminContextType {
+  openMediaPicker: (path: string) => void;
+  mediaList: MediaAsset[];
+  fetchMedia: () => void;
+}
+
+const AdminContext = React.createContext<AdminContextType | null>(null);
+
 interface RenderValueProps {
   value: any;
   path: string;
@@ -257,24 +270,120 @@ interface RenderValueProps {
 }
 
 // Recursive dynamic component to edit any depth of JSON fields
-function RenderValue({
-  value,
-  path,
-  label,
-  onValueChange,
-}: RenderValueProps) {
-  const isImageKey = label.toLowerCase().includes("image") || path.toLowerCase().includes("image") || label.toLowerCase().includes("logo");
-  const isUrlKey = label.toLowerCase().includes("url") || path.toLowerCase().includes("url") || label.toLowerCase().includes("link") || path.toLowerCase().includes("link");
+function RenderValue({ value, path, label, onValueChange }: RenderValueProps) {
+  const adminCtx = useContext(AdminContext);
+  const isImageKey =
+    label.toLowerCase().includes("image") ||
+    path.toLowerCase().includes("image") ||
+    label.toLowerCase().includes("logo") ||
+    label.toLowerCase().includes("pic") ||
+    path.toLowerCase().includes("pic");
+  const isUrlKey =
+    label.toLowerCase().includes("url") ||
+    path.toLowerCase().includes("url") ||
+    label.toLowerCase().includes("link") ||
+    path.toLowerCase().includes("link");
 
   if (typeof value === "string") {
-    const isLongText = value.length > 70 || value.includes("\n") || label.toLowerCase().includes("desc") || label.toLowerCase().includes("subtitle") || label.toLowerCase().includes("text") || label.toLowerCase().includes("paragraph") || label.toLowerCase().includes("lead") || label.toLowerCase().includes("quote") || label.toLowerCase().includes("msg");
+    // Advanced Image Upload and Picker visual field
+    if (isImageKey) {
+      return (
+        <div className="space-y-2 bg-slate-50 border border-slate-200 p-4 rounded-xl shadow-sm" id={`field-${path}`}>
+          <div className="flex items-center justify-between">
+            <label className="text-xs font-semibold text-slate-700 font-sans">
+              {formatLabel(label)} (Image Asset)
+            </label>
+            <span className="text-[9px] font-mono text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded">
+              {path}
+            </span>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <div className="w-24 h-24 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center overflow-hidden shrink-0 shadow-inner relative group">
+              {value ? (
+                <>
+                  <img
+                    src={value}
+                    alt={label}
+                    referrerPolicy="no-referrer"
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      e.currentTarget.style.display = "none";
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+                    <span className="text-[10px] text-white font-medium">Image active</span>
+                  </div>
+                </>
+              ) : (
+                <div className="text-center p-2 text-slate-400">
+                  <span className="text-[10px] block font-medium">Unset</span>
+                </div>
+              )}
+            </div>
+
+            <div className="flex-grow space-y-2 w-full">
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={() => adminCtx?.openMediaPicker(path)}
+                  className="px-3 py-1.5 bg-coral hover:bg-coral/95 text-white rounded-lg text-xs font-semibold transition-colors flex items-center gap-1.5 shadow-sm"
+                >
+                  <ImageIcon className="w-3.5 h-3.5" /> Choose from Library
+                </button>
+
+                {value && (
+                  <button
+                    type="button"
+                    onClick={() => onValueChange(path, "")}
+                    className="px-3 py-1.5 bg-white border border-red-200 text-red-600 hover:bg-red-50 rounded-lg text-xs font-semibold transition-colors flex items-center gap-1.5"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" /> Remove Image
+                  </button>
+                )}
+              </div>
+
+              <div className="text-[10px] text-slate-500 truncate max-w-lg leading-relaxed">
+                URL Route: <code className="bg-slate-100 px-1 rounded text-slate-800 break-all">{value || "(empty)"}</code>
+              </div>
+            </div>
+          </div>
+
+          {/* Expand manual override */}
+          <details className="mt-1 text-[11px] text-slate-500">
+            <summary className="cursor-pointer text-slate-400 hover:text-slate-600 font-medium select-none">
+              Override Image path manually
+            </summary>
+            <input
+              type="text"
+              value={value}
+              onChange={(e) => onValueChange(path, e.target.value)}
+              placeholder="e.g. /uploads/image-name.png"
+              className="w-full mt-1.5 px-3 py-2 bg-white border border-slate-200 focus:border-coral focus:ring-1 focus:ring-coral text-slate-850 rounded-lg text-xs transition-colors"
+            />
+          </details>
+        </div>
+      );
+    }
+
+    const isLongText =
+      value.length > 70 ||
+      value.includes("\n") ||
+      label.toLowerCase().includes("desc") ||
+      label.toLowerCase().includes("subtitle") ||
+      label.toLowerCase().includes("text") ||
+      label.toLowerCase().includes("paragraph") ||
+      label.toLowerCase().includes("lead") ||
+      label.toLowerCase().includes("quote") ||
+      label.toLowerCase().includes("msg");
+
     return (
       <div className="space-y-1.5" id={`field-${path}`}>
         <div className="flex items-center justify-between">
-          <label className="text-xs font-semibold text-slate-300 font-sans">
+          <label className="text-xs font-semibold text-slate-700 font-sans">
             {formatLabel(label)}
           </label>
-          <span className="text-[9px] font-mono text-slate-500 bg-slate-900/60 px-1.5 py-0.5 rounded">
+          <span className="text-[9px] font-mono text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded">
             {path}
           </span>
         </div>
@@ -283,19 +392,19 @@ function RenderValue({
             value={value}
             onChange={(e) => onValueChange(path, e.target.value)}
             rows={value.length > 200 ? 5 : 3}
-            className="w-full px-4 py-2.5 bg-[#111118]/80 border border-[#2c2c43] focus:border-[#4945ff] focus:outline-none focus:ring-1 focus:ring-[#4945ff] text-slate-200 rounded-lg text-xs font-sans leading-relaxed"
+            className="w-full px-4 py-2.5 bg-white border border-slate-200 focus:border-coral focus:outline-none focus:ring-1 focus:ring-coral text-slate-800 rounded-lg text-xs leading-relaxed transition-colors"
           />
         ) : (
           <input
             type="text"
             value={value}
             onChange={(e) => onValueChange(path, e.target.value)}
-            className="w-full px-4 py-2.5 bg-[#111118]/80 border border-[#2c2c43] focus:border-[#4945ff] focus:outline-none focus:ring-1 focus:ring-[#4945ff] text-slate-200 rounded-lg text-xs"
+            className="w-full px-4 py-2.5 bg-white border border-slate-200 focus:border-coral focus:outline-none focus:ring-1 focus:ring-coral text-slate-800 rounded-lg text-xs transition-colors"
           />
         )}
-        {(isImageKey || isUrlKey) && !path.startsWith("navigation") && (
-          <p className="text-[10px] text-indigo-400 italic">
-            ℹ️ Reference path. You can upload files in the Media Library to copy their absolute URLs here.
+        {isUrlKey && !path.startsWith("navigation") && (
+          <p className="text-[10px] text-coral/85 italic">
+            ℹ️ Reference URL path. Use media library values to paste directory locations here.
           </p>
         )}
       </div>
@@ -306,10 +415,10 @@ function RenderValue({
     return (
       <div className="space-y-1.5" id={`field-${path}`}>
         <div className="flex items-center justify-between">
-          <label className="text-xs font-semibold text-slate-300">
+          <label className="text-xs font-semibold text-slate-700">
             {formatLabel(label)}
           </label>
-          <span className="text-[9px] font-mono text-slate-500 bg-slate-900/60 px-1.5 py-0.5 rounded">
+          <span className="text-[9px] font-mono text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded">
             {path}
           </span>
         </div>
@@ -317,7 +426,7 @@ function RenderValue({
           type="number"
           value={value}
           onChange={(e) => onValueChange(path, parseFloat(e.target.value) || 0)}
-          className="w-full px-4 py-2.5 bg-[#111118]/80 border border-[#2c2c43] focus:border-[#4945ff] focus:outline-none focus:ring-1 focus:ring-[#4945ff] text-slate-200 rounded-lg text-xs"
+          className="w-full px-4 py-2.5 bg-white border border-slate-200 focus:border-coral focus:outline-none focus:ring-1 focus:ring-coral text-slate-800 rounded-lg text-xs transition-colors"
         />
       </div>
     );
@@ -325,12 +434,12 @@ function RenderValue({
 
   if (typeof value === "boolean") {
     return (
-      <div className="flex items-center justify-between py-2 border-b border-[#212134]/40" id={`field-${path}`}>
+      <div className="flex items-center justify-between py-2 border-b border-slate-100" id={`field-${path}`}>
         <div className="flex flex-col">
-          <label className="text-xs font-semibold text-slate-300">
+          <label className="text-xs font-semibold text-slate-700">
             {formatLabel(label)}
           </label>
-          <span className="text-[9px] font-mono text-slate-500">
+          <span className="text-[9px] font-mono text-slate-400">
             {path}
           </span>
         </div>
@@ -338,7 +447,7 @@ function RenderValue({
           type="checkbox"
           checked={value}
           onChange={(e) => onValueChange(path, e.target.checked)}
-          className="h-4 w-4 bg-[#111118]/80 border border-[#2c2c43] text-[#4945ff] focus:ring-[#4945ff] rounded"
+          className="h-4 w-4 bg-white border-slate-300 text-coral focus:ring-coral rounded accent-coral"
         />
       </div>
     );
@@ -349,13 +458,13 @@ function RenderValue({
 
     if (isPrimitiveArray) {
       return (
-        <div className="space-y-3 bg-[#181826]/30 border border-[#212134]/70 p-4 rounded-xl" id={`field-${path}`}>
+        <div className="space-y-3 bg-slate-50 border border-slate-200 p-4 rounded-xl" id={`field-${path}`}>
           <div className="flex items-center justify-between">
-            <label className="text-xs font-bold text-[#b682ff] uppercase tracking-wider font-mono">
+            <label className="text-xs font-bold text-coral/90 uppercase tracking-wider font-mono">
               {formatLabel(label)} List
             </label>
-            <span className="text-[9px] font-mono text-slate-500">
-              {path} (List Array)
+            <span className="text-[9px] font-mono text-slate-450 border border-slate-100 bg-white px-2 py-0.5 rounded">
+              {path}
             </span>
           </div>
           <div className="space-y-2">
@@ -369,7 +478,7 @@ function RenderValue({
                     onValueChange(path, copy);
                   }}
                   rows={2}
-                  className="flex-grow px-4 py-2 bg-[#111118]/80 border border-[#2c2c43] focus:border-[#4945ff] text-slate-200 rounded-lg text-xs"
+                  className="flex-grow px-4 py-2 bg-white border border-slate-200 focus:border-coral focus:ring-1 focus:ring-coral text-slate-800 rounded-lg text-xs transition-colors"
                 />
                 <button
                   type="button"
@@ -377,9 +486,9 @@ function RenderValue({
                     const copy = value.filter((_, i) => i !== idx);
                     onValueChange(path, copy);
                   }}
-                  className="p-2 bg-red-950/20 hover:bg-red-950/40 text-red-400 rounded-lg border border-red-900/30 transition-colors mt-1"
+                  className="p-2 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg border border-red-250 transition-colors mt-1"
                 >
-                  <Plus className="w-4 h-4 rotate-45 text-red-400" />
+                  <Plus className="w-4 h-4 rotate-45 text-red-500" />
                 </button>
               </div>
             ))}
@@ -389,29 +498,31 @@ function RenderValue({
             onClick={() => {
               onValueChange(path, [...value, ""]);
             }}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-[#212134] hover:bg-[#2c2c43] text-slate-300 rounded-lg text-[10px] font-semibold transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 rounded-lg text-[10px] font-semibold transition-colors shadow-sm"
           >
-            <Plus className="w-3.5 h-3.5 text-[#4945ff]" /> Add {formatLabel(label)} Box Block
+            <Plus className="w-3.5 h-3.5 text-coral" /> Add {formatLabel(label)} Block Line
           </button>
         </div>
       );
     } else {
       // Collection of rich items / objects (e.g., stats, navigation nodes, rows)
       return (
-        <div className="space-y-4 bg-[#181826]/20 border border-[#212134]/50 p-4 rounded-xl" id={`field-${path}`}>
+        <div className="space-y-4 bg-slate-50 border border-slate-200 p-4 rounded-xl" id={`field-${path}`}>
           <div className="flex items-center justify-between">
-            <h4 className="text-xs font-bold text-[#a362ff] uppercase tracking-wider font-mono">
-              {formatLabel(label)} List Group ({value.length} nodes)
+            <h4 className="text-xs font-bold text-coral/90 uppercase tracking-wider font-mono">
+              {formatLabel(label)} List Group ({value.length} items)
             </h4>
-            <span className="text-[9px] font-mono text-slate-500 bg-slate-900/40 px-2 py-0.5 rounded">{path}</span>
+            <span className="text-[9px] font-mono text-slate-400 bg-white border border-slate-150 px-2 py-0.5 rounded">
+              {path}
+            </span>
           </div>
 
           <div className="space-y-4">
             {value.map((item: any, idx: number) => (
-              <div key={idx} className="bg-[#111118]/50 border border-[#2c2c43] p-4.5 rounded-xl space-y-4 relative shadow-sm">
-                <div className="flex justify-between items-center border-b border-[#212134]/40 pb-2">
-                  <span className="text-[10px] font-semibold text-[#8a7eff] tracking-wider font-mono">
-                    INDEX MATCH ITEM #{idx + 1}
+              <div key={idx} className="bg-white border border-slate-200 p-4 rounded-xl space-y-4 relative shadow-sm">
+                <div className="flex justify-between items-center border-b border-slate-105 pb-2">
+                  <span className="text-[10px] font-semibold text-slate-500 tracking-wider font-mono">
+                    GRID ITEM INDEX #{idx + 1}
                   </span>
                   <button
                     type="button"
@@ -419,9 +530,9 @@ function RenderValue({
                       const copy = value.filter((_, i) => i !== idx);
                       onValueChange(path, copy);
                     }}
-                    className="p-1.5 bg-red-950/20 text-red-500 hover:text-red-400 hover:bg-red-950/40 rounded border border-red-900/25 transition-all"
+                    className="p-1.5 bg-red-50 text-red-600 hover:bg-red-100 rounded border border-red-200 transition-colors"
                   >
-                    <Plus className="w-3.5 h-3.5 rotate-45 text-red-400" />
+                    <Plus className="w-3.5 h-3.5 rotate-45 text-red-500" />
                   </button>
                 </div>
 
@@ -443,14 +554,15 @@ function RenderValue({
           <button
             type="button"
             onClick={() => {
-              const template = value.length > 0 
-                ? JSON.parse(JSON.stringify(value[value.length - 1])) 
-                : { label: "New Node", to: "" };
+              const template =
+                value.length > 0
+                  ? JSON.parse(JSON.stringify(value[value.length - 1]))
+                  : { label: "New Node", to: "" };
               onValueChange(path, [...value, template]);
             }}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-[#4945ff]/10 hover:bg-[#4945ff]/20 text-[#a362ff] rounded-lg text-xs font-semibold border border-[#4945ff]/30 transition-colors"
+            className="flex items-center gap-1.5 px-3 py-2 bg-coral/10 hover:bg-coral/15 text-coral rounded-lg text-xs font-bold border border-coral/20 transition-colors"
           >
-            <Plus className="w-3.5 h-3.5" /> Append List Node
+            <Plus className="w-3.5 h-3.5" /> Append List Item
           </button>
         </div>
       );
@@ -460,12 +572,12 @@ function RenderValue({
   if (typeof value === "object" && value !== null) {
     // Subsection object
     return (
-      <div className="bg-[#181826]/30 border border-[#212134]/50 p-5 rounded-xl space-y-5" id={`field-${path}`}>
-        <div className="flex items-center justify-between border-b border-[#212134]/30 pb-2.5">
-          <h4 className="text-xs font-bold text-slate-300 uppercase tracking-widest font-mono flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#4945ff]" /> {formatLabel(label)}
+      <div className="bg-slate-50 border border-slate-200 p-5 rounded-xl space-y-5" id={`field-${path}`}>
+        <div className="flex items-center justify-between border-b border-slate-200 pb-2.5">
+          <h4 className="text-xs font-bold text-slate-800 uppercase tracking-widest font-mono flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-coral animate-ping" /> {formatLabel(label)}
           </h4>
-          <span className="text-[9px] font-mono text-slate-500">
+          <span className="text-[9px] font-mono text-slate-400 bg-white border border-slate-100 px-2 py-0.5 rounded">
             {path || "root"}
           </span>
         </div>
@@ -493,42 +605,96 @@ export function AdminDashboard() {
   const [password, setPassword] = useState<string>("");
   const [loginError, setLoginError] = useState<string | null>(null);
 
-  // Strapi Side Menu Modes
-  const [navigationTab, setNavigationTab] = useState<"content-manager" | "media-library" | "settings">("content-manager");
+  // Users roles management persistence database model
+  const [users, setUsers] = useState<UserProfile[]>([]);
+  const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
 
-  // Content Manager states
+  // Active workspace selector: "media-library" | "content-manager" | "users"
+  const [navigationTab, setNavigationTab] = useState<"media-library" | "content-manager" | "users">("media-library");
+
+  // Content Manager fields
   const [selectedSchema, setSelectedSchema] = useState<ContentSchema>(CONTENT_SCHEMAS[0]);
   const [contentPayload, setContentPayload] = useState<any>(null);
-  const [jsonText, setJsonText] = useState<string>("");
   const [jsonError, setJsonError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<"visual" | "raw">("visual");
   const [saving, setSaving] = useState<boolean>(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
 
-  // Media Library states
+  // Media Library catalog uploader
   const [mediaList, setMediaList] = useState<MediaAsset[]>([]);
   const [uploadLoading, setUploadLoading] = useState<boolean>(false);
   const [copiedFile, setCopiedFile] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState<boolean>(false);
 
-  // Settings states
-  const [currentPass, setCurrentPass] = useState<string>("");
-  const [newPass, setNewPass] = useState<string>("");
-  const [settingsMessage, setSettingsMessage] = useState<string | null>(null);
+  // Media Picker Popup selector
+  const [activeMediaPickerField, setActiveMediaPickerField] = useState<{ path: string } | null>(null);
+  const [mediaSearch, setMediaSearch] = useState<string>("");
 
-  // Authenticate session on client localstorage
+  // Users administration UI state
+  const [editingUser, setEditingUser] = useState<UserProfile | null>(null);
+  const [userFormUsername, setUserFormUsername] = useState<string>("");
+  const [userFormPassword, setUserFormPassword] = useState<string>("");
+  const [userFormRole, setUserFormRole] = useState<"admin" | "content-manager">("content-manager");
+  const [userFormError, setUserFormError] = useState<string | null>(null);
+  const [userSuccessMessage, setUserSuccessMessage] = useState<string | null>(null);
+
+  // Initializing database collections
   useEffect(() => {
-    const auth = localStorage.getItem("angels_care_auth");
-    if (auth === "true") {
-      setIsLogged(true);
+    // Read accounts database
+    const storedUsers = localStorage.getItem("angels_care_users");
+    let initialUsers: UserProfile[] = [];
+    if (storedUsers) {
+      try {
+        initialUsers = JSON.parse(storedUsers);
+      } catch (e) {
+        initialUsers = [];
+      }
+    }
+
+    if (initialUsers.length === 0) {
+      initialUsers = [
+        { id: "1", username: "admin", role: "admin", password: "godfrey2026" },
+        { id: "2", username: "manager", role: "content-manager", password: "angels2026" },
+      ];
+      localStorage.setItem("angels_care_users", JSON.stringify(initialUsers));
+    }
+    setUsers(initialUsers);
+
+    // Load active auth session
+    const loggedUserJson = localStorage.getItem("angels_care_logged_user");
+    if (loggedUserJson) {
+      try {
+        const profile = JSON.parse(loggedUserJson);
+        const matched = initialUsers.find((u) => u.username.toLowerCase() === profile.username.toLowerCase());
+        if (matched) {
+          setCurrentUser(matched);
+          setIsLogged(true);
+        } else {
+          localStorage.removeItem("angels_care_logged_user");
+        }
+      } catch (e) {
+        localStorage.removeItem("angels_care_logged_user");
+      }
+    } else {
+      const legacyAuth = localStorage.getItem("angels_care_auth");
+      if (legacyAuth === "true") {
+        const defaultAdmin = initialUsers.find((u) => u.username === "admin") || initialUsers[0];
+        setCurrentUser(defaultAdmin);
+        setIsLogged(true);
+      }
     }
   }, []);
 
-  // Fetch content files in Content Manager
+  // Sync users database helper
+  const saveUsersToDB = (updatedList: UserProfile[]) => {
+    setUsers(updatedList);
+    localStorage.setItem("angels_care_users", JSON.stringify(updatedList));
+  };
+
+  // Fetch schema parameters
   useEffect(() => {
     if (!isLogged || navigationTab !== "content-manager") return;
-    
+
     fetch(`/api/content/${selectedSchema.file}`)
       .then((res) => {
         if (!res.ok) throw new Error("File lookup failed.");
@@ -540,19 +706,17 @@ export function AdminDashboard() {
       })
       .then((data) => {
         setContentPayload(data);
-        setJsonText(JSON.stringify(data, null, 2));
         setJsonError(null);
         setMessage(null);
       })
       .catch((err) => {
         console.error(err);
         setContentPayload(null);
-        setJsonText("");
         setJsonError(`Failed to fetch initial file payload from the API server: ${err.message || err}`);
       });
   }, [selectedSchema, isLogged, navigationTab]);
 
-  // Fetch files in Media Library
+  // Fetch Media Storage
   const fetchMedia = () => {
     fetch("/api/media")
       .then((res) => {
@@ -568,29 +732,34 @@ export function AdminDashboard() {
   };
 
   useEffect(() => {
-    if (isLogged && navigationTab === "media-library") {
+    if (isLogged) {
       fetchMedia();
     }
-  }, [navigationTab, isLogged]);
+  }, [isLogged]);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    const storedPass = localStorage.getItem("angels_care_pass") || ADMIN_PASS;
-    if (username.toLowerCase() === ADMIN_USER && password === storedPass) {
+    const query = username.toLowerCase().trim();
+    const matched = users.find((u) => u.username.toLowerCase() === query);
+
+    if (matched && matched.password === password) {
       localStorage.setItem("angels_care_auth", "true");
+      localStorage.setItem("angels_care_logged_user", JSON.stringify(matched));
+      setCurrentUser(matched);
       setIsLogged(true);
       setLoginError(null);
     } else {
-      setLoginError("Invalid administrator credentials. Please check details and try again.");
+      setLoginError("Invalid administrator or content manager credentials. Please check details.");
     }
   };
 
   const handleLogout = () => {
     localStorage.removeItem("angels_care_auth");
+    localStorage.removeItem("angels_care_logged_user");
+    setCurrentUser(null);
     setIsLogged(false);
   };
 
-  // Helper helper to format bytes size beautifully
   const formatBytes = (bytes: number): string => {
     if (bytes === 0) return "0 Bytes";
     const k = 1024;
@@ -599,8 +768,8 @@ export function AdminDashboard() {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + " " + sizes[i];
   };
 
-  // Helper helper to handle direct file uploads via input/FileReader uploader
-  const processUpload = (file: File) => {
+  // Process and save local uploads
+  const processUpload = (file: File, selectForFieldPath?: string) => {
     if (!file) return;
     setUploadLoading(true);
     const reader = new FileReader();
@@ -617,10 +786,16 @@ export function AdminDashboard() {
         .then((data) => {
           if (data.success) {
             fetchMedia();
-            setMessage({ type: "success", text: `Asset "${data.name}" successfully stored inside physical media catalog!` });
+            if (selectForFieldPath) {
+              handleFieldChange(selectForFieldPath, data.url);
+              setActiveMediaPickerField(null);
+              setMessage({ type: "success", text: `Asset stored and selected inside the current image slot!` });
+            } else {
+              setMessage({ type: "success", text: `Asset "${data.name}" stored in the local catalog!` });
+            }
             setTimeout(() => setMessage(null), 4000);
           } else {
-            setMessage({ type: "error", text: data.error || "File save failed" });
+            setMessage({ type: "error", text: data.error || "File upload save failed" });
           }
         })
         .catch((err) => {
@@ -642,7 +817,7 @@ export function AdminDashboard() {
       .then(() => {
         fetchMedia();
       })
-      .catch((err) => console.error("Error purging item", err));
+      .catch((err) => console.error("Error purging media item", err));
   };
 
   const handleCopyUrl = (url: string) => {
@@ -651,41 +826,12 @@ export function AdminDashboard() {
     setTimeout(() => setCopiedFile(null), 2000);
   };
 
-  const handleUpdatePassword = (e: React.FormEvent) => {
-    e.preventDefault();
-    const storedPass = localStorage.getItem("angels_care_pass") || ADMIN_PASS;
-    if (currentPass !== storedPass) {
-      setSettingsMessage("Error: The current password you entered is incorrect.");
-      return;
-    }
-    if (newPass.length < 5) {
-      setSettingsMessage("Error: New password must be at least 5 characters long.");
-      return;
-    }
-    localStorage.setItem("angels_care_pass", newPass);
-    setSettingsMessage("Success! Access credentials updated securely.");
-    setCurrentPass("");
-    setNewPass("");
-    setTimeout(() => setSettingsMessage(null), 4000);
-  };
-
-  // Form manipulation mechanics
-  const getNestedValue = (obj: any, pathStr: string): any => {
-    if (!obj) return "";
-    const parts = pathStr.split(".");
-    let current = obj;
-    for (const part of parts) {
-      if (current === null || current === undefined || current[part] === undefined) return "";
-      current = current[part];
-    }
-    return current;
-  };
-
+  // Form value nested handlers
   const setNestedValue = (obj: any, pathStr: string, val: any): any => {
     const copy = JSON.parse(JSON.stringify(obj));
     const parts = pathStr.split(".");
     let current = copy;
-    
+
     for (let i = 0; i < parts.length - 1; i++) {
       const part = parts[i];
       const nextPart = parts[i + 1];
@@ -696,7 +842,7 @@ export function AdminDashboard() {
       }
       current = current[part];
     }
-    
+
     current[parts[parts.length - 1]] = val;
     return copy;
   };
@@ -704,26 +850,9 @@ export function AdminDashboard() {
   const handleFieldChange = (key: string, val: any) => {
     const updated = setNestedValue(contentPayload, key, val);
     setContentPayload(updated);
-    setJsonText(JSON.stringify(updated, null, 2));
-  };
-
-  const handleRawJsonChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const text = e.target.value;
-    setJsonText(text);
-    try {
-      const parsed = JSON.parse(text);
-      setJsonError(null);
-      setContentPayload(parsed);
-    } catch (err: any) {
-      setJsonError(`Malformed JSON syntax: ${err.message}`);
-    }
   };
 
   const handleSave = () => {
-    if (jsonError) {
-      setMessage({ type: "error", text: "Please fix JSON syntax validations before publishing." });
-      return;
-    }
     setSaving(true);
     setMessage(null);
 
@@ -747,7 +876,7 @@ export function AdminDashboard() {
       });
   };
 
-  // Drag-and-drop mechanics
+  // Drag and drop mechanics
   const onDragOver = (e: React.DragEvent) => {
     e.preventDefault();
     setIsDragging(true);
@@ -765,43 +894,161 @@ export function AdminDashboard() {
     processUpload(file);
   };
 
+  // Users management CRUD functions
+  const handleOpenAddUser = () => {
+    setEditingUser(null);
+    setUserFormUsername("");
+    setUserFormPassword("");
+    setUserFormRole("content-manager");
+    setUserFormError(null);
+  };
+
+  const handleOpenEditUser = (profile: UserProfile) => {
+    setEditingUser(profile);
+    setUserFormUsername(profile.username);
+    setUserFormPassword(profile.password || "");
+    setUserFormRole(profile.role);
+    setUserFormError(null);
+  };
+
+  const handleSaveUser = (e: React.FormEvent) => {
+    e.preventDefault();
+    setUserFormError(null);
+    setUserSuccessMessage(null);
+
+    const nameQuery = userFormUsername.trim();
+    if (!nameQuery) {
+      setUserFormError("Username field is required.");
+      return;
+    }
+
+    if (userFormPassword.length < 5) {
+      setUserFormError("Password keys must be at least 5 characters long.");
+      return;
+    }
+
+    // Creating new account
+    if (!editingUser) {
+      const duplicate = users.find((u) => u.username.toLowerCase() === nameQuery.toLowerCase());
+      if (duplicate) {
+        setUserFormError("Account username is already in use by another operator.");
+        return;
+      }
+
+      const generatedId = (Math.max(...users.map((u) => parseInt(u.id) || 0)) + 1).toString();
+      const newUserProfile: UserProfile = {
+        id: generatedId,
+        username: nameQuery,
+        role: userFormRole,
+        password: userFormPassword,
+      };
+
+      const updated = [...users, newUserProfile];
+      saveUsersToDB(updated);
+      setUserSuccessMessage(`Operator account "${nameQuery}" successfully activated!`);
+    } else {
+      // Editing existing account
+      const duplicate = users.find(
+        (u) => u.username.toLowerCase() === nameQuery.toLowerCase() && u.id !== editingUser.id
+      );
+      if (duplicate) {
+        setUserFormError("Account username is already in use by another operator.");
+        return;
+      }
+
+      const updated = users.map((u) => {
+        if (u.id === editingUser.id) {
+          return {
+            ...u,
+            username: nameQuery,
+            role: userFormRole,
+            password: userFormPassword,
+          };
+        }
+        return u;
+      });
+
+      saveUsersToDB(updated);
+
+      // If updating ourself, sync memory
+      if (currentUser && currentUser.id === editingUser.id) {
+        const matchingCurrent = updated.find((u) => u.id === currentUser.id);
+        if (matchingCurrent) {
+          setCurrentUser(matchingCurrent);
+          localStorage.setItem("angels_care_logged_user", JSON.stringify(matchingCurrent));
+        }
+      }
+
+      setUserSuccessMessage(`Operator account credentials successfully synced!`);
+    }
+
+    // Refresh settings
+    setEditingUser(null);
+    setUserFormUsername("");
+    setUserFormPassword("");
+    setUserFormRole("content-manager");
+    setTimeout(() => setUserSuccessMessage(null), 4000);
+  };
+
+  const handleDeleteUser = (profile: UserProfile) => {
+    if (currentUser && currentUser.id === profile.id) {
+      alert("Error: You cannot delete your own active administrator profile session!");
+      return;
+    }
+
+    if (!confirm(`Are you sure you want to permanently delete user "${profile.username}"?`)) return;
+
+    const filtered = users.filter((u) => u.id !== profile.id);
+    saveUsersToDB(filtered);
+    setUserSuccessMessage(`Account operator "${profile.username}" deleted successfully.`);
+    setTimeout(() => setUserSuccessMessage(null), 4000);
+  };
+
+  const openMediaPicker = (path: string) => {
+    setActiveMediaPickerField({ path });
+    setMediaSearch("");
+  };
+
+  // LIGHT WHITE THEME STYLE CONSTANTS
+  const isThemeLight = true;
+
   if (!isLogged) {
     return (
-      <div className="min-h-screen bg-[#111118] flex flex-col justify-center items-center px-4 font-sans select-none relative overflow-hidden">
+      <div className="min-h-screen bg-slate-50 flex flex-col justify-center items-center px-4 font-sans select-none relative overflow-hidden">
         {/* Glow ambient design effects */}
-        <div className="absolute top-[10%] left-[20%] w-[350px] h-[350px] rounded-full bg-[#4945ff]/10 blur-[130px]" />
-        <div className="absolute bottom-[10%] right-[20%] w-[350px] h-[350px] rounded-full bg-[#a362ff]/10 blur-[130px]" />
+        <div className="absolute top-[10%] left-[20%] w-[350px] h-[350px] rounded-full bg-coral/5 blur-[120px]" />
+        <div className="absolute bottom-[10%] right-[20%] w-[350px] h-[350px] rounded-full bg-coral/10 blur-[120px]" />
 
-        <div className="w-full max-w-md bg-[#181826] border border-[#212134] rounded-2xl shadow-2xl p-8 backdrop-blur-md z-10 transition-transform hover:scale-[1.01]">
-          <div className="flex flex-col items-center mb-8">
-            <div className="w-16 h-16 bg-[#4945ff] rounded-2xl flex items-center justify-center shadow-lg border border-white/10 mb-4 animate-pulse">
-              <Lock className="w-7 h-7 text-white" />
+        <div className="w-full max-w-md bg-white border border-slate-200 rounded-2xl shadow-xl p-8 backdrop-blur-md z-10 transition-transform hover:scale-[1.01]">
+          <div className="flex flex-col items-center mb-6">
+            <div className="h-12 w-auto mb-4">
+              <img src={logo.url} alt="Angels Care Uganda" className="h-10 w-auto" />
             </div>
-            <h1 className="text-xl font-bold tracking-tight text-white mb-2 font-mono flex items-center gap-2">
-              <Database className="w-4 h-4 text-[#a362ff]" /> Strapi v5 Admin
+            <h1 className="text-lg font-bold tracking-tight text-slate-800 mb-1 flex items-center gap-2">
+              Angels Care Admin Center
             </h1>
-            <p className="text-xs text-slate-400 text-center uppercase tracking-widest font-mono">
-              SYSTEM IDENTIFICATION CONTROL MODULE
+            <p className="text-[10px] text-slate-400 text-center uppercase tracking-widest font-mono">
+              SECURE CMS CONTROL MODULE
             </p>
           </div>
 
-          <form onSubmit={handleLogin} className="space-y-6">
+          <form onSubmit={handleLogin} className="space-y-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-300 uppercase tracking-widest mb-2">
-                Administrator Username
+              <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1.5">
+                Operator Username
               </label>
               <input
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder="e.g. admin"
-                className="w-full px-4 py-3 bg-[#111118] border border-[#2c2c43] focus:border-[#4945ff] focus:outline-none focus:ring-1 focus:ring-[#4945ff] text-slate-200 rounded-lg text-sm transition-colors"
+                className="w-full px-4 py-2.5 bg-white border border-slate-200 focus:border-coral focus:outline-none focus:ring-1 focus:ring-coral text-slate-800 rounded-lg text-xs transition-colors"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-300 uppercase tracking-widest mb-2">
+              <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1.5">
                 CMS Access Password
               </label>
               <input
@@ -809,328 +1056,450 @@ export function AdminDashboard() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••••••••"
-                className="w-full px-4 py-3 bg-[#111118] border border-[#2c2c43] focus:border-[#4945ff] focus:outline-none focus:ring-1 focus:ring-[#4945ff] text-slate-200 rounded-lg text-sm transition-colors"
+                className="w-full px-4 py-2.5 bg-white border border-slate-200 focus:border-coral focus:outline-none focus:ring-1 focus:ring-coral text-slate-800 rounded-lg text-xs transition-colors"
                 required
               />
             </div>
 
             {loginError && (
-              <div className="flex items-start gap-2 p-3 bg-red-900/30 border border-red-900/40 text-red-400 rounded-lg text-xs leading-relaxed">
-                <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+              <div className="flex items-start gap-2 p-3 bg-red-50 border border-red-200 text-red-600 rounded-lg text-xs leading-relaxed">
+                <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-red-500" />
                 <span>{loginError}</span>
               </div>
             )}
 
             <button
               type="submit"
-              className="w-full py-3 bg-[#4945ff] hover:bg-[#4d49ff] active:scale-[0.99] font-semibold text-white rounded-lg text-sm shadow-lg tracking-wider transition-all duration-150 flex items-center justify-center gap-2"
+              className="w-full py-2.5 bg-coral hover:bg-coral/95 active:scale-[0.99] font-bold text-white rounded-lg text-xs tracking-wide transition-all duration-150 flex items-center justify-center gap-2 shadow-sm cursor-pointer"
             >
-              <Key className="w-4 h-4" /> Authenticate Access
+              <Lock className="w-3.5 h-3.5" /> Authenticate Operator
             </button>
           </form>
 
-          <div className="mt-8 pt-6 border-t border-[#26263b] flex items-center justify-between text-[11px] text-slate-500 font-mono">
+          <div className="mt-6 pt-5 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400 font-mono">
             <span>Embedded Gateway</span>
-            <span>v5.2.0-stable</span>
+            <span>v5.2-Angels-Stable</span>
           </div>
         </div>
       </div>
     );
   }
 
+  // Filter lists inside picker
+  const filteredPickerMedia = mediaList.filter((m) => m.name.toLowerCase().includes(mediaSearch.toLowerCase()));
+
   return (
-    <div className="min-h-screen bg-[#111118] flex flex-col font-sans text-slate-200">
-      {/* CMS TOP BAR */}
-      <header className="bg-[#181826] border-b border-[#212134] px-4 py-3.5 flex items-center justify-between shadow-md z-10">
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-1.5 hover:bg-[#212134] rounded-lg text-slate-400"
-          >
-            <Menu className="w-5 h-5" />
-          </button>
-          <div className="w-9 h-9 bg-[#4945ff] rounded-xl flex items-center justify-center shadow-md border border-white/10">
-            <Sparkles className="w-4 h-4 text-white" />
-          </div>
-          <div>
-            <h1 className="text-sm font-bold tracking-tight text-white flex items-center gap-1.5">
-              <span>Angels Care Ugandan Command Center</span>
-              <span className="text-[10px] bg-[#4945ff]/20 text-[#7366ff] px-2 py-0.5 rounded font-mono border border-[#4945ff]/40">
-                Strapi v5 Core
-              </span>
-            </h1>
-            <p className="text-[10px] text-slate-400 tracking-wider">SECURE headless file synchronization engine</p>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-3">
-          <a
-            href="/"
-            className="hidden sm:flex items-center gap-1.5 text-[11px] font-semibold text-slate-300 hover:text-white bg-[#212134] hover:bg-[#28283e] px-3.5 py-2 rounded-lg border border-[#2c2c43] transition-colors"
-          >
-            <Eye className="w-3.5 h-3.5" /> View Live Application
-          </a>
-          <button
-            onClick={handleLogout}
-            className="flex items-center gap-1 text-[11px] font-semibold text-red-400 hover:text-red-300 bg-red-950/20 hover:bg-red-950/45 px-3 py-2 rounded-lg border border-red-900/35 transition-all"
-          >
-            <LogOut className="w-3.5 h-3.5" /> Logout
-          </button>
-        </div>
-      </header>
-
-      {/* CORE SPLIT SCREEN */}
-      <div className="flex-grow flex relative">
-        {/* SIDE BAR NAVIGATION (Strapi design) */}
-        <nav
-          className={`${
-            mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
-          } md:translate-x-0 transition-transform duration-200 ease-in-out absolute md:relative z-20 w-64 md:w-72 bg-[#181826] border-r border-[#212134] p-4 h-full md:h-auto flex flex-col space-y-5 overflow-y-auto shrink-0`}
-        >
-          {/* Main sections selectors */}
-          <div className="space-y-1">
-            <h2 className="text-[10px] font-bold text-slate-500 tracking-wider uppercase px-2 mb-2">
-              Strapi Core Modules
-            </h2>
+    <AdminContext.Provider value={{ openMediaPicker, mediaList, fetchMedia }}>
+      <div className="h-screen w-screen max-h-screen flex flex-col font-sans bg-slate-50 text-slate-800 overflow-hidden">
+        {/* WEBSITES REAL COHESIVE TOP CMS BAR */}
+        <header className="bg-white border-b border-slate-200 px-6 h-16 shrink-0 flex items-center justify-between z-10 shadow-sm">
+          <div className="flex items-center gap-3">
             <button
-              onClick={() => { setNavigationTab("content-manager"); setMobileMenuOpen(false); }}
-              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-left text-xs transition-colors ${
-                navigationTab === "content-manager"
-                  ? "bg-[#4945ff] text-white font-semibold"
-                  : "text-slate-300 hover:bg-[#212134] hover:text-white"
-              }`}
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-1.5 hover:bg-slate-100 rounded-lg text-slate-600 cursor-pointer"
             >
-              <span className="flex items-center gap-2.5">
-                <Database className="w-4 h-4 shrink-0" />
-                <span>Content Manager</span>
-              </span>
+              <Menu className="w-5 h-5" />
             </button>
-
-            <button
-              onClick={() => { setNavigationTab("media-library"); setMobileMenuOpen(false); }}
-              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-left text-xs transition-colors ${
-                navigationTab === "media-library"
-                  ? "bg-[#4945ff] text-white font-semibold"
-                  : "text-slate-300 hover:bg-[#212134] hover:text-white"
-              }`}
-            >
-              <span className="flex items-center gap-2.5">
-                <ImageIcon className="w-4 h-4 shrink-0" />
-                <span>Media Library</span>
-              </span>
-            </button>
-
-            <button
-              onClick={() => { setNavigationTab("settings"); setMobileMenuOpen(false); }}
-              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-left text-xs transition-colors ${
-                navigationTab === "settings"
-                  ? "bg-[#4945ff] text-white font-semibold"
-                  : "text-slate-300 hover:bg-[#212134] hover:text-white"
-              }`}
-            >
-              <span className="flex items-center gap-2.5">
-                <Settings className="w-4 h-4 shrink-0" />
-                <span>Settings</span>
-              </span>
-            </button>
-          </div>
-
-          {/* Render child selection lists ONLY when Content Manager is active */}
-          {navigationTab === "content-manager" && (
-            <div className="flex-grow space-y-5 pt-3 border-t border-[#212134]">
-              {/* Single Types */}
-              <div className="space-y-1">
-                <h3 className="text-[10px] font-bold text-slate-500 tracking-wider uppercase px-2 mb-2">
-                  Single Types
-                </h3>
-                {CONTENT_SCHEMAS.filter((s) => s.type === "single").map((schema) => (
-                  <button
-                    key={schema.id}
-                    onClick={() => {
-                      setSelectedSchema(schema);
-                      setMobileMenuOpen(false);
-                    }}
-                    className={`w-full flex items-center justify-between px-3 py-1.5 rounded-md text-left text-xs transition-colors ${
-                      selectedSchema.id === schema.id
-                        ? "bg-[#4945ff]/15 text-[#a362ff] font-semibold border-l-2 border-[#4945ff]"
-                        : "text-slate-300 hover:bg-[#212134]/60 hover:text-white"
-                    }`}
-                  >
-                    <span className="flex items-center gap-2 truncate">
-                      <FileText className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                      <span>{schema.name}</span>
-                    </span>
-                    <ChevronRight className="w-3 h-3 text-slate-600" />
-                  </button>
-                ))}
-              </div>
-
-              {/* Collection Types */}
-              <div className="space-y-1">
-                <h3 className="text-[10px] font-bold text-slate-500 tracking-wider uppercase px-2 mb-2">
-                  Collection Types
-                </h3>
-                {CONTENT_SCHEMAS.filter((s) => s.type === "collection").map((schema) => (
-                  <button
-                    key={schema.id}
-                    onClick={() => {
-                      setSelectedSchema(schema);
-                      setMobileMenuOpen(false);
-                    }}
-                    className={`w-full flex items-center justify-between px-3 py-1.5 rounded-md text-left text-xs transition-colors ${
-                      selectedSchema.id === schema.id
-                        ? "bg-[#a362ff]/15 text-[#a362ff] font-semibold border-l-2 border-[#a362ff]"
-                        : "text-slate-300 hover:bg-[#212134]/60 hover:text-white"
-                    }`}
-                  >
-                    <span className="flex items-center gap-2 truncate">
-                      <Grid className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                      <span>{schema.name}</span>
-                    </span>
-                    <ChevronRight className="w-3 h-3 text-slate-600" />
-                  </button>
-                ))}
+            <div className="flex items-center gap-2">
+              <img src={logo.url} alt="Angels Care Uganda Logo" className="h-8 w-auto" />
+              <div className="hidden sm:block">
+                <h1 className="text-xs font-bold tracking-tight text-slate-800 flex items-center gap-1">
+                  <span>Angels Care Portal</span>
+                </h1>
+                <p className="text-[9px] text-slate-401 tracking-wider text-slate-400">Headless File Synchronization Module</p>
               </div>
             </div>
-          )}
-
-          <div className="flex-grow" />
-
-          {/* Persistent Connection Indicator of Sidebar */}
-          <div className="bg-[#111118] rounded-xl p-3 border border-[#212134] text-[11px] text-slate-400 font-sans">
-            <div className="font-semibold text-slate-300 mb-1.5 flex items-center gap-1.5">
-              <Server className="w-3.5 h-3.5 text-emerald-400" /> Strapi v5 Gateway
-            </div>
-            File synchronization systems are fully active. Data writes map directly inside production JSON resources.
           </div>
-        </nav>
 
-        {/* MAIN PANEL CONTENT WINDOW */}
-        <main className="flex-grow p-4 md:p-8 flex flex-col space-y-6 overflow-y-auto max-h-[calc(100vh-68px)] selection:bg-[#4945ff]/35 selection:text-white select-text">
-          
-          {/* TAB 1: CONTENT MANAGER */}
-          {navigationTab === "content-manager" && (
-            <>
-              {/* Workspace Title bar */}
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-[#212134] pb-5">
-                <div>
-                  <div className="flex items-center gap-2 text-xs text-slate-400 font-medium mb-1">
-                    <span>Strapi Core Collections Manager</span>
-                    <span>/</span>
-                    <span className="text-[#a362ff] capitalize font-mono text-[11px]">
-                      {selectedSchema.type} schema
-                    </span>
-                  </div>
-                  <h2 className="text-xl font-extrabold text-white tracking-tight flex items-center gap-2">
-                    {selectedSchema.name}
-                  </h2>
-                </div>
+          <div className="flex items-center gap-3">
+            <a
+              href="/"
+              target="_blank"
+              className="hidden md:flex items-center gap-1.5 text-xs font-semibold text-slate-650 hover:text-coral bg-slate-50 border border-slate-200 px-4 py-2 rounded-full transition-colors"
+            >
+              <Eye className="w-3.5 h-3.5" /> View Website
+            </a>
 
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={handleSave}
-                    disabled={saving || !!jsonError}
-                    className={`px-4.5 py-2.5 rounded-lg text-xs font-semibold shadow-md border flex items-center gap-1.5 transition-all ${
-                      saving
-                        ? "bg-[#1f1e2f] border-[#2e2b47] text-slate-400 cursor-not-allowed"
-                        : "bg-[#4945ff] hover:bg-[#403dfa] border-indigo-400 text-white active:scale-[0.98]"
+            {/* NEW ADMIN PROFILE DROPDOWN MENU AT TOP HEADER (Requirement 9) */}
+            <div className="flex items-center gap-2.5 border-l border-slate-200 pl-4 py-1">
+              <div className="w-8 h-8 rounded-full bg-coral/10 border border-coral/25 text-coral flex items-center justify-center font-bold text-xs shadow-inner">
+                {currentUser ? currentUser.username.slice(0, 2).toUpperCase() : "OP"}
+              </div>
+              <div className="hidden sm:block text-left pr-1">
+                <div className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                  <span className="truncate max-w-[80px]">{currentUser?.username}</span>
+                  <span
+                    className={`text-[9px] font-extrabold px-1.5 py-0.2 rounded font-mono uppercase tracking-wider ${
+                      currentUser?.role === "admin"
+                        ? "bg-coral/10 text-coral border border-coral/15"
+                        : "bg-teal-50 text-teal-700 border border-teal-150"
                     }`}
                   >
-                    <Save className="w-4 h-4" /> {saving ? "Publishing schemas..." : "Publish Content Node"}
-                  </button>
+                    {currentUser?.role === "admin" ? "Admin" : "Editor"}
+                  </span>
                 </div>
+                <p className="text-[9px] text-slate-400 capitalize">Role session active</p>
               </div>
+            </div>
 
-              {/* Feedback Alert banners */}
-              {message && (
-                <div
-                  className={`flex items-start gap-2.5 p-4 rounded-xl border text-xs leading-relaxed transition-all ${
-                    message.type === "success"
-                      ? "bg-emerald-950/35 border-emerald-900/40 text-emerald-400"
-                      : "bg-red-950/35 border-red-900/40 text-red-400"
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-1 text-[11px] font-bold text-red-500 hover:text-red-600 bg-red-50 hover:bg-red-100/80 px-3.5 py-2 rounded-full border border-red-150 transition-all cursor-pointer"
+            >
+              <LogOut className="w-3.5 h-3.5" /> Logout
+            </button>
+          </div>
+        </header>
+
+        {/* CORE FRAME LAYOUT */}
+        <div className="flex-grow flex h-[calc(100vh-64px)] overflow-hidden relative">
+          {/* SIDEBAR NAVIGATION (Requirement 7 desktop viewport containment) */}
+          <nav
+            className={`${
+              mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+            } md:translate-x-0 transition-transform duration-200 ease-in-out absolute md:relative z-20 w-64 md:w-72 bg-white border-r border-slate-205 p-5 h-full flex flex-col space-y-5 overflow-y-auto shrink-0 shadow-sm`}
+          >
+            <div className="space-y-4">
+              <h2 className="text-[10px] font-bold text-slate-400 tracking-wider uppercase px-2">
+                Core Workspace Modules
+              </h2>
+
+              <div className="space-y-1">
+                {/* MEDIA LIBRARY TO BE THE 1st TAB (Requirement 4) */}
+                <button
+                  onClick={() => {
+                    setNavigationTab("media-library");
+                    setMobileMenuOpen(false);
+                  }}
+                  className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-left text-xs transition-all cursor-pointer ${
+                    navigationTab === "media-library"
+                      ? "bg-coral text-white font-bold shadow-md shadow-coral/10"
+                      : "text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-medium"
                   }`}
                 >
-                  {message.type === "success" ? (
-                    <CheckCircle className="w-4 h-4 shrink-0 mt-0.5 text-emerald-500" />
-                  ) : (
-                    <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-red-500" />
-                  )}
-                  <span>{message.text}</span>
-                </div>
-              )}
+                  <span className="flex items-center gap-2.5">
+                    <ImageIcon className="w-4 h-4 shrink-0" />
+                    <span>Media Library Catalog</span>
+                  </span>
+                </button>
 
-              {/* Workspace Layout Tabs */}
-              <div className="flex items-center justify-between border-b border-[#212134] pb-px">
-                <div className="flex gap-2 text-xs">
+                {/* USERS TAB (Requirement 9) */}
+                {currentUser?.role === "admin" && (
                   <button
-                    onClick={() => setActiveTab("visual")}
-                    className={`pb-3 px-3 relative font-semibold transition-colors ${
-                      activeTab === "visual" ? "text-white border-b-2 border-[#4945ff]" : "text-slate-400 hover:text-slate-200"
+                    onClick={() => {
+                      setNavigationTab("users");
+                      setMobileMenuOpen(false);
+                    }}
+                    className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-left text-xs transition-all cursor-pointer ${
+                      navigationTab === "users"
+                        ? "bg-coral text-white font-bold shadow-md shadow-coral/10"
+                        : "text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-medium"
                     }`}
                   >
-                    <span className="flex items-center gap-1.5">
-                      <Settings className="w-3.5 h-3.5 text-[#4945ff]" /> Visual Entry Block Form
+                    <span className="flex items-center gap-2.5">
+                      <Users className="w-4 h-4 shrink-0" />
+                      <span>System Operators (CRUD)</span>
                     </span>
                   </button>
-                  <button
-                    onClick={() => setActiveTab("raw")}
-                    className={`pb-3 px-3 relative font-semibold transition-colors ${
-                      activeTab === "raw" ? "text-white border-b-2 border-[#4945ff]" : "text-slate-400 hover:text-slate-200"
-                    }`}
-                  >
-                    <span className="flex items-center gap-1.5">
-                      <FileJson className="w-3.5 h-3.5 text-[#4945ff]" /> Raw API JSON Editor
-                    </span>
-                  </button>
-                </div>
-                
-                <span className="text-[10px] text-slate-500 font-mono">
-                  Schema source path: src/content/{selectedSchema.file}.json
-                </span>
+                )}
               </div>
+            </div>
 
-              {/* RENDER SCHEMA DATA */}
-              {!contentPayload ? (
-                <div className="flex-grow flex flex-col justify-center items-center py-16 text-slate-500 text-xs text-center border border-[#212134] rounded-2xl bg-[#181826]/20 p-8 space-y-4">
-                  {jsonError ? (
-                    <div className="space-y-4 max-w-sm">
-                      <AlertCircle className="w-10 h-10 text-red-500 mx-auto" />
-                      <h3 className="text-sm font-bold text-white">API Gateway Status</h3>
-                      <p className="text-slate-400 leading-relaxed text-[11px]">
-                        Failed to fetch initial file payload for <strong>{selectedSchema.file}</strong>.
-                        This may happen if the database credentials in your host server are still establishing. 
-                      </p>
-                      <button 
+            {/* SINGLE TYPES COLLAPSIBLE - ALWAYS VISIBLE BELOW MAIN NAVIGATION (Requirement 5) */}
+            <div className="flex-grow space-y-4 pt-4 border-t border-slate-100">
+              <div className="space-y-1">
+                <h3 className="text-[10px] font-bold text-slate-400 tracking-wider uppercase px-2 mb-2">
+                  Pages & content types
+                </h3>
+
+                {CONTENT_SCHEMAS.filter((s) => s.type === "single").map((schema) => {
+                  const isActive = navigationTab === "content-manager" && selectedSchema.id === schema.id;
+                  const isHopeStoriesItem = schema.id === "hope_stories";
+
+                  return (
+                    <div key={schema.id} className="space-y-1">
+                      <button
                         onClick={() => {
-                          setJsonError(null);
-                          // trigger schema fetch reload by setting key trigger
-                          const prev = selectedSchema;
-                          setSelectedSchema({ ...prev });
+                          setSelectedSchema(schema);
+                          setNavigationTab("content-manager");
+                          setMobileMenuOpen(false);
                         }}
-                        className="px-4 py-2 bg-[#4945ff] hover:bg-[#5a56ff] text-white text-xs font-bold rounded-lg transition-all active:scale-95 shadow-md shadow-[#4945ff]/20"
+                        className={`w-full flex items-center justify-between px-3.5 py-2 rounded-lg text-left text-xs transition-all cursor-pointer ${
+                          isActive
+                            ? "bg-coral/10 text-coral font-bold border-l-2 border-coral pl-2.5"
+                            : "text-slate-600 hover:bg-slate-50 hover:text-slate-950 font-medium"
+                        }`}
                       >
-                        Retry API Connection
+                        <span className="flex items-center gap-2 truncate">
+                          <FileText className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                          <span>{schema.name}</span>
+                        </span>
+                        <ChevronRight className={`w-3 h-3 text-slate-400 transition-transform ${isActive ? "rotate-90 text-coral" : ""}`} />
                       </button>
+
+                      {/* HOPE STORIES SUBMENU FOR COLLECTION TYPES (Requirement 6) */}
+                      {isHopeStoriesItem && (
+                        <div className="pl-6 pt-1 pb-1 space-y-1 border-l border-slate-150 ml-5">
+                          {CONTENT_SCHEMAS.filter((s) => s.type === "collection").map((subSchema) => {
+                            const isSubActive =
+                              navigationTab === "content-manager" && selectedSchema.id === subSchema.id;
+                            return (
+                              <button
+                                key={subSchema.id}
+                                onClick={() => {
+                                  setSelectedSchema(subSchema);
+                                  setNavigationTab("content-manager");
+                                  setMobileMenuOpen(false);
+                                }}
+                                className={`w-full flex items-center justify-between px-3 py-1.5 rounded-md text-left text-[11px] transition-all cursor-pointer ${
+                                  isSubActive
+                                    ? "text-coral font-bold bg-coral/5"
+                                    : "text-slate-500 hover:text-slate-900 hover:bg-slate-50 font-medium"
+                                }`}
+                              >
+                                <span className="truncate text-[10px]" title={subSchema.name}>
+                                  📋 {subSchema.name}
+                                </span>
+                              </button>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-400 font-mono">
+              <span>Platform standard</span>
+              <span>Light theme active</span>
+            </div>
+          </nav>
+
+          {/* MAIN CONTAINER WINDOW (Requirement 7 scrollbars constrained) */}
+          <main className="flex-grow p-6 md:p-8 flex flex-col space-y-6 overflow-y-auto h-full bg-slate-50">
+            {/* Feedback alert banners */}
+            {message && (
+              <div
+                className={`flex items-start gap-2.5 p-4 rounded-xl border text-xs leading-relaxed shadow-sm transition-all ${
+                  message.type === "success"
+                    ? "bg-emerald-50 border-emerald-200 text-emerald-800"
+                    : "bg-red-50 border-red-200 text-red-800"
+                }`}
+              >
+                {message.type === "success" ? (
+                  <CheckCircle className="w-4 h-4 shrink-0 mt-0.5 text-emerald-600" />
+                ) : (
+                  <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-red-650 text-red-600" />
+                )}
+                <span>{message.text}</span>
+              </div>
+            )}
+
+            {/* TAB 1: MEDIA LIBRARY */}
+            {navigationTab === "media-library" && (
+              <div className="space-y-6">
+                <div className="border-b border-slate-200 pb-4">
+                  <h2 className="text-xl font-bold text-slate-850 text-slate-900 tracking-tight">
+                    Website Media Library Catalog
+                  </h2>
+                  <p className="text-xs text-slate-505 text-slate-500">
+                    Upload new items, explore, or retrieve storage reference routes of images to configure site layouts dynamically.
+                  </p>
+                </div>
+
+                {/* DRAG AND DROP ZONE */}
+                <div
+                  onDragOver={onDragOver}
+                  onDragLeave={onDragLeave}
+                  onDrop={onDrop}
+                  className={`border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center transition-all ${
+                    isDragging
+                      ? "border-coral bg-coral/5"
+                      : "border-slate-200 bg-white hover:bg-slate-50/50"
+                  }`}
+                >
+                  <div className="w-12 h-12 rounded-full bg-coral/10 flex items-center justify-center mb-4 border border-coral/20">
+                    <Upload className="w-5 h-5 text-coral" />
+                  </div>
+                  <h3 className="text-sm font-semibold text-slate-800 mb-1">
+                    Drag & Drop your banner or portrait files here
+                  </h3>
+                  <p className="text-xs text-slate-500 mb-4 max-w-xs leading-relaxed">
+                    Files upload securely as static resources hosted automatically in the `/uploads/` subdirectory.
+                  </p>
+
+                  <label className="px-5 py-2 bg-coral hover:bg-coral/95 text-white text-xs font-bold rounded-full shadow-sm cursor-pointer transition-all active:scale-[0.98]">
+                    Browse Files
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => {
+                        if (e.target.files && e.target.files[0]) {
+                          processUpload(e.target.files[0]);
+                        }
+                      }}
+                      className="hidden"
+                    />
+                  </label>
+                </div>
+
+                {/* MEDIA STREAMING LOADER */}
+                {uploadLoading ? (
+                  <div className="flex flex-col items-center py-20 text-xs text-slate-400">
+                    <div className="w-8 h-8 rounded-full border-2 border-slate-200 border-t-coral animate-spin mb-3" />
+                    Writing asset payload to physical database systems...
+                  </div>
+                ) : mediaList.length === 0 ? (
+                  <div className="text-center py-20 bg-white border border-slate-200 rounded-2xl text-xs text-slate-400">
+                    No images uploaded inside media folder. Click "Browse Files" or drag to insert folder items!
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between pb-1 border-b border-slate-100">
+                      <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider font-mono">
+                        Available Assets ({mediaList.length})
+                      </h3>
+                    </div>
+
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
+                      {mediaList.map((asset) => (
+                        <div
+                          key={asset.name}
+                          className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm flex flex-col group hover:border-coral transition-all"
+                        >
+                          {/* Image preview module */}
+                          <div className="h-32 bg-slate-50 flex items-center justify-center relative overflow-hidden select-none border-b border-slate-100">
+                            {asset.format === "image" ? (
+                              <img
+                                src={asset.url}
+                                alt={asset.name}
+                                referrerPolicy="no-referrer"
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+                              />
+                            ) : (
+                              <ImageIcon className="w-8 h-8 text-slate-400 animate-pulse" />
+                            )}
+                            <span className="absolute bottom-2 right-2 text-[9px] font-mono bg-black/65 text-white px-1.5 py-0.5 rounded uppercase font-bold tracking-wider">
+                              {asset.format}
+                            </span>
+                          </div>
+
+                          <div className="p-3.5 flex-grow flex flex-col space-y-2">
+                            <div className="flex-grow">
+                              <p className="text-[11px] font-bold text-slate-800 truncate" title={asset.name}>
+                                {asset.name}
+                              </p>
+                              <p className="text-[9px] text-slate-400 font-mono mt-0.5">
+                                Size: {formatBytes(asset.size)}
+                              </p>
+                            </div>
+
+                            <div className="flex items-center gap-1.5 pt-2 border-t border-slate-100">
+                              <button
+                                onClick={() => handleCopyUrl(asset.url)}
+                                className={`flex-grow py-1.5 rounded-lg text-[10px] font-bold border flex items-center justify-center gap-1 transition-all cursor-pointer ${
+                                  copiedFile === asset.url
+                                    ? "bg-emerald-50 border-emerald-200 text-emerald-600"
+                                    : "bg-slate-50 border-slate-200 text-slate-650 hover:bg-slate-100/80"
+                                }`}
+                              >
+                                {copiedFile === asset.url ? "Copied" : "Copy path"}
+                              </button>
+
+                              <button
+                                onClick={() => handleDeleteMedia(asset.name)}
+                                className="p-1.5 bg-red-50 text-red-650 text-red-500 hover:bg-red-100/50 rounded-lg border border-red-100 transition-colors cursor-pointer"
+                                title="Delete file"
+                              >
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* TAB 2: CONTENT SCHEMA MANAGER */}
+            {navigationTab === "content-manager" && (
+              <>
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-200 pb-4">
+                  <div>
+                    <div className="flex items-center gap-2 text-[10px] text-slate-400 font-mono uppercase tracking-wider mb-1">
+                      <span>Collections Editor</span>
+                      <span>/</span>
+                      <span className="text-coral font-bold bg-coral/5 px-2 py-0.2 rounded font-mono text-[10px]">
+                        {selectedSchema.type} schema
+                      </span>
+                    </div>
+                    <h2 className="text-xl font-bold text-slate-850 text-slate-900 tracking-tight flex items-center gap-2">
+                      {selectedSchema.name}
+                    </h2>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={handleSave}
+                      disabled={saving || !contentPayload}
+                      className={`px-5 py-2.5 rounded-full text-xs font-bold shadow-md flex items-center gap-1.5 transition-all cursor-pointer ${
+                        saving
+                          ? "bg-slate-100 border border-slate-200 text-slate-400 cursor-not-allowed"
+                          : "bg-coral hover:bg-coral/95 text-white active:scale-[0.98]"
+                      }`}
+                    >
+                      <Save className="w-4 h-4" /> {saving ? "Saving content..." : "Publish Page Changes"}
+                    </button>
+                  </div>
+                </div>
+
+                {/* NO RAW SWITHCER TABS - VISUAL ONLY (Requirement 10) */}
+                <div className="flex-grow">
+                  {!contentPayload ? (
+                    <div className="flex-grow flex flex-col justify-center items-center py-20 text-slate-405 text-xs text-center border border-slate-200 rounded-2xl bg-white p-8 space-y-4 shadow-sm">
+                      {jsonError ? (
+                        <div className="space-y-4 max-w-sm">
+                          <AlertCircle className="w-10 h-10 text-red-500 mx-auto" />
+                          <h3 className="text-sm font-bold text-slate-800">API Gateway Offline</h3>
+                          <p className="text-slate-500 leading-relaxed text-[11px]">
+                            Could not fetch initial content database node for{" "}
+                            <strong>{selectedSchema.file}.json</strong>. This could be due to background server syncing
+                            or local disk permissions.
+                          </p>
+                          <button
+                            onClick={() => {
+                              setJsonError(null);
+                              const prev = selectedSchema;
+                              setSelectedSchema({ ...prev });
+                            }}
+                            className="px-4 py-2 bg-coral hover:bg-coral/90 text-white text-xs font-bold rounded-full transition-all active:scale-95 shadow-md shadow-coral/10 cursor-pointer"
+                          >
+                            Retry API Endpoint
+                          </button>
+                        </div>
+                      ) : (
+                        <>
+                          <div className="w-8 h-8 rounded-full border-2 border-slate-200 border-t-coral animate-spin mb-3" />
+                          <p className="text-slate-600 font-semibold">Connecting file synchronization gateway...</p>
+                          <p className="text-[10px] text-slate-450 text-slate-400 max-w-xs leading-relaxed">
+                            Reading physical JSON structures across the server cluster pools.
+                          </p>
+                        </>
+                      )}
                     </div>
                   ) : (
-                    <>
-                      <div className="w-8 h-8 rounded-full border-2 border-slate-700 border-t-[#4945ff] animate-spin mb-3" />
-                      <p className="text-slate-300 font-medium">Connecting nested Strapi JSON gateway...</p>
-                      <p className="text-[10px] text-slate-500 max-w-xs leading-relaxed">Checking local physical schema and synchronization states in MySQL cluster.</p>
-                    </>
-                  )}
-                </div>
-              ) : (
-                <div className="flex-grow">
-                  {activeTab === "visual" ? (
-                    <div className="space-y-6 bg-[#181826]/40 border border-[#212134] p-5 md:p-8 rounded-2xl shadow-xl">
-                      <div className="bg-[#4945ff]/10 border border-[#4945ff]/20 p-4 rounded-xl text-[11px] text-slate-300 leading-relaxed flex items-center gap-2">
-                        <Info className="w-4 h-4 text-[#a362ff] shrink-0" />
+                    <div className="bg-white border border-slate-200 p-5 md:p-8 rounded-2xl shadow-sm space-y-6">
+                      <div className="bg-coral/5 border border-coral/10 p-4 rounded-xl text-[11px] text-slate-605 text-slate-600 leading-relaxed flex items-center gap-2">
+                        <Info className="w-4 h-4 text-coral shrink-0" />
                         <div>
-                          <span className="font-semibold text-white">Dynamic Field Modifiers:</span> Autodetected and loaded <strong>{Object.keys(contentPayload).length} schemas nodes</strong>. Edit fields visually below.
+                          <span className="font-semibold text-slate-800">Interactive Editor Mode:</span> Automatic page layout detection and visual schema render.
                         </div>
                       </div>
-                      
+
                       <RenderValue
                         value={contentPayload}
                         path=""
@@ -1138,82 +1507,268 @@ export function AdminDashboard() {
                         onValueChange={handleFieldChange}
                       />
                     </div>
-                  ) : (
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs text-slate-400">
-                          Direct JSON Schema Code Entry
-                        </span>
-                        {jsonError ? (
-                          <span className="text-xs text-red-400 flex items-center gap-1.5 font-semibold">
-                            <AlertCircle className="w-4 h-4" /> {jsonError}
-                          </span>
-                        ) : (
-                          <span className="text-xs text-emerald-400 flex items-center gap-1.5 font-semibold font-mono">
-                            <CheckCircle className="w-4 h-4" /> Valid Syntax JSON Formatted
-                          </span>
-                        )}
-                      </div>
-
-                      <textarea
-                        value={jsonText}
-                        onChange={handleRawJsonChange}
-                        rows={28}
-                        className="w-full px-4 py-3 bg-[#111118] border border-[#212134] focus:border-[#4945ff] focus:outline-none text-slate-200 rounded-xl text-xs font-mono leading-relaxed"
-                        spellCheck={false}
-                      />
-
-                      <div className="text-slate-500 text-[11px] leading-relaxed">
-                        Modifying layout structures directly in RAW JSON allows deep-branch changes for navigations, paths, videos embed targets, and metadata arrays. Built-in compilers validate syntax compliance instantly.
-                      </div>
-                    </div>
                   )}
                 </div>
-              )}
-            </>
-          )}
+              </>
+            )}
 
-          {/* TAB 2: MEDIA LIBRARY (New Advanced Feature) */}
-          {navigationTab === "media-library" && (
-            <div className="space-y-6">
-              <div className="border-b border-[#212134] pb-5">
-                <h2 className="text-xl font-extrabold text-white tracking-tight">
-                  Media Library Assets
-                </h2>
-                <p className="text-xs text-slate-400">
-                  Upload images, copy routing paths, and manage statically served local uploads folder.
-                </p>
+            {/* TAB 3: USERS ADMINISTRATION VIEW (Requirement 9) */}
+            {navigationTab === "users" && currentUser?.role === "admin" && (
+              <div className="space-y-6">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-200 pb-4">
+                  <div>
+                    <h2 className="text-xl font-bold text-slate-850 text-slate-900 tracking-tight">
+                      Portal Operators & Accounts (CRUD)
+                    </h2>
+                    <p className="text-xs text-slate-500">
+                      View active portal sessions, manage operator access properties, or add new staff.
+                    </p>
+                  </div>
+
+                  <button
+                    onClick={handleOpenAddUser}
+                    className="px-4 py-2 bg-coral hover:bg-coral/95 text-white text-xs font-bold rounded-full flex items-center gap-1.5 shadow-sm transition-all cursor-pointer"
+                  >
+                    <UserPlus className="w-4 h-4" /> Add New Operator
+                  </button>
+                </div>
+
+                {/* CRUD messages */}
+                {userSuccessMessage && (
+                  <div className="flex items-center gap-2.5 p-4 rounded-xl border border-emerald-200 bg-emerald-50 text-emerald-850 text-xs shadow-sm">
+                    <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>{userSuccessMessage}</span>
+                  </div>
+                )}
+
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+                  {/* List of active users */}
+                  <div className="lg:col-span-2 space-y-4">
+                    <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+                      <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+                        <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider font-mono">
+                          Active Operators Accounts ({users.length})
+                        </h3>
+                      </div>
+
+                      <div className="divide-y divide-slate-100">
+                        {users.map((profile) => (
+                          <div key={profile.id} className="p-4 sm:p-5 flex items-center justify-between hover:bg-slate-50/50 transition-colors">
+                            <div className="flex items-center gap-3">
+                              <div className="w-10 h-10 rounded-full bg-slate-100 border border-slate-150 flex items-center justify-center text-slate-600 font-bold text-sm">
+                                {profile.username.slice(0, 2).toUpperCase()}
+                              </div>
+                              <div>
+                                <div className="text-xs font-bold text-slate-800 flex items-center gap-2">
+                                  <span>{profile.username}</span>
+                                  {currentUser?.id === profile.id && (
+                                    <span className="text-[9px] bg-slate-100 text-slate-500 px-1 py-0.2 rounded font-medium">
+                                      Your Profile
+                                    </span>
+                                  )}
+                                </div>
+                                <span className={`text-[9px] font-bold px-1.5 py-0.2 rounded font-mono uppercase mt-1 inline-block ${
+                                  profile.role === "admin"
+                                    ? "bg-coral/10 text-coral border border-coral/10"
+                                    : "bg-teal-50 text-teal-700 border border-teal-100"
+                                }`}>
+                                  {profile.role === "admin" ? "System Admin" : "Content Manager"}
+                                </span>
+                              </div>
+                            </div>
+
+                            <div className="flex items-center gap-2">
+                              {/* Edit triggers */}
+                              <button
+                                onClick={() => handleOpenEditUser(profile)}
+                                className="px-3 py-1.5 bg-slate-50 border border-slate-200 hover:bg-slate-100 text-slate-700 text-xs font-bold rounded-lg transition-colors cursor-pointer"
+                              >
+                                Edit Profile
+                              </button>
+
+                              {/* Delete triggers (disabled on current user) */}
+                              <button
+                                onClick={() => handleDeleteUser(profile)}
+                                disabled={currentUser?.id === profile.id}
+                                className={`p-2 rounded-lg border transition-colors ${
+                                  currentUser?.id === profile.id
+                                    ? "bg-slate-50 border-slate-100 text-slate-300 cursor-not-allowed"
+                                    : "bg-red-50 border-red-200 hover:bg-red-100 text-red-650 text-red-600 cursor-pointer"
+                                }`}
+                                title={currentUser?.id === profile.id ? "Cannot delete yourself" : "Delete profile"}
+                              >
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Form for Add/Edit users */}
+                  <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm space-y-4">
+                    <div className="border-b border-slate-100 pb-3">
+                      <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider font-mono flex items-center gap-1.5">
+                        <ShieldCheck className="w-4 h-4 text-coral" />{" "}
+                        {editingUser ? "Configure Operator Profile" : "Register Operator Module"}
+                      </h3>
+                      <p className="text-[10px] text-slate-400 mt-1">
+                        {editingUser
+                          ? `Updating credentials for user "${editingUser.username}"`
+                          : "Provide credentials below to register a portal manager"}
+                      </p>
+                    </div>
+
+                    <form onSubmit={handleSaveUser} className="space-y-4">
+                      {userFormError && (
+                        <div className="p-3 bg-red-50 border border-red-200 text-red-600 text-xs rounded-lg flex items-start gap-1.5 leading-relaxed">
+                          <AlertCircle className="w-4 h-4 shrink-0 text-red-505 mt-0.5" />
+                          <span>{userFormError}</span>
+                        </div>
+                      )}
+
+                      <div>
+                        <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">
+                          Account Username
+                        </label>
+                        <input
+                          type="text"
+                          value={userFormUsername}
+                          onChange={(e) => setUserFormUsername(e.target.value)}
+                          placeholder="e.g. joshua"
+                          required
+                          className="w-full px-3.5 py-2.5 bg-white border border-slate-200 focus:border-coral focus:ring-1 focus:ring-coral text-slate-800 outline-none text-xs rounded-lg transition-colors"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">
+                          CMS Access Password
+                        </label>
+                        <input
+                          type="password"
+                          value={userFormPassword}
+                          onChange={(e) => setUserFormPassword(e.target.value)}
+                          placeholder="••••••••••••"
+                          required
+                          className="w-full px-3.5 py-2.5 bg-white border border-slate-200 focus:border-coral focus:ring-1 focus:ring-coral text-slate-800 outline-none text-xs rounded-lg transition-colors"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5 font-semibold">
+                          System Role Level
+                        </label>
+                        <div className="grid grid-cols-2 gap-2">
+                          <button
+                            type="button"
+                            onClick={() => setUserFormRole("content-manager")}
+                            className={`px-3 py-2 text-xs font-bold border rounded-lg transition-colors text-center cursor-pointer ${
+                              userFormRole === "content-manager"
+                                ? "bg-coral/10 border-coral text-coral"
+                                : "bg-white border-slate-200 text-slate-650 hover:bg-slate-50"
+                            }`}
+                          >
+                            Content Manager
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setUserFormRole("admin")}
+                            className={`px-3 py-2 text-xs font-bold border rounded-lg transition-colors text-center cursor-pointer ${
+                              userFormRole === "admin"
+                                ? "bg-coral/10 border-coral text-coral"
+                                : "bg-white border-slate-200 text-slate-650 hover:bg-slate-50"
+                            }`}
+                          >
+                            Administrator
+                          </button>
+                        </div>
+                        <p className="text-[9px] text-slate-400 mt-1.5 font-medium leading-normal">
+                          {userFormRole === "admin"
+                            ? "Admins can do anything on the dashboard, modify contents, and add/edit/delete other user profiles."
+                            : "Content managers can edit site schemas page nodes and upload files, but cannot touch user permissions."}
+                        </p>
+                      </div>
+
+                      <div className="flex gap-2 pt-2 border-t border-slate-100">
+                        {editingUser && (
+                          <button
+                            type="button"
+                            onClick={handleOpenAddUser}
+                            className="flex-grow py-2 border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-bold rounded-lg transition-colors cursor-pointer"
+                          >
+                            Cancel
+                          </button>
+                        )}
+                        <button
+                          type="submit"
+                          className="flex-grow py-2 bg-coral hover:bg-coral/95 text-white text-xs font-bold rounded-lg shadow-sm transition-all active:scale-[0.98] cursor-pointer"
+                        >
+                          {editingUser ? "Save Operator Profile" : "Activate Operator"}
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            )}
+          </main>
+        </div>
+
+        {/* REUSEABLE COMPACT ADVANCED MEDIA PICKER DIALOG POPUP MODAL (Requirement 8) */}
+        {activeMediaPickerField && (
+          <div className="fixed inset-0 z-50 overflow-hidden flex items-center justify-center p-4">
+            {/* Backdrop overlay */}
+            <div
+              className="absolute inset-0 bg-slate-900/60 backdrop-blur-xs transition-opacity"
+              onClick={() => setActiveMediaPickerField(null)}
+            />
+
+            {/* Modal Box */}
+            <div className="bg-white rounded-2xl w-full max-w-2xl border border-slate-200 shadow-2xl flex flex-col h-[520px] max-h-[85vh] z-10 overflow-hidden">
+              {/* Header */}
+              <div className="px-5 py-3.5 border-b border-slate-150 flex items-center justify-between bg-slate-50 shrink-0">
+                <div>
+                  <h3 className="text-xs font-bold font-mono tracking-wider text-slate-400 uppercase">
+                    Advanced Media Asset Selector
+                  </h3>
+                  <p className="text-xs font-extrabold text-slate-800 text-[11px] truncate max-w-sm">
+                    Target Form Field: <code className="text-coral bg-coral/5 px-1 rounded font-mono text-[10px]">{activeMediaPickerField.path}</code>
+                  </p>
+                </div>
+                <button
+                  onClick={() => setActiveMediaPickerField(null)}
+                  className="p-1 text-slate-405 hover:bg-slate-100/80 rounded-full text-slate-500 transition-colors cursor-pointer"
+                >
+                  <X className="w-5 h-5" />
+                </button>
               </div>
 
-              {/* UPLOAD DRAG BOX */}
-              <div
-                onDragOver={onDragOver}
-                onDragLeave={onDragLeave}
-                onDrop={onDrop}
-                className={`border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center transition-all ${
-                  isDragging
-                    ? "border-[#4945ff] bg-[#4945ff]/10"
-                    : "border-[#212134] bg-[#181826]/30 hover:bg-[#181826]/50"
-                }`}
-              >
-                <div className="w-12 h-12 rounded-full bg-[#4945ff]/15 flex items-center justify-center mb-4 border border-[#4945ff]/40">
-                  <Upload className="w-5 h-5 text-[#a362ff]" />
+              {/* Advanced Search & Direct inline upload bar */}
+              <div className="px-5 py-3.5 bg-white border-b border-slate-100 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
+                {/* Search */}
+                <div className="flex-grow relative">
+                  <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
+                  <input
+                    type="text"
+                    value={mediaSearch}
+                    onChange={(e) => setMediaSearch(e.target.value)}
+                    placeholder="Search images name..."
+                    className="w-full pl-9 pr-4 py-2 text-xs bg-slate-50 border border-slate-200 focus:border-coral focus:ring-1 focus:ring-coral text-slate-800 rounded-lg outline-none transition-colors"
+                  />
                 </div>
-                <h3 className="text-sm font-semibold text-slate-200 mb-1">
-                  Drag & Drop a local image file here
-                </h3>
-                <p className="text-xs text-slate-500 mb-4 max-w-xs">
-                  We generate optimized unique routing tags and write the image directly under `/uploads/`
-                </p>
-                
-                <label className="px-4 py-2 bg-[#4945ff] hover:bg-[#4d49ff] text-white text-xs font-semibold rounded-lg shadow-md cursor-pointer transition-all active:scale-95">
-                  Browse Files
+
+                {/* Quick inline upload inside media picker popup */}
+                <label className="bg-coral hover:bg-coral/95 text-white font-semibold text-xs py-2 px-4 rounded-lg shadow-sm text-center cursor-pointer transition-colors shrink-0">
+                  {uploadLoading ? "Uploading..." : "Upload & Select"}
                   <input
                     type="file"
                     accept="image/*"
+                    disabled={uploadLoading}
                     onChange={(e) => {
                       if (e.target.files && e.target.files[0]) {
-                        processUpload(e.target.files[0]);
+                        processUpload(e.target.files[0], activeMediaPickerField.path);
                       }
                     }}
                     className="hidden"
@@ -1221,206 +1776,61 @@ export function AdminDashboard() {
                 </label>
               </div>
 
-              {/* MEDIA GALLERY GRID */}
-              {uploadLoading ? (
-                <div className="flex flex-col items-center py-20 text-xs text-slate-400">
-                  <div className="w-8 h-8 rounded-full border-2 border-[#212134] border-t-[#4945ff] animate-spin mb-3" />
-                  Writing asset binary payload to filesystem catalog...
-                </div>
-              ) : mediaList.length === 0 ? (
-                <div className="text-center py-20 bg-[#181826]/20 border border-[#212134] rounded-2xl text-xs text-slate-500">
-                  No images or assets uploaded inside custom media path yet. Click "Browse Files" or drag to insert catalog items!
-                </div>
-              ) : (
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
-                  {mediaList.map((asset) => (
-                    <div
-                      key={asset.name}
-                      className="bg-[#181826] border border-[#212134] rounded-xl overflow-hidden shadow-md flex flex-col group hover:border-[#4945ff]/50 transition-colors"
-                    >
-                      {/* Image Preview Container */}
-                      <div className="h-32 bg-[#111118] flex items-center justify-center relative overflow-hidden group-hover:opacity-90 transition-opacity select-none border-b border-[#212134]/40">
-                        {asset.format === "image" ? (
-                          <img
-                            src={asset.url}
-                            alt={asset.name}
-                            referrerPolicy="no-referrer"
-                            className="w-full h-full object-cover"
-                          />
-                        ) : (
-                          <ImageIcon className="w-8 h-8 text-slate-600" />
-                        )}
-                        <span className="absolute bottom-2 right-2 text-[9px] font-mono bg-[#111118]/80 text-[#b682ff] px-1.5 py-0.5 rounded border border-[#2d2a45]">
-                          {asset.format.toUpperCase()}
-                        </span>
-                      </div>
-
-                      {/* Info Panel */}
-                      <div className="p-3.5 flex-grow flex flex-col space-y-2">
-                        <div className="flex-grow">
-                          <p className="text-[11px] font-semibold text-slate-200 truncate" title={asset.name}>
+              {/* Grid content of images */}
+              <div className="flex-grow p-5 overflow-y-auto bg-slate-50">
+                {uploadLoading ? (
+                  <div className="flex flex-col items-center py-20 text-xs text-slate-400">
+                    <div className="w-6 h-6 rounded-full border-2 border-slate-300 border-t-coral animate-spin mb-3" />
+                    Writing asset into current layout field...
+                  </div>
+                ) : filteredPickerMedia.length === 0 ? (
+                  <div className="text-center py-20 text-slate-400 text-xs font-medium">
+                    No matching image files found. Try uploading one directly!
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                    {filteredPickerMedia.map((asset) => (
+                      <div
+                        key={asset.name}
+                        onClick={() => {
+                          handleFieldChange(activeMediaPickerField.path, asset.url);
+                          setActiveMediaPickerField(null);
+                        }}
+                        className="bg-white border border-slate-200 hover:border-coral hover:shadow-md rounded-xl overflow-hidden cursor-pointer flex flex-col transition-all group"
+                      >
+                        <div className="h-24 bg-slate-50 flex items-center justify-center border-b border-slate-100 relative overflow-hidden select-none">
+                          {asset.format === "image" ? (
+                            <img
+                              src={asset.url}
+                              alt={asset.name}
+                              referrerPolicy="no-referrer"
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-250"
+                            />
+                          ) : (
+                            <ImageIcon className="w-6 h-6 text-slate-400" />
+                          )}
+                        </div>
+                        <div className="p-2 flex-grow flex flex-col justify-center">
+                          <p className="text-[10px] font-bold text-slate-800 truncate" title={asset.name}>
                             {asset.name}
                           </p>
-                          <p className="text-[9px] text-slate-500 font-mono">
-                            Size: {formatBytes(asset.size)}
-                          </p>
-                        </div>
-
-                        {/* Clipboard copy helper and purge */}
-                        <div className="flex items-center gap-1.5 pt-1.5 border-t border-[#212134]/50">
-                          <button
-                            onClick={() => handleCopyUrl(asset.url)}
-                            className={`flex-grow py-1.5 rounded text-[10px] font-bold border flex items-center justify-center gap-1 transition-all ${
-                              copiedFile === asset.url
-                                ? "bg-emerald-950/40 border-emerald-900/50 text-emerald-400"
-                                : "bg-[#212134] border-[#2c2c43] text-slate-300 hover:text-white hover:bg-[#28283f]"
-                            }`}
-                          >
-                            {copiedFile === asset.url ? (
-                              <>
-                                <CheckCircle className="w-3 h-3 text-emerald-400" /> Copied path
-                              </>
-                            ) : (
-                              <>
-                                <Copy className="w-3 h-3" /> Copy URL Path
-                              </>
-                            )}
-                          </button>
-                          
-                          <button
-                            onClick={() => handleDeleteMedia(asset.name)}
-                            className="p-1.5 bg-red-950/20 text-red-400 hover:bg-red-950/40 hover:text-red-300 rounded border border-red-900/35 transition-colors"
-                            title="Delete File"
-                          >
-                            <Trash2 className="w-3.5 h-3.5" />
-                          </button>
+                          <p className="text-[9px] text-slate-400 font-mono mt-0.5">{formatBytes(asset.size)}</p>
                         </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* TAB 3: SYSTEM SETTINGS (Mocking exact Strapi server analytics) */}
-          {navigationTab === "settings" && (
-            <div className="space-y-6">
-              <div className="border-b border-[#212134] pb-5">
-                <h2 className="text-xl font-extrabold text-white tracking-tight">
-                  Strapi v5 Core Settings
-                </h2>
-                <p className="text-xs text-slate-400">
-                  Configure root parameters, system access credentials, and monitor server properties.
-                </p>
+                    ))}
+                  </div>
+                )}
               </div>
 
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                
-                {/* Security Setup card */}
-                <div className="bg-[#181826]/40 border border-[#212134] rounded-2xl p-6 space-y-4 lg:col-span-2 shadow-xl">
-                  <h3 className="text-xs font-bold text-[#b682ff] uppercase tracking-wider font-mono flex items-center gap-1.5">
-                    <Key className="w-4 h-4 text-[#4945ff]" /> Administrative Account Passwords
-                  </h3>
-                  <p className="text-xs text-slate-400 leading-relaxed">
-                    Update the security credential key used for authenticating local session locks inside your production instance.
-                  </p>
-
-                  <form onSubmit={handleUpdatePassword} className="space-y-4 pt-2">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-[10px] text-slate-400 uppercase tracking-widest mb-1 font-semibold">
-                          Current Security Key
-                        </label>
-                        <input
-                          type="password"
-                          value={currentPass}
-                          onChange={(e) => setCurrentPass(e.target.value)}
-                          placeholder="••••••••••••••"
-                          required
-                          className="w-full px-4 py-2 bg-[#111118]/80 border border-[#2c2c43] focus:border-[#4945ff] text-slate-200 outline-none text-xs rounded-lg"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-[10px] text-slate-400 uppercase tracking-widest mb-1 font-semibold">
-                          New Lock Phrase
-                        </label>
-                        <input
-                          type="password"
-                          value={newPass}
-                          onChange={(e) => setNewPass(e.target.value)}
-                          placeholder="••••••••••••••"
-                          required
-                          className="w-full px-4 py-2 bg-[#111118]/80 border border-[#2c2c43] focus:border-[#4945ff] text-slate-200 outline-none text-xs rounded-lg"
-                        />
-                      </div>
-                    </div>
-
-                    {settingsMessage && (
-                      <div className={`p-3 rounded-lg text-xs font-medium border ${
-                        settingsMessage.startsWith("Error")
-                          ? "bg-red-950/30 border-red-900/40 text-red-400"
-                          : "bg-emerald-900/20 border-emerald-900/35 text-emerald-400"
-                      }`}>
-                        {settingsMessage}
-                      </div>
-                    )}
-
-                    <button
-                      type="submit"
-                      className="px-4 py-2 bg-[#4945ff] hover:bg-[#4d49ff] text-white text-xs font-semibold rounded-lg shadow-md transition-all active:scale-95"
-                    >
-                      Process Settings Synchronization
-                    </button>
-                  </form>
-                </div>
-
-                {/* Server specifications Column */}
-                <div className="bg-[#181826] border border-[#212134] rounded-2xl p-6 space-y-4 shadow-xl">
-                  <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wider font-mono flex items-center gap-1.5">
-                    <Server className="w-4 h-4 text-[#4945ff]" /> Server Metrics
-                  </h3>
-                  
-                  <div className="space-y-3 pt-2 text-xs">
-                    <div className="flex justify-between border-b border-[#212134] pb-2">
-                      <span className="text-slate-400">Node Environment</span>
-                      <span className="font-mono text-emerald-400 font-bold uppercase text-[10px] bg-emerald-950/40 border border-emerald-900/40 px-1.5 py-0.5 rounded">
-                        {process.env.NODE_ENV || "production"}
-                      </span>
-                    </div>
-
-                    <div className="flex justify-between border-b border-[#212134] pb-2">
-                      <span className="text-slate-400">Database Driver</span>
-                      <span className="font-mono text-[#b682ff]">SQLite Embedded Client</span>
-                    </div>
-
-                    <div className="flex justify-between border-b border-[#212134] pb-2">
-                      <span className="text-slate-400">API Port Router</span>
-                      <span className="font-mono text-slate-200 font-bold">3000 (Ingress proxy)</span>
-                    </div>
-
-                    <div className="flex justify-between border-b border-[#212134] pb-2">
-                      <span className="text-slate-400">Strapi Version</span>
-                      <span className="font-mono text-[#7366ff]">strapi-v5.2.0-standalone</span>
-                    </div>
-
-                    <div className="flex justify-between pt-1">
-                      <span className="text-slate-400">Memory Sync Target</span>
-                      <span className="font-mono text-slate-200">Active (Automatic)</span>
-                    </div>
-                  </div>
-
-                  <div className="p-3 bg-indigo-950/20 rounded-xl border border-indigo-900/30 text-[10px] text-indigo-400 leading-relaxed font-sans">
-                    <Info className="w-3.5 h-3.5 shrink-0 inline mr-1 mb-0.5" /> High efficiency mode enabled. This micro-runtime operates below 15MB Heap consumption, ensuring your Cloud Run instances compile instantly without crash-to-exit failures.
-                  </div>
-                </div>
-
+              {/* Footer */}
+              <div className="px-5 py-3 border-t border-slate-100 bg-slate-50 text-[10px] text-slate-400 font-medium font-mono flex justify-between shrink-0">
+                <span>Select any image to auto-inject in slot</span>
+                <span>Found {filteredPickerMedia.length} results</span>
               </div>
             </div>
-          )}
-
-        </main>
+          </div>
+        )}
       </div>
-    </div>
+    </AdminContext.Provider>
   );
 }
